@@ -12,34 +12,38 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar:  const Padding(
+            padding: EdgeInsets.only(top: 15, right: 50, left: 50, bottom: 20),
+            child: CapsuleStyleButtonBar(),
+          ),
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        title: Text(
+          "Explore",
+          style: GoogleFonts.inter(
+              fontSize: 19,
+              fontWeight: FontWeight.bold,
+              color: Colors.white,
+              decoration: TextDecoration.overline),
+        ),
+      ),
       drawer: const Drawer(
         backgroundColor: Color.fromARGB(255, 15, 15, 15),
-      child: Column(
-        children: [
-          s10,
-          ProfileStackImage()
-        ],
-      ),),
+        child: Column(
+          children: [s10, ProfileStackImage()],
+        ),
+      ),
       backgroundColor: Colors.black26,
       body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.start,
         children: [
           s10,
-          Text(
-            "Home",
-            style: GoogleFonts.inter(
-                fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
-          ),
           const Padding(
             padding: EdgeInsets.only(right: 40, left: 40),
-            child: SearchBarNew(
-            ),
+            child: SearchBarNew(),
           ),
           Container(),
-          const Padding(
-            padding: EdgeInsets.only(top: 15, right: 50, left: 50, bottom: 10),
-            child: CapsuleStyleButtonBar(),
-          )
+         
         ],
       ),
     );

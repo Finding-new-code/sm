@@ -7,13 +7,12 @@ import 'package:myapp/src/cache.dart';
 class Auth extends ChangeNotifier {
   final Account account;
   Auth({required this.account});
-
+  
   User? _current;
   User? get current => _current;
 
   Session? _session;
   Session? get session => _session;
-
   /// this is the Auth class
   /// here the Auth code implementation takes place =>
 

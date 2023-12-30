@@ -20,7 +20,7 @@ class _WelcomePageState extends State<WelcomePage> {
         children: [
           Center(
             child: FloatingActionButton.extended(onPressed: () {
-             Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+             Navigator.pushAndRemoveUntil(context, MaterialPageRoute(builder: (context) => const AuthPage()), (route) => false);
             }, label: Text("Let's begin",style: GoogleFonts.inter(),)),
           )
         ],

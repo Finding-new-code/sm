@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/components/profilestack.dart';
-import 'package:myapp/constants/tools.dart';
+
+import '../../components/descrpition.dart';
+import '../../components/profilestack.dart';
+import '../../constants/constant.dart';
+import '../../constants/tools.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -26,7 +29,11 @@ class ProfilePage extends StatelessWidget {
             "satya Prakash Nayak",
             style: GoogleFonts.inter(
                 color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-          ),
+          ),s25,
+          const Padding(
+            padding: EdgeInsets.only(left: 13,right: 13),
+            child: DescriptionTile(),
+          )
         ],
       ),
     );
