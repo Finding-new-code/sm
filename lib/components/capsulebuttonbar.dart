@@ -1,7 +1,8 @@
-import "package:flutter/material.dart";
-import "package:myapp/Pages/ProfilePage/profilepage.dart";
-import "package:myapp/constants/tools.dart";
-//import "package:sm/constants/constants.dart";
+import 'package:flutter/material.dart';
+
+import '../Pages/ChatPage/chatpage.dart';
+import '../Pages/ProfilePage/profilepage.dart';
+import '../constants/tools.dart';
 
 // here in the approch i will make a capsule shape button bar which hover
 // approx 50 px above from the bottom
@@ -29,7 +30,12 @@ class CapsuleStyleButtonBar extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChatListScreen()));
+              },
               child: Text(
                 "chat",
                 style: GoogleFonts.inter(

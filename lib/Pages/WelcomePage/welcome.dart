@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/Pages/AuthPage/authpage.dart';
-import 'package:myapp/constants/tools.dart';
+
+import '../../constants/tools.dart';
+import '../AuthPage/authpage.dart';
+
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -13,11 +15,14 @@ class _WelcomePageState extends State<WelcomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: Column(
         children: [
-          FloatingActionButton.extended(onPressed: () {
-           Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
-          }, label: Text("Let's begin",style: GoogleFonts.inter(),))
+          Center(
+            child: FloatingActionButton.extended(onPressed: () {
+             Navigator.push(context, MaterialPageRoute(builder: (context) => const AuthPage()));
+            }, label: Text("Let's begin",style: GoogleFonts.inter(),)),
+          )
         ],
       ),
     );

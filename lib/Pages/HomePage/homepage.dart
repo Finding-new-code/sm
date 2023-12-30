@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/components/capsulebuttonbar.dart';
-import 'package:myapp/constants/tools.dart';
 
+import '../../components/capsulebuttonbar.dart';
+import '../../components/profilestack.dart';
+import '../../components/searchbar.dart';
 import '../../constants/constant.dart';
+import '../../constants/tools.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -10,18 +12,28 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const Drawer(
+        backgroundColor: Color.fromARGB(255, 15, 15, 15),
+      child: Column(
+        children: [
+          s10,
+          ProfileStackImage()
+        ],
+      ),),
       backgroundColor: Colors.black26,
       body: Column(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
+          s10,
           Text(
             "Home",
             style: GoogleFonts.inter(
-                fontSize: 10, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 15, fontWeight: FontWeight.bold, color: Colors.white),
           ),
           const Padding(
             padding: EdgeInsets.only(right: 40, left: 40),
-            child: SearchBar(),
+            child: SearchBarNew(
+            ),
           ),
           Container(),
           const Padding(

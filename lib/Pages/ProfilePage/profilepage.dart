@@ -19,7 +19,9 @@ class ProfilePage extends StatelessWidget {
       ),
       body: Column(
         children: [
-         const ProfileStackImage(),
+         Animate(
+          effects: const [FadeEffect()],
+          child: const ProfileStackImage()),
           Text(
             "satya Prakash Nayak",
             style: GoogleFonts.inter(
