@@ -33,7 +33,8 @@ class ProfilePage extends StatelessWidget {
           const Padding(
             padding: EdgeInsets.only(left: 13,right: 13),
             child: DescriptionTile(),
-          )
+          ),
+          s10,
         ],
       ),
     );

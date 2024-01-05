@@ -1,8 +1,10 @@
 
 import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/constants/tools.dart';
-import 'package:myapp/src/cache.dart';
+import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
+
+import '../constants/tools.dart';
+
 
 class Auth extends ChangeNotifier {
   final Account account;

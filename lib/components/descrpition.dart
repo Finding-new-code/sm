@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp/constants/tools.dart';
+
 
 import '../constants/constant.dart';
+import '../constants/tools.dart';
 
 class DescriptionTile extends StatelessWidget {
   const DescriptionTile({Key? key}) : super(key: key);
@@ -10,24 +11,6 @@ class DescriptionTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Row(
-          children: [
-            s10,
-            Icon(
-              Icons.pin_drop_rounded,
-              color: Colors.grey.shade600,
-            ),
-            s10,
-            Text(
-              "location",
-              style: GoogleFonts.inter(
-                  color: Colors.grey.shade700,
-                  fontSize: 15,
-                  fontWeight: FontWeight.w500),
-            ),
-          ],
-        ),
-        s25,
         Container(
           padding: const EdgeInsets.all(10),
           width: double.infinity,
@@ -52,7 +35,25 @@ class DescriptionTile extends StatelessWidget {
               ])),
             ],
           ),
-        )
+        ),
+        s25,
+        Row(
+          children: [
+            s10,
+            Icon(
+              Icons.pin_drop_rounded,
+              color: Colors.grey.shade600,
+            ),
+            s10,
+            Text(
+              "location",
+              style: GoogleFonts.inter(
+                  color: Colors.grey.shade700,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500),
+            ),
+          ],
+        ),
       ],
     );
   }

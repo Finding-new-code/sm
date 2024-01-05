@@ -16,19 +16,38 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         final String email = event.email;
         final bool isnew = event.isnew;
 
+        /// here the codes not working im working on it to making functional
+        /// but i have idea.
+        //   try {
+        //     if (isnew == true) {
+        //       final response =
+        //       Auth(account: account).createAccount(email, password, name);
+        //       debugPrint(response.toString());
+        //       return emit(AuthSuccess());
+        //     } else {
+        //       final response = Auth(account: account).loginAccount(name, password);
+        //       debugPrint(response.toString());
+        //       return emit(AuthSuccess());
+        //     }
+        //   } on AppwriteException catch (e) {
+        //     debugPrint("${e.code} ${e.message} ${e.response}");
+        //     return emit(AuthFailure(e.message.toString()));
+        //   }
+
         try {
           if (isnew == true) {
-            final response =
-                Auth(account: account).createAccount(email, password, name);
-            debugPrint(response.toString());
+            account.create(
+                userId: ID.unique(),
+                email: email,
+                password: password,
+                name: name);
+            account.createEmailSession(email: email, password: password);
             return emit(AuthSuccess());
           } else {
-            final response = Auth(account: account).loginAccount(name, password);
-            debugPrint(response.toString());
+            account.createEmailSession(email: email, password: password);
             return emit(AuthSuccess());
           }
         } on AppwriteException catch (e) {
-          debugPrint("${e.code} ${e.message} ${e.response}");
           return emit(AuthFailure(e.message.toString()));
         }
       });

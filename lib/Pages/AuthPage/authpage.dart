@@ -1,11 +1,10 @@
 import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
-import 'package:myapp/Pages/AuthPage/bloc/auth_bloc.dart';
-import 'package:myapp/Pages/HomePage/homepage.dart';
-import 'package:myapp/components/termsandconditions.dart';
-import 'package:myapp/constants/tools.dart';
-
+import '../../components/termsandconditions.dart';
 import '../../constants/constant.dart';
+import '../../constants/tools.dart';
+import '../HomePage/homepage.dart';
+import 'bloc/auth_bloc.dart';
 
 class AuthPage extends StatefulWidget {
   // final Account account;
@@ -199,7 +198,8 @@ class _MobileLoginState extends State<AuthPage> {
                       },
                       child: const Text('Signin'))
                 ],
-              ),
+              ),s10,
+              TextButton(onPressed: (){}, child: const Text("Forgot Password ?")),
               s10,
               Row(
                 children: [
@@ -219,7 +219,6 @@ class _MobileLoginState extends State<AuthPage> {
                   ),
                   TextButton(
                     onPressed: () {
-                      // TODO: here the navigator.push for next page
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -241,19 +240,21 @@ class _MobileLoginState extends State<AuthPage> {
               ElevatedButton(
                   onPressed: () {
                     if (ischecked == true) {
-                      // context.read<AuthBloc>().add(AsAuthRequest(
-                      //     isnew: isnew,
-                      //     email: _email.text.trim(),
-                      //     password: _password.text.trim(),
-                      //     name: _name.text.trim().toString()));
-                      // if (state is AuthSuccess) {
-                      //   debugPrint(state.toString());
-                        // TODO: here navigator for next page => HomePage
-                        Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                                builder: (context) => const HomePage()));
-                    //  }
+                      context.read<AuthBloc>().add(AsAuthRequest(
+                          isnew: isnew,
+                          email: _email.text.trim(),
+                          password: _password.text.trim(),
+                          name: _name.text.trim().toString()));
+                      if (state is AuthSuccess) {
+                        debugPrint(state.toString());
+                     // TODO: here navigator for next page => HomePage
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const HomePage(
+                                    isdark: false,
+                                  )));
+                       }
                     }
                   },
                   child: Text(
