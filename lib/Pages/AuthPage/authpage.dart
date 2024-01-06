@@ -1,5 +1,6 @@
 import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/components/failure.dart';
 import '../../components/termsandconditions.dart';
 import '../../constants/constant.dart';
 import '../../constants/tools.dart';
@@ -32,12 +33,7 @@ class _MobileLoginState extends State<AuthPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(state.message),
-            ),
-          );
-          // TODO: here the error widget placed
+           errorbottomsheet(context, state.message);
         }
 
         /// here we can place more states =>
@@ -248,12 +244,13 @@ class _MobileLoginState extends State<AuthPage> {
                       if (state is AuthSuccess) {
                         debugPrint(state.toString());
                      // TODO: here navigator for next page => HomePage
-                      Navigator.push(
+                      Navigator.pushAndRemoveUntil(
                           context,
                           MaterialPageRoute(
                               builder: (context) => const HomePage(
                                     isdark: false,
-                                  )));
+                                  )),
+                          (route) => false);
                        }
                     }
                   },

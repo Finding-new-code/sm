@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 /// here the Post model is created
 @immutable
 class Post {

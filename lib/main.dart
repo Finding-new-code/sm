@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/src/auth.dart';
 import 'package:myapp658d7b3746ed317621f8/src/themedata.dart';
 
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
@@ -41,25 +42,40 @@ class _MyAppState extends State<MyApp> {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MultiBlocProvider(
+    return MultiRepositoryProvider(
       providers: [
-        // here the bloc provider for the auth bloc
-        BlocProvider<AuthBloc>(
-          create: (context) => AuthBloc(widget.account),
+        RepositoryProvider(
+          create: (context) => AuthRepository(account: widget.account),
+        ),
+        RepositoryProvider<Storage>(
+          create: (context) => Storage(Client()),
+        ),
+        RepositoryProvider<Account>(
+          create: (context) => Account(Client()),
         ),
       ],
-      child: MaterialApp(
-        title: 'Flutter Demo',
-        // showPerformanceOverlay: true,
-        themeAnimationCurve: Curves.easeInOut,
-        darkTheme: dark,
-        theme: light,
-        themeMode: ThemeMode.system,
-       // debugShowCheckedModeBanner: false,
-        initialRoute: "/welcome",
-        // here you can add more routes with means of the pages address for navigator
-        routes: {'/welcome': (context) => const WelcomePage()},
-        home: HomePage(isdark: isdark,),
+      child: MultiBlocProvider(
+        providers: [
+          // here the bloc provider for the auth bloc
+          BlocProvider<AuthBloc>(
+            create: (context) => AuthBloc(
+              authRepository: context.read<AuthRepository>(),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          title: 'Flutter Demo',
+          // showPerformanceOverlay: true,
+          themeAnimationCurve: Curves.easeInOut,
+          darkTheme: dark,
+          theme: light,
+          themeMode: ThemeMode.system,
+         // debugShowCheckedModeBanner: false,
+          initialRoute: "/welcome",
+          // here you can add more routes with means of the pages address for navigator
+          routes: {'/welcome': (context) => const WelcomePage()},
+          home: HomePage(isdark: isdark,),
+        ),
       ),
     );
   }

@@ -43,6 +43,8 @@ dependencies:
   flutter_animate: ^4.3.0
   appwrite: ^11.0.1
   image_picker: ^1.0.5
+  workmanager: ^0.5.2
+  equatable: ^2.0.5
 
 dev_dependencies:
   flutter_test:

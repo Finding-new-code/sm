@@ -1,20 +1,18 @@
 
-import 'package:appwrite/models.dart';
 import 'package:flutter/material.dart';
 import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
 
 import '../constants/tools.dart';
 
-
-class Auth extends ChangeNotifier {
+class AuthRepository {
   final Account account;
-  Auth({required this.account});
+  AuthRepository({required this.account});
   
-  User? _current;
-  User? get current => _current;
+  // User? _current;
+  // User? get current => _current;
 
-  Session? _session;
-  Session? get session => _session;
+  // Session? _session;
+  // Session? get session => _session;
   /// this is the Auth class
   /// here the Auth code implementation takes place =>
 
@@ -22,8 +20,8 @@ class Auth extends ChangeNotifier {
   Future<void> loginAccount(String email, String password) async {
     final user =
         await account.createEmailSession(email: email, password: password);
-    Caches().set("User", user);
-    notifyListeners();
+    // Caches().set("User", user);
+    // notifyListeners();
     debugPrint(
         "{${user.$id}, ${user.deviceName}, ${user.countryName}, ${user.$createdAt}, ${user.deviceBrand}}");
   }
@@ -33,14 +31,14 @@ class Auth extends ChangeNotifier {
     account.create(
         userId: ID.unique(), email: email, password: password, name: name);
     final user = await account.createEmailSession(email: email, password: password);
-    Caches().set("User", user);
-    notifyListeners();
+    // Caches().set("User", user);
+    // notifyListeners();
   }
 
-  Future<void> signOut() async {
-    await account.deleteSession(sessionId: _session!.$id);
-    _session = null;
-    Caches().clear("User");
-    notifyListeners();
-  }
+  // Future<void> signOut() async {
+  //   await account.deleteSession(sessionId: _session!.$id);
+  //   _session = null;
+  //   Caches().clear("User");
+  //   // notifyListeners();
+  // }
 }
