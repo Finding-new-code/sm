@@ -33,7 +33,8 @@ class _MobileLoginState extends State<AuthPage> {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-           errorbottomsheet(context, state.message);
+          // ignore: void_checks
+          return errorbottomsheet(context, state.message);
         }
 
         /// here we can place more states =>

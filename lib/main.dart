@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/auth.dart';
+import 'package:myapp658d7b3746ed317621f8/src/repository/auth.dart';
+import 'package:myapp658d7b3746ed317621f8/src/repository/databases.dart';
 import 'package:myapp658d7b3746ed317621f8/src/themedata.dart';
 
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
@@ -21,15 +22,16 @@ void main() {
   final Databases databases = Databases(client);
   final Storage storage = Storage(client);
   final Account account = Account(client);
-  runApp(MyApp(account: account));
+  runApp(MyApp(account: account,databases: databases,));
 }
 
 // ignore: must_be_immutable
 class MyApp extends StatefulWidget {
+  final Databases databases;
   final Account account;
   const MyApp({
     super.key,
-    required this.account,
+    required this.account, required this.databases,
   });
 
   @override
@@ -47,8 +49,8 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider(
           create: (context) => AuthRepository(account: widget.account),
         ),
-        RepositoryProvider<Storage>(
-          create: (context) => Storage(Client()),
+        RepositoryProvider(
+          create: (context) => DatabasesRepository(widget.databases),
         ),
         RepositoryProvider<Account>(
           create: (context) => Account(Client()),

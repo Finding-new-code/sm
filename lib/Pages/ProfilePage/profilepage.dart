@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../../components/capsulebuttonbar.dart';
 import '../../components/descrpition.dart';
 import '../../components/profilestack.dart';
 import '../../constants/constant.dart';
@@ -11,6 +12,10 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: const Padding(
+        padding: EdgeInsets.only(top: 15, right: 50, left: 50, bottom: 20),
+        child: CapsuleStyleButtonBar(),
+      ),
       backgroundColor: Colors.black,
       appBar: AppBar(
         backgroundColor: Colors.black,
