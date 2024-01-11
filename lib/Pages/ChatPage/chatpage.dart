@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/constant.dart';
-
 import '../../components/chatbubble.dart';
 import '../../components/chattile.dart';
 import '../../constants/tools.dart';
@@ -13,29 +11,26 @@ class ChatListScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.black,
+        forceMaterialTransparency: true,
         title: Text(
           "Chats",
-          style: GoogleFonts.inter(fontSize: 20, color: Colors.white),
+          style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500),
         ),
       ),
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.only(left: 12, right: 12),
-            child: ListView.separated(
-                itemBuilder: (context, index) {
-                  return ChatTile(
-                    name: "satya Prakash Nayak",
-                    lastmessage: "Mayday Mayday Mayday",
-                    time: "12:00",
-                    image: "https://picsum.photos/200/300",
-                  );
-                },
-                separatorBuilder: (context, index) => s10,
-                shrinkWrap: true,
-                itemCount: 5),
-          )
+          ListView.separated(
+              itemBuilder: (context, index) {
+                return ChatTile(
+                  name: "satya Prakash Nayak",
+                  lastmessage: "Mayday Mayday Mayday",
+                  time: "12:00",
+                  image: "https://picsum.photos/200/300",
+                );
+              },
+              separatorBuilder: (context, index) => const SizedBox.shrink(),
+              shrinkWrap: true,
+              itemCount: 5)
         ],
       ),
     );
@@ -66,17 +61,18 @@ class _ChatScreenState extends State<ChatView> {
   Widget build(BuildContext context) {
     final prompt = TextEditingController();
     return Scaffold(
-      backgroundColor: Colors.black,
+      backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
+        automaticallyImplyLeading: false ,
         actions: [
           /// icon button for delete the message list =>
-          IconButton.filledTonal(
+          IconButton(
               onPressed: () {
                 messages.clear();
                 setState(() {});
               },
               icon: Icon(
-                Icons.delete_rounded,
+                Icons.more_vert_outlined,
                 color: Theme.of(context)
                     .textTheme
                     .displaySmall!
@@ -85,7 +81,6 @@ class _ChatScreenState extends State<ChatView> {
               ))
         ],
         title: ChatTile(name: "satya Prakash Nayak", image: "https://picsum.photos/200/300"),
-        titleSpacing: 2,
         centerTitle: true,
       ),
       body: SafeArea(
@@ -116,13 +111,13 @@ class _ChatScreenState extends State<ChatView> {
                 children: [
                   Expanded(
                     child: TextField(
-                      style: GoogleFonts.inter(color: Colors.white),
+                      style: GoogleFonts.inter(),
                       controller: prompt,
                       cursorColor: ColorEffect.neutralValue,
                       decoration: InputDecoration(
                         // isCollapsed: true,
                         hintText: "Enter a message",
-                        hintStyle: GoogleFonts.inter(color: Colors.white),
+                        hintStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
                         border: InputBorder.none,
                       ),
                     ),

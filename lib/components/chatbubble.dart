@@ -36,7 +36,7 @@ class Message extends StatelessWidget {
               padding: const EdgeInsets.all(13),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isReceiver ? Colors.black45 : const Color.fromARGB(169, 26, 26, 26),
+                color: isReceiver ? Colors.black45.withOpacity(0.5) : Colors.deepPurple.shade900.withOpacity(0.7),
               ),
               child:
 

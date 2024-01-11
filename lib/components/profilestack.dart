@@ -12,7 +12,7 @@ class ProfileStackImage extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       width: double.infinity,
-      height: 180,
+      height: 160,
       child: Stack(
         clipBehavior: Clip.hardEdge,
         fit: StackFit.loose,
@@ -24,9 +24,9 @@ class ProfileStackImage extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                   image: const DecorationImage(
-                      image: NetworkImage(/* here the Profile image*/ "")),
+                      image: NetworkImage(/* TODO: here the banner image*/ "")),
                   borderRadius: BorderRadius.circular(15),
-                  color: Colors.teal),
+                  color: Colors.white.withOpacity(0.5)),
             ),
           ),
           Positioned(
@@ -37,11 +37,12 @@ class ProfileStackImage extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                     image: const DecorationImage(
-                        image: NetworkImage(/* TODO:background image*/ ""),
+                        image: NetworkImage(
+                            /* TODO:Profile image here*/ "https://picsum.photos/200/300"),
                         fit: BoxFit.cover),
-                    color: Colors.blue.shade400,
+                    color: Colors.black26.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(7)),
-              ))
+              )),
         ],
       ),
     );

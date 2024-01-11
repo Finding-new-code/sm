@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/repository/auth.dart';
-import 'package:myapp658d7b3746ed317621f8/src/repository/databases.dart';
-import 'package:myapp658d7b3746ed317621f8/src/themedata.dart';
-
+import 'package:myapp658d7b3746ed317621f8/Pages/Postcreation/bloc/post_bloc.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/homepage.dart';
+import 'package:appwrite/models.dart' as models;
 import 'Pages/WelcomePage/welcome.dart';
 import 'constants/appwriteconstants.dart';
 import 'constants/tools.dart';
+import 'src/repository/auth.dart';
+import 'src/repository/databases.dart';
+import 'src/themedata.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
+  // here the appwrite client is initialized
   final Client client = Client();
   client
     ..setEndpoint(AppwriteConstants.endpoint)
@@ -22,16 +24,23 @@ void main() {
   final Databases databases = Databases(client);
   final Storage storage = Storage(client);
   final Account account = Account(client);
-  runApp(MyApp(account: account,databases: databases,));
+  final Realtime realtime = Realtime(client);
+  runApp(MyApp(
+    account: account,
+    databases: databases,
+    realtime: realtime,
+  ));
 }
 
-// ignore: must_be_immutable
 class MyApp extends StatefulWidget {
   final Databases databases;
   final Account account;
+  final Realtime realtime;
   const MyApp({
     super.key,
-    required this.account, required this.databases,
+    required this.account,
+    required this.databases,
+    required this.realtime,
   });
 
   @override
@@ -50,7 +59,8 @@ class _MyAppState extends State<MyApp> {
           create: (context) => AuthRepository(account: widget.account),
         ),
         RepositoryProvider(
-          create: (context) => DatabasesRepository(widget.databases),
+          create: (context) => DatabasesRepository(
+              databases: widget.databases, realtime: widget.realtime),
         ),
         RepositoryProvider<Account>(
           create: (context) => Account(Client()),
@@ -61,22 +71,38 @@ class _MyAppState extends State<MyApp> {
           // here the bloc provider for the auth bloc
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-              authRepository: context.read<AuthRepository>(),
-            ),
+                authRepository: context.read<AuthRepository>(),
+                databasesrepsitory: context.read<DatabasesRepository>()),
           ),
+          BlocProvider(
+              create: (context) => PostBloc(
+                  databasesRepository: context.read<DatabasesRepository>()))
         ],
         child: MaterialApp(
-          title: 'Flutter Demo',
+          title: 'Project-SM',
           // showPerformanceOverlay: true,
           themeAnimationCurve: Curves.easeInOut,
           darkTheme: dark,
           theme: light,
           themeMode: ThemeMode.system,
-         // debugShowCheckedModeBanner: false,
+          debugShowCheckedModeBanner: false,
           initialRoute: "/welcome",
           // here you can add more routes with means of the pages address for navigator
           routes: {'/welcome': (context) => const WelcomePage()},
-          home: HomePage(isdark: isdark,),
+          // here the home page is set
+          home: StreamBuilder<models.User?>(
+            stream: AuthRepository(account: widget.account)
+                .currentUser()
+                .asStream(),
+            builder: (BuildContext context, AsyncSnapshot snapshot) {
+              if (snapshot.hasData) {
+                return HomePage(
+                  isdark: isdark,
+                );
+              }
+              return const WelcomePage();
+            },
+          ),
         ),
       ),
     );

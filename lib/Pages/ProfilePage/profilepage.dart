@@ -26,20 +26,39 @@ class ProfilePage extends StatelessWidget {
         ),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
          Animate(
           effects: const [FadeEffect()],
           child: const ProfileStackImage()),
-          Text(
-            "satya Prakash Nayak",
-            style: GoogleFonts.inter(
-                color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
-          ),s25,
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 15,horizontal: 13),
+            child: Text(
+              "satya Prakash Nayak",
+              style: GoogleFonts.inter(
+                  color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+            ),
+          ),s10,
           const Padding(
             padding: EdgeInsets.only(left: 13,right: 13),
             child: DescriptionTile(),
           ),
           s10,
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10),
+            child: GridView.count(
+              crossAxisCount: 4,
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              crossAxisSpacing: 5,
+              cacheExtent: 5,
+              children: [
+                Container(width: 10,height: 10,color: Colors.white,),
+                Container(width: 10,height: 10,color: Colors.white,)
+              ],
+            ),
+          )
         ],
       ),
     );

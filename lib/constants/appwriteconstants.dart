@@ -9,4 +9,6 @@ static const String projectdatabases = "6590195d531aba5f060f";
 
 static const String userdatabase = "659550725998138f3693";
 
+static const String postCollection = "659f02bdf3261e522e7e";
+
 }

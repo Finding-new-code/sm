@@ -24,19 +24,19 @@ class _PostContainerState extends State<PostContainer> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
+      padding: const EdgeInsets.all(5),
       decoration: BoxDecoration(
-          color: const Color.fromARGB(255, 19, 19, 19),
+          // color: Colors.deepPurpleAccent.withOpacity(0.1),
           borderRadius: BorderRadius.circular(7)),
       width: double.infinity,
       child: Column(children: [
         Row(
           children: [
             CircleAvatar(
-                backgroundColor: Colors.grey.shade900,
+                backgroundColor: Colors.grey.shade900.withOpacity(0.2),
                 backgroundImage: NetworkImage(widget.userImage),
-                radius: 20),
-            s10,
+                radius: 17),
+            s5,
             TextButton(
                 onPressed: () {},
                 child: Text(
@@ -45,22 +45,30 @@ class _PostContainerState extends State<PostContainer> {
                       fontSize: 15, fontWeight: FontWeight.w700),
                 )),
             Container(
-              width: 15,
-              height: 15,
+              width: 20,
+              height: 20,
               decoration: const BoxDecoration(
-                  image: DecorationImage(
-                      image: AssetImage("assets/images/image.png"),fit: BoxFit.contain),
-                  color: Colors.white),
+                  image: DecorationImage(isAntiAlias: true,
+                      image: AssetImage("assets/images/verify.png"),fit: BoxFit.cover),
+                 // color: Colors.white
+                 ),
             ),
             s50,
+            s10,
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
           ],
         ),
-        s10,
-        Text(
-          widget.caption,
-          style: GoogleFonts.inter(
-              fontSize: 15, fontWeight: FontWeight.w600, color: Colors.white),
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          // ignore: avoid_unnecessary_containers
+          child: Container(
+            // color: Colors.black12,
+            child: Text(
+              widget.caption,
+              style: GoogleFonts.inter(
+                  fontSize: 15, fontWeight: FontWeight.w600,),
+            ),
+          ),
         )
       ]),
     );

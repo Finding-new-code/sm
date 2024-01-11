@@ -26,9 +26,9 @@ errorbottomsheet(BuildContext context, String error) {
               decoration: BoxDecoration(
                 image: const DecorationImage(
                   isAntiAlias: true,
-                    image: AssetImage("assets/dog.png"), fit: BoxFit.contain),
+                    image: AssetImage("assets/images/image.png"), fit: BoxFit.contain),
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white,
+                color: Colors.white.withOpacity(0.5),
               ),
             ),
             s10,

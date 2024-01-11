@@ -1,20 +1,26 @@
+import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/repository/auth.dart';
+import 'package:myapp658d7b3746ed317621f8/components/usermodel.dart';
+
 import '../../../constants/tools.dart';
+import '../../../src/repository/auth.dart';
+import '../../../src/repository/databases.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
-  AuthBloc({required this.authRepository}) : super(AuthInitial()) {
+  final DatabasesRepository databasesrepsitory;
+  AuthBloc({required this.authRepository, required this.databasesrepsitory})
+      : super(AuthInitial()) {
     /// here you can place you event haldlers =>
     on<AsAuthRequest>(_asauthrequest);
   }
 
   /// here the event handlers function body for better code readibility =>
   void _asauthrequest(AsAuthRequest event, Emitter<AuthState> emit) async {
-     emit(AuthLoading());
-     try {
+    emit(AuthLoading());
+    try {
       final String name = event.name;
       final String password = event.password;
       final String email = event.email;
@@ -39,11 +45,27 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       }
 
       if (isnew == true) {
-        await authRepository.createAccount(email, password, name);
-        return emit(AuthSuccess());
+        final response =
+            await authRepository.createAccount(email, password, name);
+        await authRepository.loginAccount(email, password);
+        await databasesrepsitory.sendUserData(UserModel(
+            name: response.name,
+            bio: "",
+            profilePicture: "",
+            userId: response.$id,
+            bannerPicture: "",
+            isVerified: false,
+            location: "",
+            email: response.email,
+            followers: const [],
+            following: const [],
+            posts: const [],
+            likedPosts: const []));
+
+        return emit(AuthSuccess(response.$id));
       } else {
         await authRepository.loginAccount(email, password);
-        return emit(AuthSuccess());
+        return emit(AuthSuccess(""));
       }
     } on AppwriteException catch (e) {
       return emit(AuthFailure(e.message.toString()));

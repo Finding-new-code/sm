@@ -1,28 +1,41 @@
 
+import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
 import '../../constants/tools.dart';
+import '../cache.dart';
 
 class AuthRepository {
-  final Account account;
-  AuthRepository({required this.account});
+  final Account _account;
+  AuthRepository({required Account account}) : _account = account;
+
+  Future<models.User?> currentUser() async {
+    final user = await Caches().get("User");
+    final usersession = await Caches().get("UserSession");
+    if (user.isEmpty && usersession.isEmpty) {
+      return await _account.get();
+    } else {
+      return null;
+    }
+  }
 
  /// here the login account code implementation takes place =>
-  Future<void> loginAccount(String email, String password) async {
+  Future<models.Session> loginAccount(String email, String password) async {
     final user =
-        await account.createEmailSession(email: email, password: password);
-    // Caches().set("User", user);
+        await _account.createEmailSession(email: email, password: password);
+        Caches().set("UserSession", user);
     // notifyListeners();
     debugPrint(
         "{${user.$id}, ${user.deviceName}, ${user.countryName}, ${user.$createdAt}, ${user.deviceBrand}}");
+        return user;
   }
   
   /// here the create account code implementation takes place =>
-  Future<void> createAccount(String email, String password, String name) async {
-    account.create(
+  Future<models.User> createAccount(String email, String password, String name) async {
+   final user = _account.create(
         userId: ID.unique(), email: email, password: password, name: name);
-    final user = await account.createEmailSession(email: email, password: password);
-    // Caches().set("User", user);
+    Caches().set("User", user);
     // notifyListeners();
+    return user;
   }
 
   // Future<void> signOut() async {

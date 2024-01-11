@@ -1,36 +1,49 @@
 import 'package:flutter/material.dart';
+
 /// here the Post model is created
 @immutable
 class Post {
   final String username;
+  final List<String> hashtags;
+  final String links;
+  final DateTime createdAt;
   final String postid;
-  final String content;
+  final String posttext;
   final int likes;
-  final int comments;
+  final List<String> commentsid;
   final String imageUrl;
 
   const Post(
-      {required this.username,
+      {required this.createdAt,
+      required this.hashtags,
+      required this.links,
+      required this.username,
       required this.postid,
-      required this.content,
+      required this.posttext,
       required this.likes,
-      required this.comments,
+      required this.commentsid,
       required this.imageUrl});
 
   Post copyWith({
     String? username,
+    List<String>? hashtags,
+    String? links,
+    DateTime? createdAt,
     String? postid,
-    String? content,
+    String? posttext,
     int? likes,
-    int? comments,
+    List<String>? commentsid,
     String? imageUrl,
   }) {
     return Post(
-        postid: postid ?? this.postid,
+        createdAt: createdAt ?? this.createdAt,
+        hashtags: hashtags ?? this.hashtags,
+        links: links ?? this.links,
         username: username ?? this.username,
-        content: content ?? this.content,
+        postid: postid ?? this.postid,
+        posttext: posttext ?? this.posttext,
         likes: likes ?? this.likes,
-        comments: comments ?? this.comments,
+        commentsid: commentsid ?? this.commentsid,
         imageUrl: imageUrl ?? this.imageUrl);
   }
 
@@ -38,24 +51,31 @@ class Post {
     final result = <String, dynamic>{};
     result.addAll({"postid": postid});
     result.addAll({"likes": likes});
-    result.addAll({"comments": comments});
+    result.addAll({"commentsid": commentsid});
     result.addAll({"imageurl": imageUrl});
-    result.addAll({});
+    result.addAll({"createdat": createdAt});
+    result.addAll({"hashtags": hashtags});
+    result.addAll({"links": links});
+    result.addAll({"username": username});
+    result.addAll({"posttext": posttext});
     return result;
   }
 
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
+        createdAt: map['createdat'] ?? "",
+        hashtags: map['hashtags'] ?? [],
+        links: map['links'] ?? "",
         username: map['username'] ?? "",
         postid: map['postid'] ?? "",
-        content: map['content'] ?? "",
+        posttext: map['posttext'] ?? "",
         likes: map["likes"] ?? "",
-        comments: map['comments'] ?? '',
+        commentsid: map['commentsid'] ?? '',
         imageUrl: map['imageUrl'] ?? '');
   }
 
   @override
   String toString() {
-    return " Post(username: $username, postid: $postid, content: $content, likes: $likes, comments: $comments, imageUrl: $imageUrl) ";
+    return " Post(username: $username, postid: $postid, posttext: $posttext, likes: $likes, commentsid: $commentsid, imageUrl: $imageUrl, createdAt: $createdAt, hashtags: $hashtags, links: $links) ";
   }
 }
