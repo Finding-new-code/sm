@@ -1,8 +1,9 @@
+
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 import '../Pages/ChatPage/chatpage.dart';
-import '../Pages/ProfilePage/profilepage.dart';
-import '../constants/tools.dart';
+import '../Pages/ProfilePage/View/profilepage.dart';
 
 // here in the approch i will make a capsule shape button bar which hover
 // approx 50 px above from the bottom
@@ -15,7 +16,7 @@ class CapsuleStyleButtonBar extends StatelessWidget {
     return Container(
       height: 40,
       decoration: BoxDecoration(
-          gradient: SweepGradient(
+          gradient: LinearGradient(
             colors: [
               Colors.blue.shade900,
               Colors.teal.shade400,
@@ -23,7 +24,6 @@ class CapsuleStyleButtonBar extends StatelessWidget {
               Colors.blueGrey,
             ],
           ),
-          color: Colors.blue.shade900,
           borderRadius: BorderRadius.circular(20),
           shape: BoxShape.rectangle),
       child: Row(

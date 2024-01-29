@@ -20,13 +20,12 @@ class AuthRepository {
 
  /// here the login account code implementation takes place =>
   Future<models.Session> loginAccount(String email, String password) async {
-    final user =
+    final session =
         await _account.createEmailSession(email: email, password: password);
-        Caches().set("UserSession", user);
-    // notifyListeners();
+        Caches().set("UserSession", session);
     debugPrint(
-        "{${user.$id}, ${user.deviceName}, ${user.countryName}, ${user.$createdAt}, ${user.deviceBrand}}");
-        return user;
+        "{${session.$id}, ${session.deviceName}, ${session.ip}, ${session.countryName}, ${session.$createdAt}, ${session.deviceBrand}}");
+        return session;
   }
   
   /// here the create account code implementation takes place =>
@@ -34,14 +33,20 @@ class AuthRepository {
    final user = _account.create(
         userId: ID.unique(), email: email, password: password, name: name);
     Caches().set("User", user);
-    // notifyListeners();
     return user;
   }
 
+  Future<void> verifyAccount() async {
+    await _account.createVerification(url: "");
+  }
+
+  Future<void> recoveryPassword (String email) async {
+    _account.createRecovery(email: email, url: '');
+  }
+
   // Future<void> signOut() async {
-  //   await account.deleteSession(sessionId: _session!.$id);
-  //   _session = null;
+  //   await _account.deleteSession(sessionId:);
   //   Caches().clear("User");
-  //   // notifyListeners();
+  //   notifyListeners();
   // }
 }

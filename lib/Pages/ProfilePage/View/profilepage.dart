@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../../components/capsulebuttonbar.dart';
-import '../../components/descrpition.dart';
-import '../../components/profilestack.dart';
-import '../../constants/constant.dart';
-import '../../constants/tools.dart';
+import '../../../components/capsulebuttonbar.dart';
+import '../../../components/descrpition.dart';
+import '../../../components/profilestack.dart';
+import '../../../constants/constant.dart';
+import '../../../constants/tools.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -16,13 +15,12 @@ class ProfilePage extends StatelessWidget {
         padding: EdgeInsets.only(top: 15, right: 50, left: 50, bottom: 20),
         child: CapsuleStyleButtonBar(),
       ),
-      backgroundColor: Colors.black,
       appBar: AppBar(
-        backgroundColor: Colors.black,
+  
         title: Text(
           "Profile",
           style: GoogleFonts.inter(
-              color: Colors.white, fontSize: 20, fontWeight: FontWeight.bold),
+               fontSize: 20, fontWeight: FontWeight.bold),
         ),
       ),
       body: Column(
@@ -37,7 +35,7 @@ class ProfilePage extends StatelessWidget {
             child: Text(
               "satya Prakash Nayak",
               style: GoogleFonts.inter(
-                  color: Colors.white, fontSize: 20, fontWeight: FontWeight.w500),
+                   fontSize: 20, fontWeight: FontWeight.w500),
             ),
           ),s10,
           const Padding(
@@ -54,8 +52,8 @@ class ProfilePage extends StatelessWidget {
               crossAxisSpacing: 5,
               cacheExtent: 5,
               children: [
-                Container(width: 10,height: 10,color: Colors.white,),
-                Container(width: 10,height: 10,color: Colors.white,)
+                Container(width: 10,height: 10,color: Colors.grey.shade200,),
+                Container(width: 10,height: 10,color: Colors.grey.shade200,)
               ],
             ),
           )

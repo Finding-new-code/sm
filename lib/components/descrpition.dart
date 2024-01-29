@@ -16,7 +16,7 @@ class DescriptionTile extends StatelessWidget {
           width: double.infinity,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(10),
-            color: const Color.fromARGB(255, 37, 37, 37),
+            color: Colors.grey.shade500,
           ),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -27,8 +27,7 @@ class DescriptionTile extends StatelessWidget {
                 text: "Description :  ",
                 style: GoogleFonts.inter(
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white),
+                    fontWeight: FontWeight.bold),
               children: [
                 
                 TextSpan(text: "someting i like to add",style: GoogleFonts.inter(fontWeight: FontWeight.w400))
@@ -41,8 +40,9 @@ class DescriptionTile extends StatelessWidget {
           children: [
             s10,
             Icon(
-              Icons.pin_drop_rounded,
-              color: Colors.grey.shade600,
+              Icons.pin_drop_sharp,
+              size: 18,
+              color: Theme.of(context).hintColor,
             ),
             s10,
             Text(

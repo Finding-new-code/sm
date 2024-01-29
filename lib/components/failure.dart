@@ -1,3 +1,4 @@
+
 import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
@@ -7,12 +8,12 @@ errorbottomsheet(BuildContext context, String error) {
   return showModalBottomSheet(
     useSafeArea: true,
     context: context,
-    backgroundColor: Colors.black87,
     builder: (BuildContext context) {
       return Container(
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
-          color: Colors.black),
+          
+          ),
         width: 500,
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -28,7 +29,7 @@ errorbottomsheet(BuildContext context, String error) {
                   isAntiAlias: true,
                     image: AssetImage("assets/images/image.png"), fit: BoxFit.contain),
                 borderRadius: BorderRadius.circular(10),
-                color: Colors.white.withOpacity(0.5),
+                color: Colors.grey.shade500,
               ),
             ),
             s10,

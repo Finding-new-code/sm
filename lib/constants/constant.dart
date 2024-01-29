@@ -11,3 +11,5 @@ const s100 = SizedBox(height: 100, width: 100);
 const s5 = SizedBox(height: 5,width: 5,);
 
 const nothing = SizedBox.shrink();
+
+const productName = "Project-SM";

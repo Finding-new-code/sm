@@ -7,14 +7,15 @@ import '../constants/tools.dart';
 class PostContainer extends StatefulWidget {
   final String username;
   final String userImage;
-  List<String>? postimage;
+  final List<String> postimage;
   final String caption;
-  PostContainer(
-      {super.key,
-      required this.username,
-      required this.userImage,
-      this.postimage,
-      required this.caption});
+  const PostContainer({
+    super.key,
+    required this.username,
+    required this.userImage,
+    required this.postimage,
+    required this.caption,
+  });
 
   @override
   State<PostContainer> createState() => _PostContainerState();
@@ -23,12 +24,9 @@ class PostContainer extends StatefulWidget {
 class _PostContainerState extends State<PostContainer> {
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(5),
-      decoration: BoxDecoration(
-          // color: Colors.deepPurpleAccent.withOpacity(0.1),
-          borderRadius: BorderRadius.circular(7)),
-      width: double.infinity,
+    return Card(
+      elevation: 0,
+      margin: const EdgeInsets.symmetric(horizontal: 6),
       child: Column(children: [
         Row(
           children: [
@@ -48,27 +46,83 @@ class _PostContainerState extends State<PostContainer> {
               width: 20,
               height: 20,
               decoration: const BoxDecoration(
-                  image: DecorationImage(isAntiAlias: true,
-                      image: AssetImage("assets/images/verify.png"),fit: BoxFit.cover),
-                 // color: Colors.white
-                 ),
+                image: DecorationImage(
+                    isAntiAlias: true,
+                    image: AssetImage("assets/images/verify.png"),
+                    fit: BoxFit.cover),
+                // color: Colors.white
+              ),
             ),
-            s50,
-            s10,
+            const Spacer(),
             IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
           ],
         ),
         Padding(
-          padding: const EdgeInsets.only(left: 10),
-          // ignore: avoid_unnecessary_containers
-          child: Container(
-            // color: Colors.black12,
-            child: Text(
-              widget.caption,
-              style: GoogleFonts.inter(
-                  fontSize: 15, fontWeight: FontWeight.w600,),
-            ),
+          padding: const EdgeInsets.only(left: 50),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                widget.caption,
+                overflow: TextOverflow.ellipsis,
+                maxLines: 6,
+                textAlign: TextAlign.left,
+                // textDirection: TextDirection.ltr,
+                style: GoogleFonts.inter(
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
+                selectionColor: Theme.of(context).indicatorColor,
+              ),
+              s10,
+              if (widget.postimage.isNotEmpty)
+              GridView.builder(
+                primary: true,
+                 scrollDirection: Axis.horizontal,
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 1,
+                      mainAxisExtent: 100,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                      childAspectRatio: 1),
+                  itemBuilder: ((context, index) => Container(
+                        width: 20,
+                        height: 10,
+                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
+                        color: Colors.grey.shade300),
+                      )))
+            ],
           ),
+        ),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            s25,
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.favorite_border,
+                  size: 18,
+                )),
+            s25,
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.comment_outlined,
+                  size: 18,
+                )),
+            s25,
+            IconButton(
+                onPressed: () {},
+                icon: const Icon(
+                  Icons.share_rounded,
+                  size: 18,
+                )),
+          ],
         )
       ]),
     );

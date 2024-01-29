@@ -8,7 +8,7 @@ class UserModel {
   final String profilePicture;
   final String userId;
   final String bannerPicture;
-  final bool isVerified;
+  final bool isPremium;
   final List<String> followers;
   final List<String> following;
   final String location;
@@ -22,7 +22,7 @@ class UserModel {
       required this.profilePicture,
       required this.userId,
       required this.bannerPicture,
-      required this.isVerified,
+      required this.isPremium,
       required this.followers,
       required this.following,
       required this.location,
@@ -36,7 +36,7 @@ class UserModel {
     String? profilePicture,
     String? userId,
     String? bannerPicture,
-    bool? isVerified,
+    bool? isPremium,
     List<String>? followers,
     List<String>? following,
     String? location,
@@ -50,7 +50,7 @@ class UserModel {
         profilePicture: profilePicture ?? this.profilePicture,
         userId: userId ?? this.userId,
         bannerPicture: bannerPicture ?? this.bannerPicture,
-        isVerified: isVerified ?? this.isVerified,
+        isPremium: isPremium ?? this.isPremium,
         followers: followers ?? this.followers,
         following: following ?? this.following,
         location: location ?? this.location,
@@ -66,13 +66,14 @@ class UserModel {
     result.addAll({"bio": bio});
     result.addAll({"profilePicture": profilePicture});
     result.addAll({"bannerPicture": bannerPicture});
-    result.addAll({"isVerified": isVerified});
+    result.addAll({"isPremium": isPremium});
     result.addAll({"followers": followers});
     result.addAll({"following": following});
     result.addAll({"location": location});
     result.addAll({"email": email});
     result.addAll({"posts": posts});
     result.addAll({"likedPosts": likedPosts});
+    result.addAll({"userId" : userId});
 
     return result;
   }
@@ -84,7 +85,7 @@ class UserModel {
         profilePicture: map["profilePicture"] ?? "",
         userId: map["\$id"],
         bannerPicture: map["bannerPicture"] ?? "",
-        isVerified: map["isVerified"] ?? false,
+        isPremium: map["isPremium"] ?? false,
         followers: List<String>.from(map["folowers"]),
         following: List<String>.from(map["folowing"]),
         location: map["location"] ?? "",
@@ -95,6 +96,6 @@ class UserModel {
 
   @override
   String toString() {
-    return "UserModel(name: $name, bio: $bio, profilePicture: $profilePicture, userId: $userId, bannerPicture: $bannerPicture, isVerified: $isVerified, followers: $followers, following: $following, location: $location, email: $email, posts: $posts, likedPosts: $likedPosts)";
+    return "UserModel(name: $name, bio: $bio, profilePicture: $profilePicture, userId: $userId, bannerPicture: $bannerPicture, isPremium: $isPremium, followers: $followers, following: $following, location: $location, email: $email, posts: $posts, likedPosts: $likedPosts)";
   }
 }

@@ -10,6 +10,7 @@ class TermsAndConditions extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
+          forceMaterialTransparency: true,
           title: const Text('Terms and Conditions'),
         ),
         body: SingleChildScrollView(
@@ -20,7 +21,7 @@ class TermsAndConditions extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  "These Terms and Conditions ('Terms') govern your access to and use of the Project-sm social media application ('App'), developed and operated by Coderlabs ('Company'). By accessing or using the App, you agree to be bound by these Terms.",
+                  "These Terms and Conditions ('Terms') govern your access to and use of the $productName social media application ('App'), developed and operated by Coderlabs ('Company'). By accessing or using the App, you agree to be bound by these Terms.",
                   style: GoogleFonts.inter(),
                 ),
                 s10,

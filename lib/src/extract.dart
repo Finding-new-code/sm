@@ -1,5 +1,31 @@
 
-String nameByEmail (String email) {
-  return email.substring(0, email.indexOf('@'));
+
+// String hastage (String text) {
+//   return
+// }
+
+// String linksfromtext (String text) {
+//  for (text in text)
+// }
+
+
+enum TweetType {
+  text('text'),
+  image('image');
+
+  final String type;
+  const TweetType(this.type);
 }
 
+extension ConvertTweet on String {
+  TweetType toTweetTypeEnum() {
+    switch (this) {
+      case 'text':
+        return TweetType.text;
+      case 'image':
+        return TweetType.image;
+      default:
+        return TweetType.text;
+    }
+  }
+}

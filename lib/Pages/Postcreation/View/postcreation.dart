@@ -1,11 +1,11 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:myapp658d7b3746ed317621f8/Pages/ChatPage/chatpage.dart';
-import 'package:myapp658d7b3746ed317621f8/components/failure.dart';
-import '../../constants/constant.dart';
-import '../../constants/tools.dart';
-import '../../src/imagepicker.dart';
-import 'bloc/post_bloc.dart';
+import '../../../constants/constant.dart';
+import '../../../constants/tools.dart';
+import '../../../src/imagepicker.dart';
+import '../../AuthPage/bloc/auth_bloc.dart';
+import '../bloc/post_bloc.dart';
 
 class PostCreationPage extends StatefulWidget {
   const PostCreationPage({Key? key}) : super(key: key);
@@ -26,19 +26,24 @@ class _PostCreationPageState extends State<PostCreationPage> {
 
   @override
   Widget build(BuildContext context) {
+    final userid = context.watch<AuthBloc>().state as AuthSuccess;
     return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
-        // TODO: implement listener
+        /// here we can implement listener =>
         if (state is PostFailure) {
-          errorbottomsheet(context, state.message);
+          ScaffoldMessenger.of(context)
+              .showSnackBar(SnackBar(content: Text(messages.toString())));
         }
         if (state is PostSuccess) {
-          Navigator.pop(context);
+          ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(content: Text("Posted Successfully",style: GoogleFonts.robotoMono(),)));
+          return Navigator.pop(context);
         }
       },
       builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
+            forceMaterialTransparency: true,
             title: Text(
               'Create Post',
               style: GoogleFonts.inter(fontSize: 20),
@@ -48,11 +53,13 @@ class _PostCreationPageState extends State<PostCreationPage> {
                   style: ButtonStyle(
                       backgroundColor: MaterialStateProperty.all(
                           Colors.deepPurpleAccent.shade400.withOpacity(0.4))),
-                  onPressed: () {
+                  onPressed: () async {
                     _postcontroller.text.isEmpty
                         ? null
                         : context.read<PostBloc>().add(PostSendRequested(
-                            text: _postcontroller.text, image: images));
+                            text: _postcontroller.text,
+                            image: images,
+                            userid: userid.user.toString()));
                   },
                   child: Text(
                     'Post',

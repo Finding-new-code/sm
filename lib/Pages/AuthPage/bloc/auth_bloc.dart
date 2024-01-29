@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/components/usermodel.dart';
+import 'package:myapp658d7b3746ed317621f8/src/modals/usermodel.dart';
+import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
 
 import '../../../constants/tools.dart';
 import '../../../src/repository/auth.dart';
@@ -54,18 +55,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
             profilePicture: "",
             userId: response.$id,
             bannerPicture: "",
-            isVerified: false,
+            isPremium: false,
             location: "",
             email: response.email,
             followers: const [],
             following: const [],
             posts: const [],
-            likedPosts: const []));
-
+            likedPosts: const []),
+            response.$id);
         return emit(AuthSuccess(response.$id));
       } else {
-        await authRepository.loginAccount(email, password);
-        return emit(AuthSuccess(""));
+       final session = await authRepository.loginAccount(email, password);
+        return emit(AuthSuccess(session.userId));
       }
     } on AppwriteException catch (e) {
       return emit(AuthFailure(e.message.toString()));

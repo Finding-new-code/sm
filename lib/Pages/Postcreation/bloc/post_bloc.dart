@@ -17,16 +17,22 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       PostSendRequested event, Emitter<PostState> emit) async {
     final String text = event.text;
     final List<File> image = event.image;
+    final String userid = event.userid;
 
-    databasesRepository.postSendToServer(Post(
-        createdAt: DateTime.now(),
-        hashtags: const [],
-        links: "",
-        username: "",
-        postid: ID.unique(),
-        posttext: text,
-        likes: 0,
-        commentsid: const [],
-        imageUrl: ""));
+    try {
+      databasesRepository.postSendToServer(Post(
+          createdAt: DateTime.now(),
+          hashtags: const [],
+          links: "",
+          userid: userid,
+          postid: ID.unique(),
+          posttext: text,
+          likes: const [],
+          commentsid: const [],
+          imageLinks: image.map((e) => e.path).toList()));
+      return emit(PostSuccess());
+    } on AppwriteException catch (e) {
+      return emit(PostFailure(e.message.toString()));
+    }
   }
 }

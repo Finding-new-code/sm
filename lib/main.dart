@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/Postcreation/bloc/post_bloc.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authpage.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/ProfilePage/View/profilepage.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/SettingsPage/Views/settings_page.dart';
+import 'package:myapp658d7b3746ed317621f8/components/termsandconditions.dart';
+import 'package:myapp658d7b3746ed317621f8/constants/constant.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
-import 'Pages/HomePage/homepage.dart';
+import 'Pages/HomePage/bloc/home_bloc.dart';
+import 'Pages/HomePage/VIew/homepage.dart';
 import 'package:appwrite/models.dart' as models;
+import 'Pages/Postcreation/bloc/post_bloc.dart';
 import 'Pages/WelcomePage/welcome.dart';
 import 'constants/appwriteconstants.dart';
 import 'constants/tools.dart';
@@ -74,21 +80,34 @@ class _MyAppState extends State<MyApp> {
                 authRepository: context.read<AuthRepository>(),
                 databasesrepsitory: context.read<DatabasesRepository>()),
           ),
-          BlocProvider(
+         /// here the bloc provider for the home bloc
+          BlocProvider<HomeBloc>(
+              create: (context) => HomeBloc(
+                  databasesrepository: context.read<DatabasesRepository>())),
+          /// here the bloc provider for the post bloc
+          BlocProvider<PostBloc>(
               create: (context) => PostBloc(
                   databasesRepository: context.read<DatabasesRepository>()))
         ],
         child: MaterialApp(
-          title: 'Project-SM',
+          title: productName,
+          // here the theme is set
+          // showSemanticsDebugger: true,
           // showPerformanceOverlay: true,
           themeAnimationCurve: Curves.easeInOut,
-          darkTheme: dark,
-          theme: light,
-          themeMode: ThemeMode.system,
+          darkTheme: AppThemeMode().dark,
+          theme: AppThemeMode().light,
+          themeMode: ThemeMode.dark,
           debugShowCheckedModeBanner: false,
-          initialRoute: "/welcome",
+          // initialRoute: "/welcome",
           // here you can add more routes with means of the pages address for navigator
-          routes: {'/welcome': (context) => const WelcomePage()},
+          routes: {'/welcome': (context) => const WelcomePage(),
+                    '/home': (context) =>  HomePage(isdark: isdark,),
+                    '/auth': (context) => const AuthPage(),
+                    'settings':(context) => const SettingsPage(),
+                    't&c':(context) => const TermsAndConditions(),
+                    '/profile':(context) => const ProfilePage()
+                    },
           // here the home page is set
           home: StreamBuilder<models.User?>(
             stream: AuthRepository(account: widget.account)
@@ -97,6 +116,7 @@ class _MyAppState extends State<MyApp> {
             builder: (BuildContext context, AsyncSnapshot snapshot) {
               if (snapshot.hasData) {
                 return HomePage(
+                  client: widget.account.client,
                   isdark: isdark,
                 );
               }

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp658d7b3746ed317621f8/constants/constant.dart';
 
 import '../../constants/tools.dart';
-import '../AuthPage/authpage.dart';
+import '../AuthPage/View/authpage.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);
@@ -17,32 +17,29 @@ class _WelcomePageState extends State<WelcomePage> {
     return Scaffold(
         body: PageView(
       children: [
-        Animate(
-          effects: const [FadeEffect(duration: Duration(milliseconds: 500))],
-          child: Center(
-            child: Container(
-                height: double.infinity,
-                width: double.infinity,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage("assets/images/slide1.png"),
-                        fit: BoxFit.fill,
-                        isAntiAlias: true)),
-                child: Animate(
-                  effects: const [
-                    FadeEffect(duration: Duration(milliseconds: 500),delay: Duration(milliseconds: 500) )
-                  ],
-                  child: Center(
-                    child: Text(
-                      "Welcome to\nthe Project SM",
-                      style: GoogleFonts.hankenGrotesk(
-                          fontSize: 30,
-                          color: Colors.white,
-                          fontWeight: FontWeight.w600),
-                    ),
+        Center(
+          child: Container(
+              height: double.infinity,
+              width: double.infinity,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      image: AssetImage("assets/images/slide1.png"),
+                      fit: BoxFit.fill,
+                      isAntiAlias: true)),
+              child: Animate(
+                effects: const [
+                  FadeEffect(duration: Duration(milliseconds: 500),delay: Duration(milliseconds: 500) )
+                ],
+                child: Center(
+                  child: Text(
+                    "Welcome to\nthe Project SM",
+                    style: GoogleFonts.hankenGrotesk(
+                        fontSize: 30,
+                        color: Colors.white,
+                        fontWeight: FontWeight.w600),
                   ),
-                )),
-          ),
+                ),
+              )),
         ),
         Center(
           child: Animate(
