@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
-/// here the user model which stores the user data send and received from the server 
+
+/// here the user model which stores the user data send and received from the server
 
 @immutable
 class UserModel {
   final String name;
   final String bio;
   final String profilePicture;
-  final String userId;
+  final String userid;
   final String bannerPicture;
   final bool isPremium;
   final List<String> followers;
@@ -16,11 +17,11 @@ class UserModel {
   final List<String> posts;
   final List<String> likedPosts;
 
- const UserModel(
+  const UserModel(
       {required this.name,
       required this.bio,
       required this.profilePicture,
-      required this.userId,
+      required this.userid,
       required this.bannerPicture,
       required this.isPremium,
       required this.followers,
@@ -34,7 +35,7 @@ class UserModel {
     String? name,
     String? bio,
     String? profilePicture,
-    String? userId,
+    String? userid,
     String? bannerPicture,
     bool? isPremium,
     List<String>? followers,
@@ -45,18 +46,19 @@ class UserModel {
     List<String>? likedPosts,
   }) {
     return UserModel(
-        name: name ?? this.email,
-        bio: bio ?? this.bio,
-        profilePicture: profilePicture ?? this.profilePicture,
-        userId: userId ?? this.userId,
-        bannerPicture: bannerPicture ?? this.bannerPicture,
-        isPremium: isPremium ?? this.isPremium,
-        followers: followers ?? this.followers,
-        following: following ?? this.following,
-        location: location ?? this.location,
-        email: email ?? this.email,
-        posts: posts ?? this.posts,
-        likedPosts: likedPosts ?? this.likedPosts,);
+      name: name ?? this.email,
+      bio: bio ?? this.bio,
+      profilePicture: profilePicture ?? this.profilePicture,
+      userid: userid ?? this.userid,
+      bannerPicture: bannerPicture ?? this.bannerPicture,
+      isPremium: isPremium ?? this.isPremium,
+      followers: followers ?? this.followers,
+      following: following ?? this.following,
+      location: location ?? this.location,
+      email: email ?? this.email,
+      posts: posts ?? this.posts,
+      likedPosts: likedPosts ?? this.likedPosts,
+    );
   }
 
   Map<String, dynamic> toMap() {
@@ -73,7 +75,7 @@ class UserModel {
     result.addAll({"email": email});
     result.addAll({"posts": posts});
     result.addAll({"likedPosts": likedPosts});
-    result.addAll({"userId" : userId});
+    result.addAll({"userid": userid});
 
     return result;
   }
@@ -83,11 +85,11 @@ class UserModel {
         name: map["email"] ?? "",
         bio: map["bio"] ?? "",
         profilePicture: map["profilePicture"] ?? "",
-        userId: map["\$id"],
+        userid: map["\$id"],
         bannerPicture: map["bannerPicture"] ?? "",
         isPremium: map["isPremium"] ?? false,
-        followers: List<String>.from(map["folowers"]),
-        following: List<String>.from(map["folowing"]),
+        followers: List<String>.from(map["followers"]),
+        following: List<String>.from(map["following"]),
         location: map["location"] ?? "",
         email: map["email"] ?? "",
         posts: map["posts"] ?? "",
@@ -96,6 +98,6 @@ class UserModel {
 
   @override
   String toString() {
-    return "UserModel(name: $name, bio: $bio, profilePicture: $profilePicture, userId: $userId, bannerPicture: $bannerPicture, isPremium: $isPremium, followers: $followers, following: $following, location: $location, email: $email, posts: $posts, likedPosts: $likedPosts)";
+    return "UserModel(name: $name, bio: $bio, profilePicture: $profilePicture, userid: $userid, bannerPicture: $bannerPicture, isPremium: $isPremium, followers: $followers, following: $following, location: $location, email: $email, posts: $posts, likedPosts: $likedPosts)";
   }
 }

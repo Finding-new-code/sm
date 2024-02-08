@@ -15,7 +15,7 @@ class TermsAndConditions extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.only(left: 15,right: 10,top: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -112,7 +112,7 @@ class TermsAndConditions extends StatelessWidget {
                   terms[7].content,
                   style: GoogleFonts.inter(),
                 ),
-                s10,
+                s25,
               ],
             ),
           ),

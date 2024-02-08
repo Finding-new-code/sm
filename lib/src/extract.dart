@@ -1,12 +1,24 @@
+List<String> getHastags (String text) {
+  List<String> wordsinsentence = text.split(' ');
+  List<String> hastags = [];
+  for (String word in wordsinsentence) {
+    if (word.startsWith('#')) {
+      hastags.add(word);
+    }
+  }
+  return hastags;
+}
 
-
-// String hastage (String text) {
-//   return
-// }
-
-// String linksfromtext (String text) {
-//  for (text in text)
-// }
+String linksfromtext(String text) {
+  List<String> wordsinsentence = text.split(' ');
+  String links = '';
+  for (String word in wordsinsentence) {
+    if (word.startsWith('https://') || word.startsWith('www')) {
+      links = word;
+    }
+  }
+  return links;
+}
 
 
 enum TweetType {
@@ -28,4 +40,8 @@ extension ConvertTweet on String {
         return TweetType.text;
     }
   }
+}
+
+String getNameFromEmail(String email) {
+  return email.split('@')[0];
 }

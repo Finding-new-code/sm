@@ -1,6 +1,4 @@
 import 'dart:ui';
-
-import 'package:appwrite/models.dart' as models;
 import 'package:flutter/material.dart';
 import '../../../components/failure.dart';
 import '../../../components/termsandconditions.dart';
@@ -24,7 +22,7 @@ class _MobileLoginState extends State<AuthPage> {
   bool ischecked = false;
   // TODO: animation to be added but im thinking of other alternative
   late AnimationController _controller;
-  late Animation<double> _animation;
+  //late Animation<double> _animation;
 
   final TextEditingController _email = TextEditingController();
   final TextEditingController _password = TextEditingController();
@@ -55,7 +53,7 @@ class _MobileLoginState extends State<AuthPage> {
           Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(
-                  builder: (context) =>  HomePage(
+                  builder: (context) =>  const HomePage(
                         isdark: false,
                       )),
               (route) => false);
@@ -71,9 +69,13 @@ class _MobileLoginState extends State<AuthPage> {
         return Scaffold(
           body: Stack(
             children: [
-              Container(color: Colors.teal,width: 50,height: 50,),
+              Container(color: Colors.teal,width: 100,height: 100,),
+               Positioned(top: 600,left: 150,
+                child: Container(color: Colors.deepPurpleAccent,width: 100,height: 100,)),
+                Positioned(top: 350, left: 150,
+                  child: Container(color: Colors.blueAccent,width: 50,height: 50,)),
               BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
                 child: Column(
                 children: [
                   s25,
@@ -111,7 +113,7 @@ class _MobileLoginState extends State<AuthPage> {
                                 ),
                                 focusColor: Colors.deepPurpleAccent,
                                 filled: true,
-                                fillColor: Colors.deepPurpleAccent,
+                                fillColor: Colors.deepPurpleAccent.shade200,
                                 border: const OutlineInputBorder(
                                     borderRadius:
                                         BorderRadius.all(Radius.circular(20))),
@@ -121,7 +123,7 @@ class _MobileLoginState extends State<AuthPage> {
                                     fontWeight: FontWeight.w400),
                                 hintText: "Enter your Name",
                                 hintStyle: const TextStyle(
-                                    // color: Colors.white,
+                                    color: Colors.white,
                                     fontWeight: FontWeight.w700)),
                             onChanged: (value) => _name,
                           ),
@@ -159,7 +161,7 @@ class _MobileLoginState extends State<AuthPage> {
                               color: Colors.white, fontWeight: FontWeight.w400),
                           hintText: "Enter the Email Id",
                           hintStyle: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w400)),
+                              color: Colors.white,  fontWeight: FontWeight.w700)),
                       onChanged: (value) => _email,
                     ),
                   ),
@@ -197,7 +199,7 @@ class _MobileLoginState extends State<AuthPage> {
                               ? "Enter the Password"
                               : "Create a new password",
                           hintStyle: const TextStyle(
-                              color: Colors.white, fontWeight: FontWeight.w400)),
+                              color: Colors.white, fontWeight: FontWeight.w700)),
                       onChanged: (value) => _password,
                     ),
                   ),

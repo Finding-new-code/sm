@@ -9,8 +9,15 @@ sealed class HomeEvent extends Equatable {
 
 final class GetNewPosts extends HomeEvent {}
 
-final class RefreshPosts extends HomeEvent {}
+final class GetLastestPosts extends HomeEvent {}
 
-final class ChangeTheme extends HomeEvent {}
+final class ChangeTheme extends HomeEvent {
+  final ThemeData theme;
+
+  const ChangeTheme(this.theme);
+
+  @override
+  List<Object> get props => [theme];
+}
 
 final class UserInfo extends HomeEvent {}

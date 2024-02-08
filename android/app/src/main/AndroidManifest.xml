@@ -7,6 +7,7 @@
         android:label="myapp"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+        <!-- here the appwrite codes for allow add -->
         <activity android:name="com.linusu.flutter_web_auth_2.CallbackActivity" android:exported="true">
         <intent-filter android:label="flutter_web_auth_2">
         <action android:name="android.intent.action.VIEW" />
@@ -23,7 +24,16 @@
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize">
-            <!-- Specifies an Android theme to apply to this Activity as soon as
+           <!-- here the app deep linking for the open app from link -->
+            <meta-data android:name="flutter_deeplinking_enabled" android:value="true" />
+            <intent-filter android:autoVerify="true">
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="http" android:host="projectsm.com" />
+                <data android:scheme="https" />
+            </intent-filter>
+             <!-- Specifies an Android theme to apply to this Activity as soon as
                  the Android process has started. This theme is visible to the user
                  while the Flutter UI initializes. After that, this theme continues
                  to determine the Window background behind the Flutter UI. -->

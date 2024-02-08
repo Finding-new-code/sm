@@ -1,3 +1,4 @@
+import 'package:appwrite/models.dart' as models;
 import 'package:appwrite/models.dart';
 import '../modals/usermodel.dart';
 import '../../constants/appwriteconstants.dart';
@@ -15,15 +16,15 @@ class DatabasesRepository {
   Future<void> sendUserData(UserModel user, String id) async {
     await _databases.createDocument(
         databaseId: AppwriteConstants.projectdatabases,
-        collectionId: AppwriteConstants.userdatabase,
+        collectionId: AppwriteConstants.usercollection,
         documentId: id,
         data: user.toMap());
   }
 
-  Future<List<Document>> searchUsersByName(String user) async {
+  Future<List<models.Document>> searchUsersByName(String user) async {
     final document = await _databases.listDocuments(
         databaseId: AppwriteConstants.projectdatabases,
-        collectionId: AppwriteConstants.userdatabase,
+        collectionId: AppwriteConstants.usercollection,
         queries: [Query.search('name', user)]);
     return document.documents.toList();
   }
@@ -36,7 +37,7 @@ class DatabasesRepository {
         data: post.toMap());
   }
 
-  Future<List<Document>> getPosts() async {
+  Future<List<models.Document>> getPosts() async {
     final document = await _databases.listDocuments(
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.postCollection,
@@ -50,19 +51,70 @@ class DatabasesRepository {
     ]).stream;
   }
 
-  Future<Document> getcurrentUserDetails(String uid) async {
-    final document = _databases.getDocument(
+  Future<models.Document> getcurrentUserDetails(String uid) {
+    return _databases.getDocument(
         databaseId: AppwriteConstants.projectdatabases,
-        collectionId: AppwriteConstants.userdatabase,
+        collectionId: AppwriteConstants.usercollection,
         documentId: uid);
-    return document;
   }
 
-  // Future<Document> likePost () async{
-  //   // TODO: implement likePost
-  //   final documents = await _databases.updateDocument(databaseId: AppwriteConstants.projectdatabases, collectionId: AppwriteConstants.postCollection, documentId: documentId, data: {
-  //     "likes" :
-  //   });
-  //   return documents;
-  // }
+  Future<models.Document> likePost(Post post) async {
+    // TODO: implement likePost
+    final documents = await _databases.updateDocument(
+        databaseId: AppwriteConstants.projectdatabases,
+        collectionId: AppwriteConstants.postCollection,
+        documentId: post.postid,
+        data: {"likes": post.likes});
+    return documents;
+  }
+
+  Future<List<Document>> getRepliesToTweet(Post post) async {
+    final document = await _databases.listDocuments(
+      databaseId: AppwriteConstants.projectdatabases,
+      collectionId: AppwriteConstants.postCollection,
+      queries: [
+        Query.equal('repliedTo', post.postid),
+      ],
+    );
+    return document.documents;
+  }
+
+  Future<List<Document>> getUserTweets(String uid) async {
+    final documents = await _databases.listDocuments(
+      databaseId: AppwriteConstants.projectdatabases,
+      collectionId: AppwriteConstants.postCollection,
+      queries: [
+        Query.equal('userid', uid),
+      ],
+    );
+    return documents.documents;
+  }
+
+  Future<void> addtoFollowing(UserModel user) async {
+    await _databases.updateDocument(
+        databaseId: AppwriteConstants.projectdatabases,
+        collectionId: AppwriteConstants.usercollection,
+        documentId: user.userid,
+        data: {
+          'following' : user.following
+        });
+  }
+
+  Future<void> followuser (UserModel user) async{
+    await _databases.updateDocument(
+        databaseId: AppwriteConstants.projectdatabases,
+        collectionId: AppwriteConstants.usercollection,
+        documentId: user.userid,
+        data: {
+          'followers' : user.followers
+        });
+  }
+
+  Stream<RealtimeMessage> getRealtimeProfileUpdates() {
+    return _realtime.subscribe([
+      'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.usercollection}.documents.*.update'
+    ]).stream;
+  
+  }
+  
 }

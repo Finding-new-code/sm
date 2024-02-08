@@ -10,6 +10,7 @@ errorbottomsheet(BuildContext context, String error) {
     context: context,
     builder: (BuildContext context) {
       return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20,),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
           
@@ -27,7 +28,7 @@ errorbottomsheet(BuildContext context, String error) {
               decoration: BoxDecoration(
                 image: const DecorationImage(
                   isAntiAlias: true,
-                    image: AssetImage("assets/images/image.png"), fit: BoxFit.contain),
+                    image: AssetImage("assets/images/hellofoxy.jpeg"), fit: BoxFit.contain),
                 borderRadius: BorderRadius.circular(10),
                 color: Colors.grey.shade500,
               ),
@@ -36,17 +37,15 @@ errorbottomsheet(BuildContext context, String error) {
             Text(
               "Error",
               style: GoogleFonts.inter(
-                  color: Colors.white, fontSize: 25, fontWeight: FontWeight.bold),
+                 fontSize: 25, fontWeight: FontWeight.bold),
             ),
             s10,
-            SingleChildScrollView(
-              child: Text(
-                error,
-                style: GoogleFonts.inter(
-                    color: Colors.white, fontSize: 17, fontWeight: FontWeight.w300),
-              ),
+            Text(
+              error,
+              style: GoogleFonts.inter(
+                   fontSize: 17, fontWeight: FontWeight.w300),
             ),
-            s25
+            s25,
           ],
         ),
       );

@@ -5,7 +5,9 @@ import '../constants/constant.dart';
 import '../constants/tools.dart';
 
 class DescriptionTile extends StatelessWidget {
-  const DescriptionTile({Key? key}) : super(key: key);
+  final String descrpition;
+  final String location;
+  const DescriptionTile({super.key, required this.descrpition, required this.location});
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +32,7 @@ class DescriptionTile extends StatelessWidget {
                     fontWeight: FontWeight.bold),
               children: [
                 
-                TextSpan(text: "someting i like to add",style: GoogleFonts.inter(fontWeight: FontWeight.w400))
+                TextSpan(text: descrpition,style: GoogleFonts.inter(fontWeight: FontWeight.w400))
               ])),
             ],
           ),
@@ -46,7 +48,7 @@ class DescriptionTile extends StatelessWidget {
             ),
             s10,
             Text(
-              "location",
+              location,
               style: GoogleFonts.inter(
                   color: Colors.grey.shade700,
                   fontSize: 15,

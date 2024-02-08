@@ -24,3 +24,10 @@ final class HomeError extends HomeState {
   @override
   List<Object> get props => [message];
 }
+
+final class LastestPostLoaded extends HomeState {
+  // final List<Post> posts;
+  // const LastestPostLoaded(this.posts);
+  // @override
+  // List<Object> get props => [posts];
+}

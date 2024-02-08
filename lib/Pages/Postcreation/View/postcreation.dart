@@ -4,7 +4,6 @@ import 'package:myapp658d7b3746ed317621f8/Pages/ChatPage/chatpage.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 import '../../../src/imagepicker.dart';
-import '../../AuthPage/bloc/auth_bloc.dart';
 import '../bloc/post_bloc.dart';
 
 class PostCreationPage extends StatefulWidget {
@@ -26,7 +25,6 @@ class _PostCreationPageState extends State<PostCreationPage> {
 
   @override
   Widget build(BuildContext context) {
-    final userid = context.watch<AuthBloc>().state as AuthSuccess;
     return BlocConsumer<PostBloc, PostState>(
       listener: (context, state) {
         /// here we can implement listener =>
@@ -35,12 +33,16 @@ class _PostCreationPageState extends State<PostCreationPage> {
               .showSnackBar(SnackBar(content: Text(messages.toString())));
         }
         if (state is PostSuccess) {
-          ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text("Posted Successfully",style: GoogleFonts.robotoMono(),)));
+          ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+              content: Text(
+            "Posted Successfully",
+            style: GoogleFonts.robotoMono(),
+          )));
           return Navigator.pop(context);
         }
       },
       builder: (context, state) {
+        //  final userid = context.watch<AuthBloc>().state as AuthSuccess;
         return Scaffold(
           appBar: AppBar(
             forceMaterialTransparency: true,
@@ -57,9 +59,9 @@ class _PostCreationPageState extends State<PostCreationPage> {
                     _postcontroller.text.isEmpty
                         ? null
                         : context.read<PostBloc>().add(PostSendRequested(
-                            text: _postcontroller.text,
-                            image: images,
-                            userid: userid.user.toString()));
+                              text: _postcontroller.text,
+                              image: images,
+                            ));
                   },
                   child: Text(
                     'Post',

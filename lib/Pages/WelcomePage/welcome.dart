@@ -129,6 +129,7 @@ class _WelcomePageState extends State<WelcomePage> {
                   Center(
                     child: FloatingActionButton.extended(
                         onPressed: () {
+                          isfirst();
                           Navigator.pushAndRemoveUntil(
                               context,
                               MaterialPageRoute(
@@ -149,5 +150,9 @@ class _WelcomePageState extends State<WelcomePage> {
         )
       ],
     ));
+  }
+  void isfirst () async {
+    final prefes = await SharedPreferences.getInstance();
+    prefes.setBool('isfirst', true);
   }
 }

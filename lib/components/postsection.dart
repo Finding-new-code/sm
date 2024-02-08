@@ -1,20 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/widgets/comment_bottombar.dart';
+import 'package:myapp658d7b3746ed317621f8/src/modals/post.dart';
+import 'package:myapp658d7b3746ed317621f8/src/share.dart';
 
 import '../constants/constant.dart';
 import '../constants/tools.dart';
 
 // ignore: must_be_immutable
 class PostContainer extends StatefulWidget {
-  final String username;
-  final String userImage;
-  final List<String> postimage;
-  final String caption;
+   final Post post;
   const PostContainer({
     super.key,
-    required this.username,
-    required this.userImage,
-    required this.postimage,
-    required this.caption,
+   required this.post
   });
 
   @override
@@ -27,30 +24,33 @@ class _PostContainerState extends State<PostContainer> {
     return Card(
       elevation: 0,
       margin: const EdgeInsets.symmetric(horizontal: 6),
-      child: Column(children: [
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           children: [
             CircleAvatar(
                 backgroundColor: Colors.grey.shade900.withOpacity(0.2),
-                backgroundImage: NetworkImage(widget.userImage),
+                backgroundImage: const NetworkImage('https://picsum.photos/200/300'),
                 radius: 17),
             s5,
             TextButton(
                 onPressed: () {},
                 child: Text(
-                  widget.username,
+                  'satya',
                   style: GoogleFonts.inter(
                       fontSize: 15, fontWeight: FontWeight.w700),
                 )),
-            Container(
-              width: 20,
-              height: 20,
-              decoration: const BoxDecoration(
-                image: DecorationImage(
-                    isAntiAlias: true,
-                    image: AssetImage("assets/images/verify.png"),
-                    fit: BoxFit.cover),
-                // color: Colors.white
+            Offstage(
+              offstage: true,
+              child: Container(
+                width: 20,
+                height: 20,
+                decoration: const BoxDecoration(
+                  image: DecorationImage(
+                      isAntiAlias: true,
+                      image: AssetImage("assets/images/verify.png"),
+                      fit: BoxFit.cover),
+                  // color: Colors.white
+                ),
               ),
             ),
             const Spacer(),
@@ -63,7 +63,7 @@ class _PostContainerState extends State<PostContainer> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                widget.caption,
+                widget.post.posttext,
                 overflow: TextOverflow.ellipsis,
                 maxLines: 6,
                 textAlign: TextAlign.left,
@@ -75,25 +75,34 @@ class _PostContainerState extends State<PostContainer> {
                 selectionColor: Theme.of(context).indicatorColor,
               ),
               s10,
-              if (widget.postimage.isNotEmpty)
+              if (widget.post.imageLinks.isNotEmpty)
               GridView.builder(
-                primary: true,
-                 scrollDirection: Axis.horizontal,
+                  primary: true,
+                  // scrollDirection: Axis.horizontal,
                   physics: const NeverScrollableScrollPhysics(),
                   shrinkWrap: true,
-                  itemCount: 5,
+                  itemCount: 4,
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 1,
+                      crossAxisCount: 2,
                       mainAxisExtent: 100,
-                      crossAxisSpacing: 10,
-                      mainAxisSpacing: 10,
+                      crossAxisSpacing: 5,
+                      mainAxisSpacing: 5,
                       childAspectRatio: 1),
-                  itemBuilder: ((context, index) => Container(
-                        width: 20,
-                        height: 10,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
-                        color: Colors.grey.shade300),
-                      )))
+                  itemBuilder: (context, index)  {
+                    
+                    return Container(
+                        width: 30,
+                        height: 30,
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            image: DecorationImage(
+                              ///TODO: here network image implement to watch over in to the post image
+                              image: NetworkImage(widget.post.imageLinks[index]),
+                              fit: BoxFit.cover,
+                            ),
+                            color: Colors.grey.shade400),
+                      );
+                  })
             ],
           ),
         ),
@@ -110,14 +119,20 @@ class _PostContainerState extends State<PostContainer> {
                 )),
             s25,
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  commentbottomsheet(context);
+                },
                 icon: const Icon(
                   Icons.comment_outlined,
                   size: 18,
                 )),
             s25,
             IconButton(
-                onPressed: () {},
+                onPressed: () {
+                  share(
+                    widget.post.posttext,
+                  );
+                },
                 icon: const Icon(
                   Icons.share_rounded,
                   size: 18,

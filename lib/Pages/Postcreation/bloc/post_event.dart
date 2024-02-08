@@ -10,8 +10,8 @@ sealed class PostEvent extends Equatable {
 final class PostSendRequested extends PostEvent {
   final String text;
   final List<File> image;
-  final String userid;
-  const PostSendRequested({required this.text, required this.image, required this.userid});
+ // final String userid;
+  const PostSendRequested({required this.text, required this.image,});
   @override
-  List<Object> get props => [text, image, userid];
+  List<Object> get props => [text, image,];
 }

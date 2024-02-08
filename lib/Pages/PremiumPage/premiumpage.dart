@@ -13,10 +13,10 @@ class PremiumPage extends StatelessWidget {
       fit: StackFit.passthrough,
       children: [
         Scaffold(
-          body: Container(
+          body: SizedBox(
             width: 500,
-            height: 600,
-            color: Colors.black45,
+            height: 800,
+            child: Image.asset('assets/images/hellofoxy.jpeg',fit: BoxFit.cover,),
           ),
         ),
         Positioned(

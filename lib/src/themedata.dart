@@ -20,6 +20,11 @@ ThemeData dark = ThemeData(
     iconButtonTheme: const IconButtonThemeData(
       style: ButtonStyle(foregroundColor: MaterialStatePropertyAll(Colors.white))
     ),
+    // bottomNavigationBarTheme: const BottomNavigationBarThemeData(
+    //   backgroundColor: Colors.black,
+    //   selectedItemColor: Colors.white,
+    //   unselectedItemColor: Colors.white,
+    // ),
     drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
     cardTheme: const CardTheme(
       color: Colors.black,
@@ -30,7 +35,7 @@ ThemeData light = ThemeData(
     brightness: Brightness.light,
     snackBarTheme: SnackBarThemeData(
       backgroundColor: Colors.white,
-      contentTextStyle: const TextStyle(color: Colors.white),
+      contentTextStyle: const TextStyle(color: Colors.black),
       actionTextColor: Colors.black,
       behavior: SnackBarBehavior.floating,
       shape: RoundedRectangleBorder(

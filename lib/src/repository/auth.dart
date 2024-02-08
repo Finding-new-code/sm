@@ -8,6 +8,7 @@ class AuthRepository {
   final Account _account;
   AuthRepository({required Account account}) : _account = account;
 
+  /// here the current user code implementation takes place, get the info currents device details =>
   Future<models.User?> currentUser() async {
     final user = await Caches().get("User");
     final usersession = await Caches().get("UserSession");
@@ -22,7 +23,7 @@ class AuthRepository {
   Future<models.Session> loginAccount(String email, String password) async {
     final session =
         await _account.createEmailSession(email: email, password: password);
-        Caches().set("UserSession", session);
+        // Caches().set("UserSession", session);
     debugPrint(
         "{${session.$id}, ${session.deviceName}, ${session.ip}, ${session.countryName}, ${session.$createdAt}, ${session.deviceBrand}}");
         return session;
@@ -32,21 +33,25 @@ class AuthRepository {
   Future<models.User> createAccount(String email, String password, String name) async {
    final user = _account.create(
         userId: ID.unique(), email: email, password: password, name: name);
-    Caches().set("User", user);
+    // Caches().set("User", user);
     return user;
   }
-
+ ///  here the implementation for the verify account by send email with verification LINKS   =>
   Future<void> verifyAccount() async {
-    await _account.createVerification(url: "");
+    await _account.createVerification(url: "https://example-test-c6d6a.web.app/");
   }
 
+  /// here the implemetation for the forgot password takes place,
+  /// it follows the the process as the email verification process =>
   Future<void> recoveryPassword (String email) async {
-    _account.createRecovery(email: email, url: '');
+    _account.createRecovery(email: email, url: 'https://example-test-c6d6a.web.app/');
   }
 
-  // Future<void> signOut() async {
-  //   await _account.deleteSession(sessionId:);
-  //   Caches().clear("User");
-  //   notifyListeners();
-  // }
+  /// here the implemetation for the reset password takes place,
+  /// it follows the the process as the email verification process =>
+  Future<void> signOut(String sessionid) async {
+    await _account.deleteSession(sessionId:sessionid);
+    Caches().clear("User");
+
+  }
 }
