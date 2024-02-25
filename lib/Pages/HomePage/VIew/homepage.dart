@@ -5,13 +5,12 @@ import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 import '../../ChatPage/chatpage.dart';
-import '../../Postcreation/View/postcreation.dart';
 import '../../PremiumPage/premiumpage.dart';
 import '../../ProfilePage/View/profilepage.dart';
 import '../../SettingsPage/Views/settings_page.dart';
 import '../bloc/home_bloc.dart';
 
-// ignore: must_be_immutable
+
 /// This is the homepage of the application
 class HomePage extends StatefulWidget {
   final bool isdark;
@@ -41,7 +40,6 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return Scaffold(
-
             /// here the navigation bar which placed in the bottom of the screen
             /// shows you the options
             bottomNavigationBar: NavigationBar(
@@ -120,7 +118,8 @@ class _HomePageState extends State<HomePage> {
               ],
             ),
 
-            /// backgroundColor: isdark ? Colors.black : Colors.white,
+            /// here the app bar which placed in the top of the screen
+            /// shows you the options
             appBar: AppBar(
               leading: Padding(
                 padding: const EdgeInsets.all(12.0),
@@ -131,7 +130,7 @@ class _HomePageState extends State<HomePage> {
                     },
                     child: CircleAvatar(
                       backgroundImage:
-                          const NetworkImage("https://picsum.photos/200/300"),
+                          const NetworkImage('https://picsum.photos/200/300'),
                       backgroundColor: Colors.grey.shade500,
                       radius: 1,
                     ),
@@ -245,7 +244,6 @@ class _HomePageState extends State<HomePage> {
                           onPressed: () {
                             Navigator.pop(context);
                             showModalBottomSheet(
-                              backgroundColor: Colors.white,
                               useSafeArea: true,
                               builder: (context) {
                                 return Column(
@@ -338,42 +336,10 @@ class _HomePageState extends State<HomePage> {
             ),
 
             /// here the body of the homepage
-            body: Stack(children: [
-              IndexedStack(
-                index: _selectedIndex,
-                children: bottomnav,
-              ),
-              Positioned(
-                bottom: 15,
-                left: 290,
-                right: 0,
-                child: GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PostCreationPage())),
-                  child: Container(
-                      height: 70,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("assets/images/add_button.png"),
-                            scale: 100.0,
-                            isAntiAlias: true,
-                            fit: BoxFit.cover),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const SizedBox(
-                        width: 60,
-                        height: 60,
-                        child: Icon(
-                          Icons.add,
-                          size: 25,
-                          color: Colors.white,
-                        ),
-                      )),
-                ),
-              ),
-            ]));
+            body: IndexedStack(
+              index: _selectedIndex,
+              children: bottomnav,
+            ));
       },
     );
   }

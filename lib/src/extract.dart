@@ -1,3 +1,5 @@
+
+
 List<String> getHastags (String text) {
   List<String> wordsinsentence = text.split(' ');
   List<String> hastags = [];
@@ -13,7 +15,7 @@ String linksfromtext(String text) {
   List<String> wordsinsentence = text.split(' ');
   String links = '';
   for (String word in wordsinsentence) {
-    if (word.startsWith('https://') || word.startsWith('www')) {
+    if (word.startsWith('https://') || word.startsWith('www.')) {
       links = word;
     }
   }
@@ -45,3 +47,15 @@ extension ConvertTweet on String {
 String getNameFromEmail(String email) {
   return email.split('@')[0];
 }
+
+// void _scrollDown() {
+//     WidgetsBinding.instance.addPostFrameCallback(
+//       (_) => _scrollController.animateTo(
+//         _scrollController.position.maxScrollExtent,
+//         duration: const Duration(
+//           milliseconds: 750,
+//         ),
+//         curve: Curves.easeOutCirc,
+//       ),
+//     );
+//   }

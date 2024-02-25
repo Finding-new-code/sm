@@ -1,18 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/widgets/comment_bottombar.dart';
-import 'package:myapp658d7b3746ed317621f8/src/modals/post.dart';
-import 'package:myapp658d7b3746ed317621f8/src/share.dart';
-
+import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/bloc/home_bloc.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/widgets/more.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/ProfilePage/View/profilepage.dart';
+import '../Pages/HomePage/widgets/comment_bottombar.dart';
 import '../constants/constant.dart';
 import '../constants/tools.dart';
+import '../src/modals/post.dart';
+import '../src/modals/usermodel.dart';
+import '../src/share.dart';
+import 'package:timeago/timeago.dart' as timeago;
 
-// ignore: must_be_immutable
 class PostContainer extends StatefulWidget {
-   final Post post;
-  const PostContainer({
-    super.key,
-   required this.post
-  });
+  final Post post;
+  final UserModel user;
+  const PostContainer({super.key, required this.post, required this.user});
 
   @override
   State<PostContainer> createState() => _PostContainerState();
@@ -28,19 +29,28 @@ class _PostContainerState extends State<PostContainer> {
         Row(
           children: [
             CircleAvatar(
-                backgroundColor: Colors.grey.shade900.withOpacity(0.2),
-                backgroundImage: const NetworkImage('https://picsum.photos/200/300'),
+                backgroundColor: Colors.grey.shade500,
+                backgroundImage: NetworkImage(
+                    widget.user.profilePicture.isNotEmpty
+                        ? widget.user.profilePicture
+                        : 'https://picsum.photos/200/300'),
                 radius: 17),
             s5,
             TextButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const ProfilePage()));
+                },
                 child: Text(
-                  'satya',
+                  widget.user.name,
+                  overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
                       fontSize: 15, fontWeight: FontWeight.w700),
                 )),
             Offstage(
-              offstage: true,
+              offstage: widget.user.isPremium,
               child: Container(
                 width: 20,
                 height: 20,
@@ -49,12 +59,18 @@ class _PostContainerState extends State<PostContainer> {
                       isAntiAlias: true,
                       image: AssetImage("assets/images/verify.png"),
                       fit: BoxFit.cover),
-                  // color: Colors.white
                 ),
               ),
             ),
+            s25,
+            Text(timeago.format(widget.post.createdAt, locale: 'en_short')),
             const Spacer(),
-            IconButton(onPressed: () {}, icon: const Icon(Icons.more_vert))
+            IconButton(
+                onPressed: () =>
+                    moreoptionBottomSheet(context, widget.post.postid, () {
+                      context.read<HomeBloc>().add(DeletePost(widget.post));
+                    }, () {/* TODO: edit post */}),
+                icon: const Icon(Icons.more_vert))
           ],
         ),
         Padding(
@@ -75,34 +91,62 @@ class _PostContainerState extends State<PostContainer> {
                 selectionColor: Theme.of(context).indicatorColor,
               ),
               s10,
-              if (widget.post.imageLinks.isNotEmpty)
-              GridView.builder(
-                  primary: true,
-                  // scrollDirection: Axis.horizontal,
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisExtent: 100,
-                      crossAxisSpacing: 5,
-                      mainAxisSpacing: 5,
-                      childAspectRatio: 1),
-                  itemBuilder: (context, index)  {
-                    
-                    return Container(
-                        width: 30,
-                        height: 30,
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(10),
-                            image: DecorationImage(
-                              ///TODO: here network image implement to watch over in to the post image
-                              image: NetworkImage(widget.post.imageLinks[index]),
-                              fit: BoxFit.cover,
+              Offstage(
+                  offstage: widget.post.imageLinks.isEmpty,
+                  child: GridView.builder(
+                      primary: true,
+                      // scrollDirection: Axis.horizontal,
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: widget.post.imageLinks.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount:
+                              widget.post.imageLinks.length == 1 ? 1 : 2,
+                          mainAxisExtent:
+                              widget.post.imageLinks.length == 1 ? 200 : 100,
+                          crossAxisSpacing: 2,
+                          mainAxisSpacing: 5,
+                          childAspectRatio: 1),
+                      itemBuilder: (context, index) {
+                        return Hero(
+                          tag: 'image',
+                          child: GestureDetector(
+                            onTap: () => Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => ImageScreen(
+                                        image: widget.post.imageLinks[index]))),
+                            child: Container(
+                              width: 100,
+                              height: 200,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.only(
+                                      topLeft: Radius.circular(
+                                          widget.post.imageLinks.length == 1
+                                              ? 20
+                                              : 10),
+                                      topRight: Radius.circular(
+                                          widget.post.imageLinks.length == 1
+                                              ? 0
+                                              : 10),
+                                      bottomLeft: Radius.circular(
+                                          widget.post.imageLinks.length == 1
+                                              ? 0
+                                              : 10),
+                                      bottomRight: Radius.circular(
+                                          widget.post.imageLinks.length == 1
+                                              ? 20
+                                              : 10)),
+                                  image: DecorationImage(
+                                    image: NetworkImage(
+                                        widget.post.imageLinks[index]),
+                                    fit: BoxFit.cover,
+                                  ),
+                                  color: Colors.grey.shade400),
                             ),
-                            color: Colors.grey.shade400),
-                      );
-                  })
+                          ),
+                        );
+                      }))
             ],
           ),
         ),
@@ -140,6 +184,27 @@ class _PostContainerState extends State<PostContainer> {
           ],
         )
       ]),
+    );
+  }
+}
+
+class ImageScreen extends StatelessWidget {
+  final String image;
+  const ImageScreen({super.key, required this.image});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        actionsIconTheme: const IconThemeData(color: Colors.amber),
+        title: const Text('Image', style: TextStyle(color: Colors.white)),
+      ),
+      body: Hero(
+          tag: 'image',
+          child:
+              Expanded(child: InteractiveViewer(child: Image.network(image)))),
     );
   }
 }

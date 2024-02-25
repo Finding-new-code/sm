@@ -40,17 +40,17 @@ class Post {
         hashtags: hashtags ?? this.hashtags,
         links: links ?? this.links,
         userid: userid ?? this.userid,
-        postid: postid ?? this.postid,
         posttext: posttext ?? this.posttext,
         likes: likes ?? this.likes,
         commentsid: commentsid ?? this.commentsid,
-        imageLinks: imageLinks ?? this.imageLinks);
+        imageLinks: imageLinks ?? this.imageLinks, 
+        postid: postid ?? this.postid);
   }
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
+
     result.addAll({"userid": userid});
-    result.addAll({"postid": postid});
     result.addAll({"likes": likes});
     result.addAll({"commentsid": commentsid});
     result.addAll({"imageLinks": imageLinks});
@@ -67,8 +67,8 @@ class Post {
         createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
         hashtags: List<String>.from(map['hashtags'] ),
         links: map['links'] ?? "",
-        userid: map['\$id'] ?? "",
-        postid: map['postid'] ?? "",
+        userid: map['userid'] ?? "",
+        postid: map['\$id'] ?? "",
         posttext: map['posttext'] ?? "",
         likes: List<String>.from(map["likes"]) ,
         commentsid: List<String>.from(map['commentsid']) ,

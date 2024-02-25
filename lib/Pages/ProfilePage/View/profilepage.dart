@@ -22,7 +22,6 @@ class ProfilePage extends StatelessWidget {
         if (state is ProfileLoading) {
           const CircularProgressIndicator.adaptive();
         }
-         
       },
       builder: (context, state) {
         return Scaffold(
@@ -37,76 +36,80 @@ class ProfilePage extends StatelessWidget {
                   GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          body: 
-          Column(
+          body: Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              if (state is ProfileLoaded) 
-              Animate(
-                  effects: const [FadeEffect()],
-                  child: ProfileStackImage(
-                     profileimage: state.profile.profilePicture,
-                     bannerimage: state.profile.bannerPicture,
-                  )),
+              if (state is ProfileLoaded)
+                Animate(
+                    effects: const [FadeEffect()],
+                    child: ProfileStackImage(
+                      profileimage: state.profile.profilePicture,
+                      bannerimage: state.profile.bannerPicture,
+                    )),
               Padding(
                 padding:
                     const EdgeInsets.symmetric(vertical: 15, horizontal: 13),
                 child: Text(
-                  state is ProfileLoaded ? state.profile.userid : "lonewolf",
+                  state is ProfileLoaded ? state.profile.name : "lonewolf",
                   style: GoogleFonts.inter(
                       fontSize: 20, fontWeight: FontWeight.w500),
                 ),
-              )
-              ,
+              ),
               Row(
-                  children: [
-                    s25,
-                    Text(
-                      "0 Following",
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500),
-                    ),
-                    s10,
-                    Text(
-                      "0 Followers",
-                      style: GoogleFonts.inter(fontWeight: FontWeight.w500),
-                    ),
-                  ],
-                ),
+                children: [
+                  s25,
+                  Text(
+                    "0 Following",
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                  ),
+                  s10,
+                  Text(
+                    "0 Followers",
+                    style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
               s10,
               Padding(
                 padding: const EdgeInsets.only(left: 13, right: 13),
-                child: DescriptionTile(location: state is ProfileLoaded ? state.profile.location : "location",
-               descrpition: state is ProfileLoaded ? state.profile.bio : "",),
+                child: DescriptionTile(
+                  location: state is ProfileLoaded
+                      ? state.profile.location
+                      : "location",
+                  descrpition: state is ProfileLoaded ? state.profile.bio : "",
+                ),
               ),
               s10,
               Offstage(
-                offstage: state is ProfileLoaded ? state.profile.posts.isEmpty : true,
+                offstage:
+                    state is ProfileLoaded ? state.profile.posts.isEmpty : true,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GridView.count(
-                    crossAxisCount: 4,
+                  child: GridView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
-                    crossAxisSpacing: 5,
                     cacheExtent: 5,
-                    children: [
-                      Container(
-                        width: 10,
-                        height: 10,
-                        color: Colors.grey.shade200,
-                      ),
-                      Container(
-                        width: 10,
-                        height: 10,
-                        color: Colors.grey.shade200,
-                      )
-                    ],
+                    itemBuilder: (BuildContext context, int index) {
+                      return Container(
+                        width: 50,
+                        color: Colors.amber,
+                        height: 50,
+                      );
+                    },
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 3,
+                      childAspectRatio: 1 / 1,
+                      crossAxisSpacing: 1,
+                      mainAxisSpacing: 1,
+                    ),
+                    itemCount:
+                        state is ProfileLoaded ? state.profile.posts.length : 0,
                   ),
                 ),
               )
             ],
-             
           ),
         );
       },

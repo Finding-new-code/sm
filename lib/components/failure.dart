@@ -40,10 +40,12 @@ errorbottomsheet(BuildContext context, String error) {
                  fontSize: 25, fontWeight: FontWeight.bold),
             ),
             s10,
-            Text(
-              error,
-              style: GoogleFonts.inter(
-                   fontSize: 17, fontWeight: FontWeight.w300),
+            SingleChildScrollView(
+              child: Text(
+                error,
+                style: GoogleFonts.inter(
+                     fontSize: 17, fontWeight: FontWeight.w300),
+              ),
             ),
             s25,
           ],

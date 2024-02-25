@@ -1,3 +1,4 @@
+
 import 'package:appwrite/models.dart' as models;
 import 'package:appwrite/models.dart';
 import '../modals/usermodel.dart';
@@ -59,7 +60,6 @@ class DatabasesRepository {
   }
 
   Future<models.Document> likePost(Post post) async {
-    // TODO: implement likePost
     final documents = await _databases.updateDocument(
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.postCollection,
@@ -95,26 +95,27 @@ class DatabasesRepository {
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.usercollection,
         documentId: user.userid,
-        data: {
-          'following' : user.following
-        });
+        data: {'following': user.following});
   }
 
-  Future<void> followuser (UserModel user) async{
+  Future<void> followuser(UserModel user) async {
     await _databases.updateDocument(
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.usercollection,
         documentId: user.userid,
-        data: {
-          'followers' : user.followers
-        });
+        data: {'followers': user.followers});
   }
 
   Stream<RealtimeMessage> getRealtimeProfileUpdates() {
     return _realtime.subscribe([
       'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.usercollection}.documents.*.update'
     ]).stream;
-  
   }
-  
+
+  Future<void> deletePost(String id) async {
+    return _databases.deleteDocument(
+        databaseId: AppwriteConstants.projectdatabases,
+        collectionId: AppwriteConstants.postCollection,
+        documentId: id);
+  }
 }

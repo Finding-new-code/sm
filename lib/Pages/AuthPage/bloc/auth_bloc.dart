@@ -16,6 +16,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<AsAuthRequest>(_asauthrequest);
     on<RecoveryPassword>(_recoveryPassword);
     on<Logout>(_accountLogout);
+    on<AccountVerification> (_accountverification);
   }
 
   /// here the event handlers function body for better code readibility =>
@@ -118,6 +119,16 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   emit(AuthLogoutSuccess());
 } on AppwriteException catch (e) {
    return emit(AuthFailure(e.message.toString()));
+}
+  }
+
+  void _accountverification (AccountVerification event, Emitter<AuthState> emit) async{
+   try {
+  final token = await authRepository.verifyAccount();
+  debugPrint(token.toString());
+   return emit(AccountVerificationSuccess());
+} on AppwriteException catch (e) {
+  return emit(AuthFailure(e.message.toString()));
 }
   }
 }

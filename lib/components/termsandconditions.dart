@@ -8,6 +8,7 @@ class TermsAndConditions extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final media = MediaQuery.sizeOf(context);
     return Scaffold(
         appBar: AppBar(
           forceMaterialTransparency: true,
@@ -15,7 +16,7 @@ class TermsAndConditions extends StatelessWidget {
         ),
         body: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(left: 15,right: 10,top: 10),
+            padding: EdgeInsets.only(left: media.width * 0.05,right: media.width * 0.05,top: 10),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,

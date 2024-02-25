@@ -37,4 +37,9 @@ final class AuthLogoutSuccess extends AuthState {
   List<Object> get props => [];
 }
 
+final class AccountVerificationSuccess extends AuthState {
+    @override
+  List<Object> get props => [];
+}
+
 

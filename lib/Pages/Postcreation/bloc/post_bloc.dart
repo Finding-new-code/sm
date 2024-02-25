@@ -21,26 +21,33 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       PostSendRequested event, Emitter<PostState> emit) async {
     final String text = event.text;
     final List<File> image = event.image;
-    //final String userid = event.userid;
-
+    if (text.isEmpty || image.isEmpty) {
+      return null;
+    }
     try {
-      final prefes = await SharedPreferences.getInstance();
-      final userid = prefes.getString('userId');
-      final hashtags = getHastags(text);
-      String links = linksfromtext(text);
-      final imagelinks = await storageRespository.uploadFile(image);
-      print(imagelinks.toList());
-      await databasesRepository.postSendToServer(Post(
-          createdAt: DateTime.now(),
-          hashtags: hashtags,
-          links: links,
-          userid: userid.toString(),
-          postid: ID.unique(),
-          posttext: text,
-          likes: const [],
-          commentsid: const [],
-          imageLinks: imagelinks));
-      return emit(PostSuccess());
+      try {
+        final prefes = await SharedPreferences.getInstance();
+        final userid = prefes.getString('userId');
+        emit(const PostSending(true));
+        final imagelinks = await storageRespository.uploadFile(image);
+        String links = linksfromtext(text);
+        final hashtags = getHastags(text);
+        Post post = Post(
+            createdAt: DateTime.now(),
+            hashtags: hashtags,
+            links: links,
+            userid: userid.toString(),
+            postid: '',
+            posttext: text,
+            likes: const [],
+            commentsid: const [],
+            imageLinks: imagelinks);
+
+        await databasesRepository.postSendToServer(post);
+        return emit(PostSuccess());
+      } on Exception catch (e) {
+        return emit(PostFailure(e.toString()));
+      }
     } on AppwriteException catch (e) {
       return emit(PostFailure(e.message.toString()));
     }

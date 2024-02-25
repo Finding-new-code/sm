@@ -1,8 +1,6 @@
 import 'dart:io';
-
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-
+import '../../../constants/tools.dart';
 part 'settings_event.dart';
 part 'settings_state.dart';
 

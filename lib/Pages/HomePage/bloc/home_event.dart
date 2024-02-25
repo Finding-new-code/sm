@@ -21,3 +21,12 @@ final class ChangeTheme extends HomeEvent {
 }
 
 final class UserInfo extends HomeEvent {}
+
+final class DeletePost extends HomeEvent {
+  final Post post;
+
+  const DeletePost(this.post);
+
+  @override
+  List<Object> get props => [post];
+}

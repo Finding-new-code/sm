@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/ChatPage/chatpage.dart';
+import 'package:myapp658d7b3746ed317621f8/components/failure.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 import '../../../src/imagepicker.dart';
@@ -29,9 +29,36 @@ class _PostCreationPageState extends State<PostCreationPage> {
       listener: (context, state) {
         /// here we can implement listener =>
         if (state is PostFailure) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(SnackBar(content: Text(messages.toString())));
+          errorbottomsheet(context, state.message);
         }
+        //
+        //
+        /// here we can implement listener =>
+        if (state is PostSending) {
+          showDialog(
+              context: context,
+              builder: (context) {
+                return AlertDialog(
+                  title: Text(
+                    'Post ',
+                    style: GoogleFonts.robotoMono(),
+                  ),
+                  content: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      const CircularProgressIndicator(),
+                      Text(
+                        'Sending...',
+                        style: GoogleFonts.robotoMono(),
+                      ),
+                    ],
+                  ),
+                );
+              });
+        }
+        //
+        //
+        /// here we can implement listener =>
         if (state is PostSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
@@ -42,7 +69,7 @@ class _PostCreationPageState extends State<PostCreationPage> {
         }
       },
       builder: (context, state) {
-        //  final userid = context.watch<AuthBloc>().state as AuthSuccess;
+        //final userid = context.watch<AuthBloc>().state as AuthSuccess;
         return Scaffold(
           appBar: AppBar(
             forceMaterialTransparency: true,
@@ -56,9 +83,7 @@ class _PostCreationPageState extends State<PostCreationPage> {
                       backgroundColor: MaterialStateProperty.all(
                           Colors.deepPurpleAccent.shade400.withOpacity(0.4))),
                   onPressed: () async {
-                    _postcontroller.text.isEmpty
-                        ? null
-                        : context.read<PostBloc>().add(PostSendRequested(
+                    context.read<PostBloc>().add(PostSendRequested(
                               text: _postcontroller.text,
                               image: images,
                             ));

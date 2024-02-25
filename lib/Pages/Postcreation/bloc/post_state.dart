@@ -11,6 +11,12 @@ final class PostInitial extends PostState {}
 
 final class PostSuccess extends PostState {}
 
+final class PostSending extends PostState {
+  final bool isSending;
+
+  const PostSending(this.isSending);
+}
+
 final class PostFailure extends PostState {
   final String message;
 

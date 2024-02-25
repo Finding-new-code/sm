@@ -1,6 +1,7 @@
+
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/repository/storage.dart';
-import 'Pages/AuthPage/View/authpage.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authpage.dart';
+import 'Pages/AuthPage/View/authmobile.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
 import 'Pages/HomePage/VIew/homepage.dart';
@@ -14,30 +15,39 @@ import 'components/termsandconditions.dart';
 import 'constants/appwriteconstants.dart';
 import 'constants/constant.dart';
 import 'constants/tools.dart';
-import 'src/repository/auth.dart';
-import 'src/repository/databases.dart';
-import 'src/themedata.dart';
+import 'src/scr.dart';
 
-void main() {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   // here the appwrite client is initialized
+  //await Talsec.instance.start(secruity().config());
   final Client client = Client();
   client
     ..setEndpoint(AppwriteConstants.endpoint)
     ..setProject(AppwriteConstants.projectId)
     ..setSelfSigned(status: true);
   debugPrint("AppWrite initialise");
+   //final users = Users(client);
+
+  // Workmanager().initialize(
+  //     BackgroundtaskManegers()
+  //         .callbackDispatcher(), // The top level function, aka callbackDispatcher
+  //     isInDebugMode:
+  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
+  //     );
 
   /// here the all instances are initialized => client, database, storage, account
   final Databases databases = Databases(client);
   final Storage storage = Storage(client);
   final Account account = Account(client);
   final Realtime realtime = Realtime(client);
-  runApp(MyApp(
-    storage: storage,
-    account: account,
-    databases: databases,
-    realtime: realtime,
+  runApp(BetterFeedback(
+    child: MyApp(
+      storage: storage,
+      account: account,
+      databases: databases,
+      realtime: realtime,
+    ),
   ));
 }
 
@@ -46,13 +56,12 @@ class MyApp extends StatefulWidget {
   final Account account;
   final Realtime realtime;
   final Storage storage;
-  const MyApp({
-    super.key,
-    required this.account,
-    required this.databases,
-    required this.realtime,
-    required this.storage
-  });
+  const MyApp(
+      {super.key,
+      required this.account,
+      required this.databases,
+      required this.realtime,
+      required this.storage});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -76,7 +85,8 @@ class _MyAppState extends State<MyApp> {
         RepositoryProvider<Account>(
           create: (context) => Account(Client()),
         ),
-        RepositoryProvider(create: (context) => StorageRepository(storage: widget.storage))
+        RepositoryProvider(
+            create: (context) => StorageRepository(storage: widget.storage))
       ],
       child: MultiBlocProvider(
         providers: [
@@ -90,12 +100,13 @@ class _MyAppState extends State<MyApp> {
           /// here the bloc provider for the home bloc
           BlocProvider<HomeBloc>(
               create: (context) => HomeBloc(
+                  storagerepository: context.read<StorageRepository>(),
                   databasesrepository: context.read<DatabasesRepository>())),
 
           /// here the bloc provider for the post bloc
           BlocProvider<PostBloc>(
               create: (context) => PostBloc(
-                storageRespository: context.read<StorageRepository>(),
+                  storageRespository: context.read<StorageRepository>(),
                   databasesRepository: context.read<DatabasesRepository>())),
 
           /// here the bloc provider for the profile bloc
@@ -106,6 +117,7 @@ class _MyAppState extends State<MyApp> {
         ],
         child: MaterialApp(
             title: productName,
+
             /// here the theme is set
             // showSemanticsDebugger: true,
             // showPerformanceOverlay: true,
@@ -136,8 +148,10 @@ class _MyAppState extends State<MyApp> {
                     isdark: isdark,
                   );
                 }
-               // ignore: unrelated_type_equality_checks
-               return isfirstone() == true ? const WelcomePage() : const AuthPage();
+                // ignore: unrelated_type_equality_checks
+                return isfirstone() == true
+                    ? const WelcomePage()
+                    : const AuthPage();
               },
             )),
       ),

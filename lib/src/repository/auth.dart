@@ -37,8 +37,8 @@ class AuthRepository {
     return user;
   }
  ///  here the implementation for the verify account by send email with verification LINKS   =>
-  Future<void> verifyAccount() async {
-    await _account.createVerification(url: "https://example-test-c6d6a.web.app/");
+  Future<models.Token> verifyAccount() async {
+    return await _account.createVerification(url: "https://example-test-c6d6a.web.app/");
   }
 
   /// here the implemetation for the forgot password takes place,

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import '../../../constants/tools.dart';
+import '../../../src/modals/post.dart';
 import '../../../src/modals/usermodel.dart';
 import '../../../src/repository/databases.dart';
 part 'profile_event.dart';
@@ -18,15 +19,17 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
    final prefs = await SharedPreferences.getInstance();
     try {
       final id = prefs.getString("userId");
-      debugPrint(id);
       final info =
-          await databasesrepository.getcurrentUserDetails('65be40bdaab52bf06129');
-      debugPrint('here the user info fetched from the server: $info');
+          await databasesrepository.getcurrentUserDetails(id.toString());
       final i = UserModel.fromMap(info.data);
       debugPrint('here the user info fetched from the server: $i');
-      return emit(ProfileLoaded(i));
+      final userpost = await databasesrepository.getUserTweets(id.toString());
+      final post = userpost.map((e) => Post.fromMap(e.data)).toList();
+      debugPrint('here the user post fetched from the server: $post');
+      return emit(ProfileLoaded(i,post));
     } on AppwriteException catch (e) {
       return emit(ProfileError(e.message.toString()));
     }
   }
+ 
 }

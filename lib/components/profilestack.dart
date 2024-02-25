@@ -3,10 +3,9 @@ import 'package:flutter/material.dart';
 class ProfileStackImage extends StatelessWidget {
   final String profileimage;
   final String bannerimage;
-  const ProfileStackImage({
-    Key? key,
-     required this.profileimage, required this.bannerimage
-  }) : super(key: key);
+  const ProfileStackImage(
+      {Key? key, required this.profileimage, required this.bannerimage})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +23,7 @@ class ProfileStackImage extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                   image: DecorationImage(
-                      image: NetworkImage(bannerimage)),
+                      image: NetworkImage(bannerimage), fit: BoxFit.cover),
                   borderRadius: BorderRadius.circular(15),
                   color: Colors.white.withOpacity(0.5)),
             ),
@@ -37,8 +36,9 @@ class ProfileStackImage extends StatelessWidget {
                 height: 70,
                 decoration: BoxDecoration(
                     image: DecorationImage(
-                        image: NetworkImage(
-                          profileimage.isEmpty? "https://picsum.photos/200/300": profileimage),
+                        image: NetworkImage(profileimage.isEmpty
+                            ? "https://picsum.photos/200/300"
+                            : profileimage),
                         fit: BoxFit.cover),
                     color: Colors.black26.withOpacity(0.5),
                     borderRadius: BorderRadius.circular(7)),

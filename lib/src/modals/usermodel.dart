@@ -75,25 +75,25 @@ class UserModel {
     result.addAll({"email": email});
     result.addAll({"posts": posts});
     result.addAll({"likedPosts": likedPosts});
-    result.addAll({"userid": userid});
+    result.addAll({"userId": userid});
 
     return result;
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-        name: map["email"] ?? "",
+        name: map["name"] ?? "",
         bio: map["bio"] ?? "",
         profilePicture: map["profilePicture"] ?? "",
-        userid: map["\$id"],
+        userid: map["userId"],
         bannerPicture: map["bannerPicture"] ?? "",
         isPremium: map["isPremium"] ?? false,
         followers: List<String>.from(map["followers"]),
         following: List<String>.from(map["following"]),
         location: map["location"] ?? "",
         email: map["email"] ?? "",
-        posts: map["posts"] ?? "",
-        likedPosts: map["likedPosts"] ?? "");
+        posts: List<String>.from(map["posts"]),
+        likedPosts: List<String>.from(map["likedPosts"]));
   }
 
   @override
