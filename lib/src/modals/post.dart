@@ -10,7 +10,7 @@ class Post {
   final String postid;
   final String posttext;
   final List<String> likes;
-  final List<String> commentsid;
+  final List<Post> comments;
   final List<String> imageLinks;
 
   const Post(
@@ -21,7 +21,7 @@ class Post {
       required this.postid,
       required this.posttext,
       required this.likes,
-      required this.commentsid,
+      required this.comments,
       required this.imageLinks});
 
   Post copyWith({
@@ -32,7 +32,7 @@ class Post {
     String? postid,
     String? posttext,
     List<String>? likes,
-    List<String>? commentsid,
+    List<Post>? comments,
     List<String>? imageLinks,
   }) {
     return Post(
@@ -42,8 +42,8 @@ class Post {
         userid: userid ?? this.userid,
         posttext: posttext ?? this.posttext,
         likes: likes ?? this.likes,
-        commentsid: commentsid ?? this.commentsid,
-        imageLinks: imageLinks ?? this.imageLinks, 
+        comments: comments ?? this.comments,
+        imageLinks: imageLinks ?? this.imageLinks,
         postid: postid ?? this.postid);
   }
 
@@ -52,7 +52,7 @@ class Post {
 
     result.addAll({"userid": userid});
     result.addAll({"likes": likes});
-    result.addAll({"commentsid": commentsid});
+    result.addAll({"comments": comments});
     result.addAll({"imageLinks": imageLinks});
     result.addAll({"createdAt": createdAt.millisecondsSinceEpoch});
     result.addAll({"hashtags": hashtags});
@@ -64,20 +64,20 @@ class Post {
 
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
-        createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
-        hashtags: List<String>.from(map['hashtags'] ),
-        links: map['links'] ?? "",
-        userid: map['userid'] ?? "",
-        postid: map['\$id'] ?? "",
-        posttext: map['posttext'] ?? "",
-        likes: List<String>.from(map["likes"]) ,
-        commentsid: List<String>.from(map['commentsid']) ,
-        imageLinks: List<String>.from(map['imageLinks']) ,
-        );
+      createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
+      hashtags: List<String>.from(map['hashtags']),
+      links: map['links'] ?? "",
+      userid: map['userid'] ?? "",
+      postid: map['\$id'] ?? "",
+      posttext: map['posttext'] ?? "",
+      likes: List<String>.from(map["likes"]),
+      comments: List<Post>.from(map['comments']),
+      imageLinks: List<String>.from(map['imageLinks']),
+    );
   }
 
   @override
   String toString() {
-    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, commentsid: $commentsid, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links) ";
+    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, comments: $comments, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links) ";
   }
 }

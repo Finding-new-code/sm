@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authmobile.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authpage.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/bloc/auth_bloc.dart';
-
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
+import '../../AuthPage/View/authpage.dart';
+import '../../AuthPage/bloc/auth_bloc.dart';
 
 class ProfileSettings extends StatelessWidget {
   const ProfileSettings({Key? key}) : super(key: key);

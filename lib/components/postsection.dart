@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/bloc/home_bloc.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/widgets/more.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/ProfilePage/View/profilepage.dart';
+import '../Pages/HomePage/bloc/home_bloc.dart';
 import '../Pages/HomePage/widgets/comment_bottombar.dart';
+import '../Pages/HomePage/widgets/more.dart';
+import '../Pages/ProfilePage/View/profilepage.dart';
 import '../constants/constant.dart';
 import '../constants/tools.dart';
 import '../src/modals/post.dart';
@@ -24,7 +24,7 @@ class _PostContainerState extends State<PostContainer> {
   Widget build(BuildContext context) {
     return Card(
       elevation: 0,
-      margin: const EdgeInsets.symmetric(horizontal: 6),
+      margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
         Row(
           children: [

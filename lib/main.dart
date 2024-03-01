@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authpage.dart';
-import 'Pages/AuthPage/View/authmobile.dart';
+import 'Pages/AuthPage/View/authpage.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
 import 'Pages/HomePage/VIew/homepage.dart';
@@ -35,7 +34,8 @@ Future<void> main() async {
   //     isInDebugMode:
   //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
   //     );
-
+  //
+  // 
   /// here the all instances are initialized => client, database, storage, account
   final Databases databases = Databases(client);
   final Storage storage = Storage(client);
@@ -124,7 +124,7 @@ class _MyAppState extends State<MyApp> {
             themeAnimationCurve: Curves.easeInOut,
             darkTheme: AppThemeMode().dark,
             theme: AppThemeMode().light,
-            themeMode: ThemeMode.system,
+            themeMode: ThemeMode.dark,
             //debugShowCheckedModeBanner: false,
             // initialRoute: "/welcome",
             // here you can add more routes with means of the pages address for navigator

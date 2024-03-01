@@ -5,7 +5,7 @@ class AppThemeMode {
   ThemeData dark = ThemeData(
       brightness: Brightness.dark,
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: Colors.white12,
+        backgroundColor: Colors.white,
         contentTextStyle: const TextStyle(color: Colors.white),
         actionTextColor: Colors.black,
         behavior: SnackBarBehavior.floating,
@@ -15,15 +15,14 @@ class AppThemeMode {
       ),
       colorSchemeSeed: const Color.fromARGB(255, 53, 3, 85),
       useMaterial3: true,
-      scaffoldBackgroundColor: Colors.black54,
+      scaffoldBackgroundColor: Colors.black,
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
               foregroundColor: MaterialStatePropertyAll(Colors.white))),
-      bottomNavigationBarTheme: const BottomNavigationBarThemeData(
-        backgroundColor: Colors.black,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white,
-      ),
+      navigationBarTheme: const NavigationBarThemeData(
+          surfaceTintColor: Colors.black,
+          indicatorColor: Colors.white,
+          backgroundColor: Colors.black),
       drawerTheme: const DrawerThemeData(backgroundColor: Colors.black),
       cardTheme: const CardTheme(
         color: Colors.black,
@@ -31,6 +30,12 @@ class AppThemeMode {
 
   /// these are for the light theme settings =>
   ThemeData light = ThemeData(
+      navigationBarTheme: const NavigationBarThemeData(
+          surfaceTintColor: Colors.white,
+          indicatorColor: Colors.deepPurpleAccent,
+          backgroundColor: Colors.white),
+      drawerTheme: const DrawerThemeData(backgroundColor: Colors.white),
+      iconTheme: const IconThemeData(color: Colors.black),
       brightness: Brightness.light,
       snackBarTheme: SnackBarThemeData(
         backgroundColor: Colors.white,

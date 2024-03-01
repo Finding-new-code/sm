@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../constants/constant.dart';
-import '../constants/tools.dart';
 
 class SearchBarNew extends StatelessWidget {
   const SearchBarNew({Key? key}) : super(key: key);
@@ -13,11 +12,17 @@ class SearchBarNew extends StatelessWidget {
       height: 30,
       decoration: BoxDecoration(borderRadius: BorderRadius.circular(10),
       color: const Color.fromARGB(255, 22, 21, 21),),
-      child: Row(
+      child: const Row(
         children: [
           s10,
-          // TODO : here the searchbar implementation takes place
-          Text("Search",style: GoogleFonts.inter(color: Colors.white,fontSize: 13),)
+          TextField(
+            decoration: InputDecoration(
+              border: InputBorder.none,
+              hintText: 'Search',
+              hintStyle: TextStyle(color: Colors.white),
+            ),
+          ),
+          Icon(Icons.search, color: Colors.white,)
         ],
       ),
     );

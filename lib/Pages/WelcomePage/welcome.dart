@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authpage.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/constant.dart';
 
+
+import '../../constants/constant.dart';
 import '../../constants/tools.dart';
-import '../AuthPage/View/authmobile.dart';
+import '../AuthPage/View/authpage.dart';
 
 class WelcomePage extends StatefulWidget {
   const WelcomePage({Key? key}) : super(key: key);

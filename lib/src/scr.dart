@@ -11,5 +11,5 @@ export './modals/post.dart';
 export './modals/usermodel.dart';
 export './modals/notification.dart';
 export 'themedata.dart';
-export 'secruity.dart';
+export 'security.dart';
 export 'backgroundtask.dart';

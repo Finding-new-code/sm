@@ -1,6 +1,6 @@
 import 'package:freerasp/freerasp.dart';
 
-class secruity {
+class Security {
   config() {
     TalsecConfig(
       /// For Android

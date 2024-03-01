@@ -21,7 +21,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
       PostSendRequested event, Emitter<PostState> emit) async {
     final String text = event.text;
     final List<File> image = event.image;
-    if (text.isEmpty || image.isEmpty) {
+    if (text.isEmpty && image.isEmpty) {
       return null;
     }
     try {
@@ -40,7 +40,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             postid: '',
             posttext: text,
             likes: const [],
-            commentsid: const [],
+            comments: const [],
             imageLinks: imagelinks);
 
         await databasesRepository.postSendToServer(post);

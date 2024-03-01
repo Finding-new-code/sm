@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/widgets/h.dart';
 import '../../../components/failure.dart';
 import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
@@ -9,7 +8,9 @@ import '../../PremiumPage/premiumpage.dart';
 import '../../ProfilePage/View/profilepage.dart';
 import '../../SettingsPage/Views/settings_page.dart';
 import '../bloc/home_bloc.dart';
-
+import '../widgets/h.dart';
+import '../widgets/notfication_view.dart';
+import '../widgets/search_view.dart';
 
 /// This is the homepage of the application
 class HomePage extends StatefulWidget {
@@ -40,58 +41,64 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return Scaffold(
+
             /// here the navigation bar which placed in the bottom of the screen
             /// shows you the options
             bottomNavigationBar: NavigationBar(
-              height: 50,
-              selectedIndex: 0,
+              animationDuration: const Duration(seconds: 1),
               labelBehavior: NavigationDestinationLabelBehavior.alwaysHide,
+              height: 50,
+              selectedIndex: _selectedIndex,
+              onDestinationSelected: (int index) {
+                setState(() {
+                  _selectedIndex = index;
+                });
+              },
               destinations: [
                 IconButton(
                     onPressed: () {
                       _onItemTapped(0);
                     },
-                    selectedIcon: Icon(
+                    icon: const Badge(
+                      backgroundColor: Colors.deepPurpleAccent,
+                      largeSize: 20.0,
+                      smallSize: 10.0,
+                      label: Text("new"),
+                      child: Icon(
+                        Icons.home_outlined,
+                        size: 33,
+                        fill: 1.0,
+                        weight: 5.0,
+                      ),
+                    )),
+                IconButton(
+                    onPressed: () {
+                      _onItemTapped(1);
+                    },
+                    selectedIcon: const Icon(
                       Icons.search_outlined,
-                      color: Theme.of(context).primaryColor,
                       fill: 1.0,
                       weight: 2.0,
                       opticalSize: 2.0,
                     ),
                     isSelected: true,
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.search_outlined,
-                      color: Theme.of(context).primaryColor,
                       fill: 1.0,
                       weight: 5.0,
                       opticalSize: 2.0,
                     )),
                 IconButton(
                     onPressed: () {
-                      _onItemTapped(1);
-                    },
-                    icon: Badge(
-                      backgroundColor: Colors.deepPurpleAccent,
-                      largeSize: 20.0,
-                      smallSize: 10.0,
-                      label: const Text("new"),
-                      child: Icon(
-                        Icons.messenger_outline_outlined,
-                        color: Theme.of(context).primaryColor,
-                      ),
-                    )),
-                IconButton(
-                    onPressed: () {
                       _onItemTapped(2);
                     },
-                    icon: Badge(
+                    icon: const Badge(
                       backgroundColor: Colors.deepPurpleAccent,
                       largeSize: 20.0,
                       smallSize: 10.0,
-                      label: const Text("new"),
+                      label: Text("new"),
                       child: Icon(
                         Icons.notification_add_outlined,
-                        color: Theme.of(context).primaryColor,
                         fill: 1.0,
                         weight: 5.0,
                         opticalSize: 2.0,
@@ -101,16 +108,14 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       _onItemTapped(3);
                     },
-                    selectedIcon: Icon(
+                    selectedIcon: const Icon(
                       Icons.home_filled,
-                      color: Theme.of(context).primaryColor,
                       fill: 1.0,
                       weight: 5.0,
                       opticalSize: 2.0,
                     ),
-                    icon: Icon(
+                    icon: const Icon(
                       Icons.star_border_purple500_outlined,
-                      color: Theme.of(context).primaryColor,
                       fill: 1.0,
                       weight: 5.0,
                       opticalSize: 2.0,
@@ -138,7 +143,6 @@ class _HomePageState extends State<HomePage> {
                 }),
               ),
               scrolledUnderElevation: 50.0,
-              backgroundColor: widget.isdark ? Colors.black : Colors.white,
               automaticallyImplyLeading: false,
               title: Text(
                 "Explore",
@@ -347,9 +351,9 @@ class _HomePageState extends State<HomePage> {
   // this is the bottom navigation bar =>
   static const List<Widget> bottomnav = [
     PostList(isdark: true),
-    Text('Search Page'),
+    SearchView(),
+    NotificationView(),
     ChatListScreen(),
-    Text('Notification Page')
   ];
   // this is the bottom navigation bar =>
   void _onItemTapped(int index) {

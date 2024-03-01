@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/ProfilePage/bloc/profile_bloc.dart';
-import 'package:myapp658d7b3746ed317621f8/components/failure.dart';
+import 'package:myapp658d7b3746ed317621f8/components/postsection.dart';
 import '../../../components/capsulebuttonbar.dart';
 import '../../../components/descrpition.dart';
+import '../../../components/failure.dart';
 import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
+import '../bloc/profile_bloc.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -30,86 +31,83 @@ class ProfilePage extends StatelessWidget {
             child: CapsuleStyleButtonBar(),
           ),
           appBar: AppBar(
+            elevation: 0,
+            forceMaterialTransparency: true,
             title: Text(
               "Profile",
               style:
                   GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.bold),
             ),
           ),
-          body: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (state is ProfileLoaded)
-                Animate(
-                    effects: const [FadeEffect()],
-                    child: ProfileStackImage(
-                      profileimage: state.profile.profilePicture,
-                      bannerimage: state.profile.bannerPicture,
-                    )),
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(vertical: 15, horizontal: 13),
-                child: Text(
-                  state is ProfileLoaded ? state.profile.name : "lonewolf",
-                  style: GoogleFonts.inter(
-                      fontSize: 20, fontWeight: FontWeight.w500),
-                ),
-              ),
-              Row(
-                children: [
-                  s25,
-                  Text(
-                    "0 Following",
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+          body: SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (state is ProfileLoaded)
+                  Animate(
+                      effects: const [FadeEffect()],
+                      child: ProfileStackImage(
+                        profileimage: state.profile.profilePicture,
+                        bannerimage: state.profile.bannerPicture,
+                      )),
+                Padding(
+                  padding:
+                      const EdgeInsets.symmetric(vertical: 15, horizontal: 13),
+                  child: Text(
+                    state is ProfileLoaded ? state.profile.name : "lonewolf",
+                    style: GoogleFonts.inter(
+                        fontSize: 22, fontWeight: FontWeight.w600),
                   ),
-                  s10,
-                  Text(
-                    "0 Followers",
-                    style: GoogleFonts.inter(fontWeight: FontWeight.w500),
-                  ),
-                ],
-              ),
-              s10,
-              Padding(
-                padding: const EdgeInsets.only(left: 13, right: 13),
-                child: DescriptionTile(
-                  location: state is ProfileLoaded
-                      ? state.profile.location
-                      : "location",
-                  descrpition: state is ProfileLoaded ? state.profile.bio : "",
                 ),
-              ),
-              s10,
-              Offstage(
-                offstage:
-                    state is ProfileLoaded ? state.profile.posts.isEmpty : true,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: GridView.builder(
+                Row(
+                  children: [
+                    s25,
+                    Text(
+                      "0 Following",
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                    ),
+                    s10,
+                    Text(
+                      "0 Followers",
+                      style: GoogleFonts.inter(fontWeight: FontWeight.w500),
+                    ),
+                  ],
+                ),
+                s10,
+                Padding(
+                  padding: const EdgeInsets.only(left: 13, right: 13),
+                  child: DescriptionTile(
+                    location: state is ProfileLoaded
+                        ? state.profile.location
+                        : "location",
+                    descrpition: state is ProfileLoaded ? state.profile.bio : "",
+                  ),
+                ),
+                s10,
+                Offstage(
+                  offstage: state is ProfileLoaded ? state.posts.isEmpty : false,
+                  child: ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
                     cacheExtent: 5,
                     itemBuilder: (BuildContext context, int index) {
-                      return Container(
-                        width: 50,
-                        color: Colors.amber,
-                        height: 50,
-                      );
+                      if (state is ProfileLoaded) {
+                        return PostContainer(
+                            post: state.posts[index], user: state.profile);
+                      } else {
+                        return Text(
+                          'No posts yet',
+                          style: GoogleFonts.inter(
+                              fontSize: 15, fontWeight: FontWeight.w500),
+                        );
+                      }
                     },
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 3,
-                      childAspectRatio: 1 / 1,
-                      crossAxisSpacing: 1,
-                      mainAxisSpacing: 1,
-                    ),
-                    itemCount:
-                        state is ProfileLoaded ? state.profile.posts.length : 0,
+                    itemCount: state is ProfileLoaded ? state.posts.length : 0,
                   ),
-                ),
-              )
-            ],
+                )
+              ],
+            ),
           ),
         );
       },

@@ -34,31 +34,6 @@ class _PostCreationPageState extends State<PostCreationPage> {
         //
         //
         /// here we can implement listener =>
-        if (state is PostSending) {
-          showDialog(
-              context: context,
-              builder: (context) {
-                return AlertDialog(
-                  title: Text(
-                    'Post ',
-                    style: GoogleFonts.robotoMono(),
-                  ),
-                  content: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      const CircularProgressIndicator(),
-                      Text(
-                        'Sending...',
-                        style: GoogleFonts.robotoMono(),
-                      ),
-                    ],
-                  ),
-                );
-              });
-        }
-        //
-        //
-        /// here we can implement listener =>
         if (state is PostSuccess) {
           ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text(
