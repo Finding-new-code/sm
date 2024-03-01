@@ -1,8 +1,9 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/constant.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/tools.dart';
+
+import '../../constants/constant.dart';
+import '../../constants/tools.dart';
 
 class PremiumPage extends StatelessWidget {
   const PremiumPage({Key? key}) : super(key: key);

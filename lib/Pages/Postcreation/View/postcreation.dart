@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/components/failure.dart';
+import '../../../components/failure.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 import '../../../src/imagepicker.dart';

@@ -39,7 +39,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
       ..addListener(() {
         setState(() {});
       });
-    _controller.forward();
+    _controller.loop();
   }
 
   @override
@@ -56,8 +56,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
     return BlocConsumer<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state is AuthFailure) {
-          // ignore: void_checks
-          return errorbottomsheet(context, state.message);
+          errorbottomsheet(context, state.message);
         }
 
         if (state is AuthSuccess) {
@@ -111,6 +110,11 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                 child: Column(
                   children: [
                     s25,
+                    Text(
+                      'Welcome \ntester',
+                      style: GoogleFonts.hankenGrotesk(
+                          fontSize: 15, fontWeight: FontWeight.w500),
+                    ),
                     // Image.asset(
                     //  here the image placed or logo
                     //   fit: BoxFit.contain,
@@ -129,7 +133,6 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                               textInputAction: TextInputAction.next,
                               magnifierConfiguration:
                                   TextMagnifier.adaptiveMagnifierConfiguration,
-                        
                               controller: _name,
                               decoration: InputDecoration(
                                   enabledBorder: OutlineInputBorder(
@@ -166,7 +169,6 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                         textInputAction: TextInputAction.next,
                         magnifierConfiguration:
                             TextMagnifier.adaptiveMagnifierConfiguration,
-                        
                         controller: _email,
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(

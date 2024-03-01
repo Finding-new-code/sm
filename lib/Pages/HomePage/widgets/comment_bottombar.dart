@@ -2,8 +2,8 @@
 ///  which we shows the list of commments and textfield to add new comment
 
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/tools.dart';
 import '../../../constants/constant.dart';
+import '../../../constants/tools.dart';
 
 commentbottomsheet(
   BuildContext context,

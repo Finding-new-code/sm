@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/bloc/auth_bloc.dart';
-import 'package:myapp658d7b3746ed317621f8/constants/tools.dart';
 import '../../../constants/constant.dart';
+import '../../../constants/tools.dart';
+import '../../AuthPage/bloc/auth_bloc.dart';
 import 'profile_edit.dart';
 
 class SettingsPage extends StatelessWidget {

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/components/postsection.dart';
 import '../../../components/capsulebuttonbar.dart';
 import '../../../components/descrpition.dart';
 import '../../../components/failure.dart';
+import '../../../components/postsection.dart';
 import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';

@@ -43,7 +43,7 @@ class _AuthDesktopView extends State<AuthdesktopView>
     );
     _animation = Tween<double>(
             begin: Random(1).nextInt(100).toDouble(),
-            end: Random(2).nextInt(1000).toDouble())
+            end: Random(2).nextInt(3000).toDouble())
         .animate(_controller)
       ..addListener(() {
         setState(() {});

@@ -1,9 +1,9 @@
 import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/modals/usermodel.dart';
 import '../../../constants/tools.dart';
 import '../../../src/modals/post.dart';
+import '../../../src/modals/usermodel.dart';
 import '../../../src/repository/databases.dart';
 import '../../../src/repository/storage.dart';
 import '../../../src/themedata.dart';
@@ -40,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       List<Post> p = await getPosts();
 
-      Future<List<UserModel>> getuseraspost() async {
+      Future<List<serModel>> getuseraspost() async {
         List<UserModel> userinfo = [];
         for (String id in p.map((e) => e.userid)) {
           final info = await databasesrepository.getcurrentUserDetails(id);
@@ -52,9 +52,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       }
 
       List<UserModel> u = await getuseraspost();
-
-      debugPrint('here the post fetched from the database $p');
-      debugPrint(u.toString());
+      log(p.toString());
 
       return emit(HomeLoaded(posts: p, users: u));
     } on AppwriteException catch (e) {
