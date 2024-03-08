@@ -41,7 +41,8 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             posttext: text,
             likes: const [],
             comments: const [],
-            imageLinks: imagelinks);
+            imageLinks: imagelinks,
+            );
 
         await databasesRepository.postSendToServer(post);
         return emit(PostSuccess());

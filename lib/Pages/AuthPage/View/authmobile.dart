@@ -21,7 +21,9 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
   bool isnew = true;
   bool ischecked = false;
   late AnimationController _controller;
+  // late AnimationController _animationController;
   late Animation<double> _animation;
+  late Animation<double> _animation1;
   bool _showpassword = true;
 
   final TextEditingController _email = TextEditingController();
@@ -39,6 +41,10 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
       ..addListener(() {
         setState(() {});
       });
+    _animation1 = Tween<double>(begin: 0, end: 600).animate(_controller)
+      ..addListener(() {
+        setState(() {});
+      });
     _controller.loop();
   }
 
@@ -48,6 +54,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
     _password.dispose();
     _name.dispose();
     _controller.dispose();
+    // _animationController.dispose();
     super.dispose();
   }
 
@@ -97,23 +104,28 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                     width: 100,
                     height: 100,
                   )),
-              Positioned(
-                  top: 350,
-                  left: 150,
-                  child: Container(
-                    color: Colors.blueAccent,
-                    width: 50,
-                    height: 50,
-                  )),
+              Transform.translate(
+                offset: Offset(10, _animation1.value),
+                child: Container(
+                  color: Colors.blueAccent,
+                  width: 80,
+                  height: 80,
+                ),
+              ),
               BackdropFilter(
                 filter: ImageFilter.blur(sigmaX: 40, sigmaY: 40),
                 child: Column(
                   children: [
                     s25,
-                    Text(
-                      'Welcome \ntester',
-                      style: GoogleFonts.hankenGrotesk(
-                          fontSize: 15, fontWeight: FontWeight.w500),
+                    Row(
+                      children: [
+                        s25,
+                        Text(
+                          'Welcome,\ntester 🤙',
+                          style: GoogleFonts.hankenGrotesk(
+                              fontSize: 27, fontWeight: FontWeight.w600),
+                        ),
+                      ],
                     ),
                     // Image.asset(
                     //  here the image placed or logo
@@ -121,7 +133,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                     //   width: 150,
                     //   height: 150,
                     // ),
-                    s50,
+                    s25,
                     isnew
                         ? Padding(
                             padding: const EdgeInsets.only(
@@ -321,6 +333,10 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                         : const SizedBox.shrink(),
 
                     ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                            fixedSize: const Size(120, 50),
+                            shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30))),
                         key: const ValueKey("Proceed"),
                         onPressed: () {
                           if (ischecked == true) {
@@ -348,7 +364,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
                         },
                         child: Text(
                           'Proceed',
-                          style: TextStyle(color: Colors.brown.shade500),
+                          style: TextStyle(color: Colors.teal.shade300),
                         )),
                   ],
                 ),

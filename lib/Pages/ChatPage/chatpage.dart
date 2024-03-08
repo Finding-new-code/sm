@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../components/chatbubble.dart';
 import '../../components/chattile.dart';
+import '../../constants/constant.dart';
 import '../../constants/tools.dart';
 import '../../src/modals/messagemap.dart';
 
@@ -14,7 +15,7 @@ class ChatListScreen extends StatelessWidget {
         forceMaterialTransparency: true,
         title: Text(
           "Chats",
-          style: GoogleFonts.inter(fontSize: 20,fontWeight: FontWeight.w500),
+          style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w500),
         ),
       ),
       body: Column(
@@ -63,7 +64,25 @@ class _ChatScreenState extends State<ChatView> {
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
-        automaticallyImplyLeading: false ,
+        flexibleSpace: SafeArea(
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: [
+              s50,
+              const CircleAvatar(
+                radius: 20,
+                backgroundImage: NetworkImage("https://picsum.photos/200/300"),
+              ),
+              s10,
+              Text(
+                'Satya Prakash Nayak',
+                style: GoogleFonts.inter(
+                    fontSize: 18, fontWeight: FontWeight.w700),
+              )
+            ],
+          ),
+        ),
+        forceMaterialTransparency: true,
         actions: [
           /// icon button for delete the message list =>
           IconButton(
@@ -80,8 +99,6 @@ class _ChatScreenState extends State<ChatView> {
                     ?.withOpacity(0.5),
               ))
         ],
-        title: ChatTile(name: "satya Prakash Nayak", image: "https://picsum.photos/200/300"),
-        centerTitle: true,
       ),
       body: SafeArea(
         child: Column(
@@ -117,7 +134,8 @@ class _ChatScreenState extends State<ChatView> {
                       decoration: InputDecoration(
                         // isCollapsed: true,
                         hintText: "Enter a message",
-                        hintStyle: GoogleFonts.inter(fontWeight: FontWeight.w600),
+                        hintStyle:
+                            GoogleFonts.inter(fontWeight: FontWeight.w600),
                         border: InputBorder.none,
                       ),
                     ),

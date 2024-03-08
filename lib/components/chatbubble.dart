@@ -23,6 +23,7 @@ class Message extends StatelessWidget {
         child: Row(
           mainAxisAlignment:
               isReceiver ? MainAxisAlignment.start : MainAxisAlignment.end,
+              crossAxisAlignment: isReceiver ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
             if (isReceiver == true)
               const CircleAvatar(
@@ -33,7 +34,6 @@ class Message extends StatelessWidget {
             Container(
               width: MediaQuery.of(context).textScaleFactor + 200,
               margin: const EdgeInsets.all(5),
-              padding: const EdgeInsets.all(13),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
                 color: isReceiver ? Colors.black45.withOpacity(0.5) : Colors.deepPurple.shade900.withOpacity(0.7),

@@ -8,18 +8,21 @@ import '../../../src/repository/databases.dart';
 import '../../../src/repository/storage.dart';
 import '../../../src/themedata.dart';
 import 'package:async/async.dart' show AsyncMemoizer;
+import 'dart:async';
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final DatabasesRepository databasesrepository;
   final StorageRepository storagerepository;
+  RealtimeSubscription? _subscription;
   HomeBloc({required this.databasesrepository, required this.storagerepository})
       : super(HomeInitial()) {
     on<GetNewPosts>(_getNewPosts);
     on<ChangeTheme>(_changeTheme);
     on<GetLastestPosts>(_getlastestpost);
     on<DeletePost>(_deletePost);
+    on<LikeAPost>(_likeAPost);
   }
 
   // var localPostdatabase = Hive.box('PostsDatabase');
@@ -40,31 +43,35 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       List<Post> p = await getPosts();
 
-      Future<List<serModel>> getuseraspost() async {
+      Future<List<UserModel>> getuseraspost() async {
         List<UserModel> userinfo = [];
         for (String id in p.map((e) => e.userid)) {
           final info = await databasesrepository.getcurrentUserDetails(id);
           debugPrint(info.toString());
           userinfo.add(UserModel.fromMap(info.data));
         }
-        log('here the data of user from the post id $userinfo.toString()');
+
         return userinfo;
       }
 
+      debugPrint('here the data of user from the post id ${p.toList()}');
       List<UserModel> u = await getuseraspost();
       log(p.toString());
 
       return emit(HomeLoaded(posts: p, users: u));
     } on AppwriteException catch (e) {
-      HomeError(message: e.message.toString());
+      return emit(HomeError(message: e.message.toString()));
     }
   }
 
-  void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) async {
+  void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) {
     try {
-      final lastestPost = databasesrepository.getLastestPosts();
-      debugPrint('here the lastest post from the realtime $lastestPost');
-      return emit(LastestPostLoaded(lastestPost));
+      final lastestPost = databasesrepository.getlastestPosts();
+      _subscription = lastestPost.listen((event) {
+        debugPrint(event.toString());
+        return emit(LastestPostLoaded(Post.fromMap(event.payload)));
+      }) as RealtimeSubscription?;
+      // debugPrint('here the lastest post from the realtime $lastestPost');
     } on AppwriteException catch (e) {
       return emit(HomeError(message: e.message.toString()));
     }
@@ -90,10 +97,45 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         final id = link.substring(57, 43);
         await storagerepository.deleteFile(id.toString());
       }
-      debugPrint('the post id delected from the database and storage');
+      //debugPrint('the post id delected from the database and storage');
       return emit(const HomeError(message: 'Post Deleted successfully'));
     } on AppwriteException catch (e) {
       return emit(HomeError(message: e.message.toString()));
     }
+  }
+
+  void _likeAPost(LikeAPost event, Emitter<HomeState> emit) async {
+    final post = event.post;
+    try {
+      final prefes = await SharedPreferences.getInstance();
+      final userid = prefes.getString('userId');
+      if (post.likes.contains(userid)) {
+        post.likes.remove(post.userid);
+        log('the post unliked');
+        return;
+      }
+      await databasesrepository.likePost(post);
+      log('the post liked');
+    } on AppwriteException catch (e) {
+      return emit(HomeError(message: e.message.toString()));
+    }
+  }
+
+  @override
+  Future<void> close() {
+    _subscription!.close;
+    return super.close();
+  }
+
+  @override
+  void onChange(Change<HomeState> change) {
+    super.onChange(change);
+    log(change.toString());
+  }
+
+  @override
+  void onEvent(HomeEvent event) {
+    super.onEvent(event);
+    log(event.toString());
   }
 }

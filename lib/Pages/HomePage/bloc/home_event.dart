@@ -30,3 +30,12 @@ final class DeletePost extends HomeEvent {
   @override
   List<Object> get props => [post];
 }
+
+final class LikeAPost extends HomeEvent {
+  final Post post;
+
+  const LikeAPost(this.post);
+
+  @override
+  List<Object> get props => [post];
+}

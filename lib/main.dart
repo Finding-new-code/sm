@@ -1,12 +1,14 @@
-
+import 'dart:io';
+import 'dart:developer';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'Pages/AuthPage/View/authpage.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
 import 'Pages/HomePage/VIew/homepage.dart';
 import 'package:appwrite/models.dart' as models;
+import 'Pages/HomePage/widgets/notfication_view.dart';
 import 'Pages/Postcreation/bloc/post_bloc.dart';
-import 'Pages/ProfilePage/View/profilepage.dart';
 import 'Pages/ProfilePage/bloc/profile_bloc.dart';
 import 'Pages/SettingsPage/Views/settings_page.dart';
 import 'Pages/WelcomePage/welcome.dart';
@@ -14,6 +16,7 @@ import 'components/termsandconditions.dart';
 import 'constants/appwriteconstants.dart';
 import 'constants/constant.dart';
 import 'constants/tools.dart';
+import 'src/notification.dart';
 import 'src/scr.dart';
 
 Future<void> main() async {
@@ -25,24 +28,27 @@ Future<void> main() async {
     ..setEndpoint(AppwriteConstants.endpoint)
     ..setProject(AppwriteConstants.projectId)
     ..setSelfSigned(status: true);
-  debugPrint("AppWrite initialise");
-   //final users = Users(client);
-
+  log("AppWrite initialised successfully");
+  Hive.initFlutter();
+  log('hive local databases is initialised successfully');
   // Workmanager().initialize(
-  //     BackgroundtaskManegers()
-  //         .callbackDispatcher(), // The top level function, aka callbackDispatcher
-  //     isInDebugMode:
-  //         true // If enabled it will post a notification whenever the task is running. Handy for debugging tasks
-  //     );
-  //
-  // 
+  //   BackgroundTaskManegers().notify(),
+  //   isInDebugMode: true,
+  // );
+  // log('workmanager is initialised successfully');
+  NotficationManeger.init();
+  log('notfication is initialised successfully');
+  NotficationManeger.newNotification("helloworld", "ProjectSM is initialised successfully");
+
   /// here the all instances are initialized => client, database, storage, account
+  final Teams teams = Teams(client);
   final Databases databases = Databases(client);
   final Storage storage = Storage(client);
   final Account account = Account(client);
   final Realtime realtime = Realtime(client);
   runApp(BetterFeedback(
     child: MyApp(
+      teams: teams,
       storage: storage,
       account: account,
       databases: databases,
@@ -52,6 +58,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
+  final Teams teams;
   final Databases databases;
   final Account account;
   final Realtime realtime;
@@ -61,7 +68,8 @@ class MyApp extends StatefulWidget {
       required this.account,
       required this.databases,
       required this.realtime,
-      required this.storage});
+      required this.storage,
+      required this.teams});
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -99,6 +107,7 @@ class _MyAppState extends State<MyApp> {
 
           /// here the bloc provider for the home bloc
           BlocProvider<HomeBloc>(
+              lazy: false,
               create: (context) => HomeBloc(
                   storagerepository: context.read<StorageRepository>(),
                   databasesrepository: context.read<DatabasesRepository>())),
@@ -111,6 +120,7 @@ class _MyAppState extends State<MyApp> {
 
           /// here the bloc provider for the profile bloc
           BlocProvider<ProfileBloc>(
+              lazy: false,
               create: (context) => ProfileBloc(
                     databasesrepository: context.read<DatabasesRepository>(),
                   )),
@@ -130,13 +140,13 @@ class _MyAppState extends State<MyApp> {
             // here you can add more routes with means of the pages address for navigator
             routes: {
               '/welcome': (context) => const WelcomePage(),
+              '/h': (context) => const NotificationView(),
               '/home': (context) => HomePage(
                     isdark: isdark,
                   ),
               '/auth': (context) => const AuthPage(),
               'settings': (context) => const SettingsPage(),
               't&c': (context) => const TermsAndConditions(),
-              '/profile': (context) => const ProfilePage()
             },
             // here the home page is set
             home: StreamBuilder(

@@ -3,9 +3,15 @@ import 'package:flutter/material.dart';
 class AppThemeMode {
   /// these are for the dark theme settings =>
   ThemeData dark = ThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: Colors.black,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
       brightness: Brightness.dark,
       snackBarTheme: SnackBarThemeData(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.green,
         contentTextStyle: const TextStyle(color: Colors.white),
         actionTextColor: Colors.black,
         behavior: SnackBarBehavior.floating,
@@ -30,6 +36,12 @@ class AppThemeMode {
 
   /// these are for the light theme settings =>
   ThemeData light = ThemeData(
+      bottomSheetTheme: BottomSheetThemeData(
+        backgroundColor: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
       navigationBarTheme: const NavigationBarThemeData(
           surfaceTintColor: Colors.white,
           indicatorColor: Colors.deepPurpleAccent,
@@ -53,3 +65,24 @@ class AppThemeMode {
         color: Colors.white,
       ));
 }
+
+
+
+
+// Enum Apptheme{
+//   const Text('dark');
+//   const Text('light');
+//   const Text('system');
+
+//   switch (this) {
+//     case Apptheme.dark:
+//     return AppThemeMode().dark;
+//     case Apptheme.light:
+//     return AppThemeMode().light;
+//     case Apptheme.system:
+//     return AppThemeMode().system;
+//     default:
+//     return AppThemeMode().dark;
+//   }
+
+// }

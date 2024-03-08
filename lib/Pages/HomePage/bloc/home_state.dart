@@ -28,8 +28,15 @@ final class HomeError extends HomeState {
 }
 
 final class LastestPostLoaded extends HomeState {
-  final Stream<RealtimeMessage> posts;
-  const LastestPostLoaded(this.posts);
+  final Post lastestpost;
+  const LastestPostLoaded(this.lastestpost);
   @override
-  List<Object> get props => [posts];
+  List<Object> get props => [lastestpost];
+}
+
+final class PostIsLiked extends HomeState {
+  // final Post post;
+  // const PostIsLiked(this.post);
+  // @override
+  // List<Object> get props => [post];
 }

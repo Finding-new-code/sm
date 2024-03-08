@@ -1,8 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import '../Pages/HomePage/bloc/home_bloc.dart';
 import '../Pages/HomePage/widgets/comment_bottombar.dart';
 import '../Pages/HomePage/widgets/more.dart';
-import '../Pages/ProfilePage/View/profilepage.dart';
 import '../constants/constant.dart';
 import '../constants/tools.dart';
 import '../src/modals/post.dart';
@@ -38,10 +39,10 @@ class _PostContainerState extends State<PostContainer> {
             s5,
             TextButton(
                 onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const ProfilePage()));
+                  // Navigator.push(
+                  //     context,
+                  //     MaterialPageRoute(
+                  //         builder: (context) => ProfilePage()));
                 },
                 child: Text(
                   widget.user.name,
@@ -66,10 +67,14 @@ class _PostContainerState extends State<PostContainer> {
             Text(timeago.format(widget.post.createdAt, locale: 'en_short')),
             const Spacer(),
             IconButton(
-                onPressed: () =>
-                    moreoptionBottomSheet(context, widget.post.postid, () {
+                onPressed: () => moreoptionBottomSheet(
+                        context, widget.post.postid, () async {
                       context.read<HomeBloc>().add(DeletePost(widget.post));
-                    }, () {/* TODO: edit post */}),
+                      Navigator.pop(context);
+                      await Future.delayed(const Duration(seconds: 3), () {
+                        context.read<HomeBloc>().add(GetNewPosts());
+                      });
+                    }, () {/* TODO: report post */}),
                 icon: const Icon(Icons.more_vert))
           ],
         ),
@@ -155,12 +160,25 @@ class _PostContainerState extends State<PostContainer> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             s25,
-            IconButton(
-                onPressed: () {},
-                icon: const Icon(
-                  Icons.favorite_border,
-                  size: 18,
-                )),
+            TextButton.icon(
+                onPressed: () {
+                  context.read<HomeBloc>().add(LikeAPost(widget.post));
+                },
+                label: Text(
+                  widget.post.links.length.toString(),
+                  strutStyle: const StrutStyle(fontSize: 10),
+                ),
+                icon: widget.post.links.isEmpty
+                    ? const Icon(
+                        Icons.favorite,
+                        size: 22,
+                        color: Colors.white,
+                      )
+                    : const Icon(
+                        Icons.favorite,
+                        size: 22,
+                        color: Colors.red,
+                      )),
             s25,
             IconButton(
                 onPressed: () {
@@ -201,10 +219,22 @@ class ImageScreen extends StatelessWidget {
         actionsIconTheme: const IconThemeData(color: Colors.amber),
         title: const Text('Image', style: TextStyle(color: Colors.white)),
       ),
-      body: Hero(
-          tag: 'image',
-          child:
-              Expanded(child: InteractiveViewer(child: Image.network(image)))),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Hero(
+              tag: 'image',
+              child: Expanded(
+                  child: InteractiveViewer(
+                     trackpadScrollCausesScale: true,
+                      panEnabled: true,
+                      scaleEnabled: true,
+                      minScale: 0.1,
+                      maxScale: 5,
+                    child: Image.network(image)))),
+        ],
+      ),
     );
   }
 }

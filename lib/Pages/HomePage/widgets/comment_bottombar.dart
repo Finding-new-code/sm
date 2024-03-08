@@ -26,17 +26,20 @@ commentbottomsheet(
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              TextField(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(30),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      decoration: InputDecoration(
+                        hintText: 'Add a comment',
+                        hintStyle: GoogleFonts.inter(
+                          color: Colors.black,
+                          //fontWeight: f
+                        ),
+                      ),
+                    ),
                   ),
-                  hintText: 'Add a comment',
-                  hintStyle: GoogleFonts.inter(
-                    color: Colors.black,
-                    //fontWeight: f
-                  ),
-                ),
+                ],
               ),
               s25,
               ListView.separated(

@@ -46,7 +46,7 @@ class DatabasesRepository {
     return document.documents.toList();
   }
 
-  Stream<RealtimeMessage> getLastestPosts() {
+  Stream getlastestPosts() {
     return _realtime.subscribe([
       'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create'
     ]).stream;
@@ -73,7 +73,7 @@ class DatabasesRepository {
       databaseId: AppwriteConstants.projectdatabases,
       collectionId: AppwriteConstants.postCollection,
       queries: [
-        Query.equal('repliedTo', post.postid),
+        Query.equal('comments', post.postid.toString()),
       ],
     );
     return document.documents;

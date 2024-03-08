@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import '../Pages/ChatPage/chatpage.dart';
-import '../Pages/ProfilePage/View/profilepage.dart';
 
 // here in the approch i will make a capsule shape button bar which hover
 // approx 50 px above from the bottom
@@ -50,10 +49,11 @@ class CapsuleStyleButtonBar extends StatelessWidget {
           ),
           TextButton(
               onPressed: () {
-                Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                        builder: (context) => const ProfilePage()));
+                /// here the things go messy
+                // Navigator.push(
+                //     context,
+                //     MaterialPageRoute(
+                //         builder: (context) => const ProfilePage()));
               },
               child: Text(
                 "profile",

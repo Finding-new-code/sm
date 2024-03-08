@@ -12,9 +12,11 @@ class Post {
   final List<String> likes;
   final List<Post> comments;
   final List<String> imageLinks;
+  // final String repliedTo;
 
   const Post(
       {required this.createdAt,
+      // required this.repliedTo,
       required this.hashtags,
       required this.links,
       required this.userid,
@@ -27,6 +29,7 @@ class Post {
   Post copyWith({
     String? userid,
     List<String>? hashtags,
+    // String? repliedTo,
     String? links,
     DateTime? createdAt,
     String? postid,
@@ -36,6 +39,7 @@ class Post {
     List<String>? imageLinks,
   }) {
     return Post(
+      // repliedTo: repliedTo ?? this.repliedTo,
         createdAt: createdAt ?? this.createdAt,
         hashtags: hashtags ?? this.hashtags,
         links: links ?? this.links,
@@ -49,7 +53,7 @@ class Post {
 
   Map<String, dynamic> toMap() {
     final result = <String, dynamic>{};
-
+    // result.addAll({"repliedTo": repliedTo});
     result.addAll({"userid": userid});
     result.addAll({"likes": likes});
     result.addAll({"comments": comments});
@@ -64,6 +68,7 @@ class Post {
 
   factory Post.fromMap(Map<String, dynamic> map) {
     return Post(
+      // repliedTo: map['repliedTo'],
       createdAt: DateTime.fromMillisecondsSinceEpoch(map['createdAt']),
       hashtags: List<String>.from(map['hashtags']),
       links: map['links'] ?? "",
@@ -78,6 +83,6 @@ class Post {
 
   @override
   String toString() {
-    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, comments: $comments, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links) ";
+    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, comments: $comments, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links,) ";
   }
 }

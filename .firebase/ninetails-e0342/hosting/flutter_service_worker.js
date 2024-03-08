@@ -19,8 +19,8 @@ const RESOURCES = {"assets/assets/rive/undraw_the_world_is_mine_re_j5cr.svg": "c
 "assets/assets/images/slide5.png": "2ff1013be5713423d70cc00fcf834d5b",
 "assets/assets/images/slide2.png": "84d0a3fd9fa7adee9aae21aeef58df55",
 "assets/shaders/ink_sparkle.frag": "f8b80e740d33eb157090be4e995febdf",
-"assets/fonts/MaterialIcons-Regular.otf": "26ba5af83d4726ade17981ae80cde116",
-"assets/NOTICES": "36ce42862fb6f7acdb2abfe2eb59671c",
+"assets/fonts/MaterialIcons-Regular.otf": "46138c014c67e9dae5d14dc2429ab5d3",
+"assets/NOTICES": "e3d159fe9699c1982e27177562712cba",
 "assets/packages/cupertino_icons/assets/CupertinoIcons.ttf": "89ed8f4e49bcdfc0b5bfc9b24591e347",
 "assets/FontManifest.json": "dc3d03800ccca4601324923c0b1d6d57",
 "assets/AssetManifest.json": "091afbb75bbf4078e98cedd3788ac22c",
@@ -40,10 +40,10 @@ const RESOURCES = {"assets/assets/rive/undraw_the_world_is_mine_re_j5cr.svg": "c
 "icons/Icon-192.png": "ac9a721a12bbc803b44f645561ecb1e1",
 "icons/Icon-512.png": "96e752610906ba2a93c65f8abe1645f1",
 "icons/Icon-maskable-192.png": "c457ef57daa1d16f64b27b786ec2ea3c",
-"index.html": "40f105cebf9cc9c15636ec6491fb3417",
-"/": "40f105cebf9cc9c15636ec6491fb3417",
+"index.html": "18709bc056a8493789b8853f043bbe05",
+"/": "18709bc056a8493789b8853f043bbe05",
 "auth.html": "7f8fa72994c82f4966d547443d3a5ebd",
-"main.dart.js": "061a5a9eb13560f9fdbdb313882ac0f1"};
+"main.dart.js": "b2dbff937c982f8867e3c9d964f18017"};
 // The application shell files that are downloaded before a service worker can
 // start.
 const CORE = ["main.dart.js",

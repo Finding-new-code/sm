@@ -5,11 +5,12 @@ import '../../../constants/tools.dart';
 import '../../Postcreation/View/postcreation.dart';
 import '../bloc/home_bloc.dart';
 
+// ignore: must_be_immutable
 class PostList extends StatefulWidget {
-  final bool isdark;
-  const PostList({
+  Realtime? realtime;
+  PostList({
     super.key,
-    required this.isdark,
+    this.realtime,
   });
 
   @override
@@ -19,11 +20,13 @@ class PostList extends StatefulWidget {
 // final List theme = ['light', 'system', 'dark'];
 
 class _HomePageState extends State<PostList> {
+
   // final List<String> themeoption = theme[0];
   @override
   Widget build(BuildContext context) {
+    context.read<HomeBloc>().add(GetNewPosts());
     return BlocConsumer<HomeBloc, HomeState>(
-      //buildWhen: (previous, current) => previous != current,
+      buildWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state is HomeError) {
           errorbottomsheet(context, state.message);
@@ -44,15 +47,13 @@ class _HomePageState extends State<PostList> {
               else if (state is HomeLoaded)
                 ListView.separated(
                     itemBuilder: (context, index) {
-                      //  final lastpost = context.watch<GetLastestPosts>();
-
                       final post = state.posts[index];
                       final user = state.users[index];
                       // here the post are fetched from databases then shown to the homepage =>
                       return Animate(
-                        effects:  const [
+                        effects: const [
                           SlideEffect(
-                              delay: Duration(seconds: 1),
+                              delay: Duration(milliseconds: 500),
                               duration: Duration(seconds: 1),
                               curve: Curves.easeInOut)
                         ],
