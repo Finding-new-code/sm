@@ -60,6 +60,9 @@ class AppThemeMode {
       ),
       colorSchemeSeed: const Color.fromARGB(255, 53, 3, 85),
       useMaterial3: true,
+      iconButtonTheme: const IconButtonThemeData(
+          style: ButtonStyle(
+              foregroundColor: MaterialStatePropertyAll(Colors.black))),
       scaffoldBackgroundColor: Colors.white,
       cardTheme: const CardTheme(
         color: Colors.white,

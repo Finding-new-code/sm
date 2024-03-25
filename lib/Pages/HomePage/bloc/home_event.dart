@@ -39,3 +39,22 @@ final class LikeAPost extends HomeEvent {
   @override
   List<Object> get props => [post];
 }
+
+final class UserSearched extends HomeEvent {
+  final String search;
+
+  const UserSearched(this.search);
+
+  @override
+  List<Object> get props => [search];
+}
+
+final class CommentPostedByUser extends HomeEvent {
+  final String postid;
+  final String comment;
+
+  const CommentPostedByUser(this.postid, this.comment);
+
+  @override
+  List<Object> get props => [postid,comment];
+}

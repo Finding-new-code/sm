@@ -1,4 +1,3 @@
-
 import 'package:appwrite/models.dart' as models;
 import 'package:appwrite/models.dart';
 import '../modals/usermodel.dart';
@@ -46,9 +45,9 @@ class DatabasesRepository {
     return document.documents.toList();
   }
 
-  Stream getlastestPosts() {
+  Stream<RealtimeMessage> getlastestPosts() {
     return _realtime.subscribe([
-      'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create'
+      'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents'
     ]).stream;
   }
 
@@ -71,9 +70,9 @@ class DatabasesRepository {
   Future<List<Document>> getRepliesToTweet(Post post) async {
     final document = await _databases.listDocuments(
       databaseId: AppwriteConstants.projectdatabases,
-      collectionId: AppwriteConstants.postCollection,
+      collectionId: AppwriteConstants.commentsCollection,
       queries: [
-        Query.equal('comments', post.postid.toString()),
+        Query.equal('repliedTo', post.postid.toString()),
       ],
     );
     return document.documents;
@@ -113,9 +112,17 @@ class DatabasesRepository {
   }
 
   Future<void> deletePost(String id) async {
-    return _databases.deleteDocument(
+    return await _databases.deleteDocument(
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.postCollection,
         documentId: id);
+  }
+
+  Future<void> postComment(Post post) async {
+    await _databases.createDocument(
+        databaseId: AppwriteConstants.projectdatabases,
+        collectionId: AppwriteConstants.commentsCollection,
+        documentId: ID.unique(),
+        data: post.toMap());
   }
 }

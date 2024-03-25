@@ -1,16 +1,18 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp658d7b3746ed317621f8/src/modals/usermodel.dart';
 import '../../../constants/tools.dart';
-import '../../../src/repository/auth.dart';
-import '../../../src/repository/databases.dart';
+import '../../../src/src.dart';
 part 'auth_event.dart';
 part 'auth_state.dart';
 
 class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthRepository authRepository;
+  final InternetCubit internetCubit;
+  StreamSubscription? internetSubscription;
   final DatabasesRepository databasesrepsitory;
-  AuthBloc({required this.authRepository, required this.databasesrepsitory})
+  AuthBloc({required this.internetCubit,required this.authRepository, required this.databasesrepsitory})
       : super(AuthInitial()) {
     /// here you can place you event haldlers =>
     on<AsAuthRequest>(_asauthrequest);
@@ -22,7 +24,15 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   /// here the event handlers function body for better code readibility =>
   void _asauthrequest(AsAuthRequest event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
+    internetSubscription = internetCubit.stream.listen((internetState) { 
+        if (internetState is InternetDisconnected) {
+          if (Caches().get('userId').toString().isNotEmpty) {
+            return emit (AuthSuccess(Caches().get('userId').toString()));
+          }
+        }
+      });
     try {
+      
       final String name = event.name;
       final String password = event.password;
       final String email = event.email;

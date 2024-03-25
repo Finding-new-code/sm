@@ -8,7 +8,6 @@ import '../../HomePage/VIew/homepage.dart';
 import '../bloc/auth_bloc.dart';
 
 class AuthMobile extends StatefulWidget {
-  // final Account account;
   const AuthMobile({
     Key? key,
   }) : super(key: key);
@@ -21,7 +20,6 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
   bool isnew = true;
   bool ischecked = false;
   late AnimationController _controller;
-  // late AnimationController _animationController;
   late Animation<double> _animation;
   late Animation<double> _animation1;
   bool _showpassword = true;
@@ -54,7 +52,6 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
     _password.dispose();
     _name.dispose();
     _controller.dispose();
-    // _animationController.dispose();
     super.dispose();
   }
 
@@ -71,10 +68,7 @@ class _AuthMobileState extends State<AuthMobile> with TickerProviderStateMixin {
           //here navigator for next page => HomePage
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const HomePage(
-                        isdark: false,
-                      )),
+              MaterialPageRoute(builder: (context) => const HomePage()),
               (route) => false);
         }
 

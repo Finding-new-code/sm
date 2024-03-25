@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/src/src.dart';
 import '../../components/chatbubble.dart';
 import '../../components/chattile.dart';
 import '../../constants/constant.dart';
@@ -11,13 +12,6 @@ class ChatListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        forceMaterialTransparency: true,
-        title: Text(
-          "Chats",
-          style: GoogleFonts.inter(fontSize: 20, fontWeight: FontWeight.w500),
-        ),
-      ),
       body: Column(
         children: [
           ListView.separated(
@@ -31,7 +25,11 @@ class ChatListScreen extends StatelessWidget {
               },
               separatorBuilder: (context, index) => const SizedBox.shrink(),
               shrinkWrap: true,
-              itemCount: 5)
+              itemCount: 2),
+          ChatTile(
+              name: 'Suzume.Ai',
+              image:
+                  'https://a.storyblok.com/f/178900/1504x630/5f85769d56/8743761060b8b5b23ef45ece8c7677361681577115_main.jpg/m/filters:quality(95)format(webp)')
         ],
       ),
     );
@@ -39,16 +37,34 @@ class ChatListScreen extends StatelessWidget {
 }
 
 // chat screen to show message from a paricular user =>
-List<MessageMap> messages = [];
+
 
 class ChatView extends StatefulWidget {
-  const ChatView({super.key});
+  final String name;
+  final String image;
+  const ChatView({super.key, required this.name, required this.image});
 
   @override
   State<ChatView> createState() => _ChatScreenState();
 }
 
 class _ChatScreenState extends State<ChatView> {
+  final ScrollController _scrollController = ScrollController();
+  final TextEditingController _messageController = TextEditingController();
+  bool isloading = false;
+  List<MessageMap> messages = [];
+  void _scrollDown() {
+    WidgetsBinding.instance.addPostFrameCallback(
+      (_) => _scrollController.animateTo(
+        _scrollController.position.maxScrollExtent,
+        duration: const Duration(
+          milliseconds: 750,
+        ),
+        curve: Curves.easeOutCirc,
+      ),
+    );
+  }
+
   void _addMessage(String message, bool isReceiver) {
     /// function created for adding message to the list(array) messages
     messages.add(MessageMap(
@@ -59,8 +75,14 @@ class _ChatScreenState extends State<ChatView> {
   }
 
   @override
+  void dispose() {
+    super.dispose();
+    _messageController.dispose();
+    _scrollController.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final prompt = TextEditingController();
     return Scaffold(
       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
       appBar: AppBar(
@@ -69,15 +91,21 @@ class _ChatScreenState extends State<ChatView> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               s50,
-              const CircleAvatar(
+              CircleAvatar(
                 radius: 20,
-                backgroundImage: NetworkImage("https://picsum.photos/200/300"),
+                backgroundImage: NetworkImage(widget.image.toString(),),
               ),
               s10,
               Text(
-                'Satya Prakash Nayak',
+                widget.name.toString(),
                 style: GoogleFonts.inter(
                     fontSize: 18, fontWeight: FontWeight.w700),
+              ),
+              s10,
+              Image.asset(
+                'assets/images/verify.png',
+                height: 25,
+                width: 25,
               )
             ],
           ),
@@ -106,11 +134,13 @@ class _ChatScreenState extends State<ChatView> {
             /// listview for showing lists of messages
             Expanded(
                 child: ListView.separated(
+              controller: _scrollController,
               itemBuilder: (context, index) {
                 MessageMap message = messages[index];
                 return Message(
                   isReceiver: message.isrecevier,
                   text: message.message,
+                  receiverimg: widget.image,
                 );
               }, //// message widget
               itemCount: messages.length,
@@ -122,14 +152,17 @@ class _ChatScreenState extends State<ChatView> {
 
             /// text bar for writing prompt or messages to chat
             Padding(
-              padding: const EdgeInsets.all(10.0),
+              padding: const EdgeInsets.all(3.0),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
+                  IconButton(
+                      onPressed: () => imagepicker(),
+                      icon: const Icon(Icons.add_a_photo_outlined,)),
                   Expanded(
                     child: TextField(
                       style: GoogleFonts.inter(),
-                      controller: prompt,
+                      controller: _messageController,
                       cursorColor: ColorEffect.neutralValue,
                       decoration: InputDecoration(
                         // isCollapsed: true,
@@ -140,17 +173,24 @@ class _ChatScreenState extends State<ChatView> {
                       ),
                     ),
                   ),
-                  IconButton.filledTonal(
+                  isloading ? const CircularProgressIndicator.adaptive() : IconButton.filledTonal(
+                      highlightColor: Colors.deepPurpleAccent,
+                      hoverColor: Colors.teal,
 
                       /// openai api called if textfield have a text otherwise return null
                       onPressed: () async {
-                        if (prompt.text.isEmpty) {
+                        if (_messageController.text.isEmpty) {
                           return;
                         } else {
                           _addMessage(
-                            prompt.text,
+                            _messageController.text,
                             false,
                           );
+                          _messageController.clear();
+                          setState(() {
+                            _scrollDown();
+                            isloading=true;
+                          });
                           // here the chat codes will be placed =>
                         }
                       },

@@ -1,7 +1,5 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
-
 import '../../constants/constant.dart';
 import '../../constants/tools.dart';
 
@@ -13,6 +11,7 @@ class PremiumPage extends StatelessWidget {
     return Stack(
       fit: StackFit.passthrough,
       children: [
+      
         Scaffold(
           body: SizedBox(
             width: 500,

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../Pages/ChatPage/chatpage.dart';
-import '../constants/constant.dart';
 import '../constants/tools.dart';
 
 // here the chat tile to show the basic chat user info
@@ -34,8 +33,7 @@ class ChatTile extends StatelessWidget {
             name,
             style: GoogleFonts.inter(fontSize: 15,fontWeight: FontWeight.bold),
           ),
-          s25,
-          s25,
+         const Spacer(),
           Text(
             time.toString(),
             style: GoogleFonts.inter(fontSize: 10,),
@@ -43,7 +41,7 @@ class ChatTile extends StatelessWidget {
         ],
       ),
       onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) => const ChatView())),
+          context, MaterialPageRoute(builder: (context) =>  ChatView(name: name,image: image,))),
           subtitle: Text(
               lastmessage.toString(),
               style: GoogleFonts.inter(fontSize: 13,color: Colors.grey.shade500,fontWeight: FontWeight.w400),

@@ -1,6 +1,7 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
 import '../Pages/HomePage/bloc/home_bloc.dart';
 import '../Pages/HomePage/widgets/comment_bottombar.dart';
 import '../Pages/HomePage/widgets/more.dart';
@@ -10,6 +11,7 @@ import '../src/modals/post.dart';
 import '../src/modals/usermodel.dart';
 import '../src/share.dart';
 import 'package:timeago/timeago.dart' as timeago;
+import 'package:like_button/like_button.dart';
 
 class PostContainer extends StatefulWidget {
   final Post post;
@@ -21,6 +23,13 @@ class PostContainer extends StatefulWidget {
 }
 
 class _PostContainerState extends State<PostContainer> {
+   Future<String> currentuser () async{
+     final prefs = await SharedPreferences.getInstance();
+    final id = prefs.getString("userId");
+    debugPrint(id);
+    return id!;    
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -88,7 +97,6 @@ class _PostContainerState extends State<PostContainer> {
                 overflow: TextOverflow.ellipsis,
                 maxLines: 6,
                 textAlign: TextAlign.left,
-                // textDirection: TextDirection.ltr,
                 style: GoogleFonts.inter(
                   fontSize: 15,
                   fontWeight: FontWeight.w600,
@@ -160,29 +168,29 @@ class _PostContainerState extends State<PostContainer> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             s25,
-            TextButton.icon(
-                onPressed: () {
+            LikeButton(
+               isLiked: widget.post.likes.contains(Caches().get('userId').toString()) ? true : false,
+                onTap: (isLiked) async {
                   context.read<HomeBloc>().add(LikeAPost(widget.post));
+                  return !isLiked;
                 },
-                label: Text(
-                  widget.post.links.length.toString(),
-                  strutStyle: const StrutStyle(fontSize: 10),
-                ),
-                icon: widget.post.links.isEmpty
-                    ? const Icon(
-                        Icons.favorite,
-                        size: 22,
-                        color: Colors.white,
-                      )
-                    : const Icon(
-                        Icons.favorite,
-                        size: 22,
-                        color: Colors.red,
-                      )),
+                circleColor:
+                    const CircleColor(start: Colors.blue, end: Colors.red),
+                size: 25,
+                likeBuilder: (isLiked) {
+                  return Icon(Icons.favorite,
+                      color: isLiked ? Colors.red : Colors.grey, size: 25);
+                },
+                likeCount: widget.post.likes.length,
+                likeCountAnimationType: LikeCountAnimationType.all,
+                likeCountPadding: const EdgeInsets.all(10),
+                bubblesColor: const BubblesColor(
+                    dotPrimaryColor: Colors.deepPurpleAccent,
+                    dotSecondaryColor: Colors.teal)),
             s25,
             IconButton(
                 onPressed: () {
-                  commentbottomsheet(context);
+                  commentbottomsheet(widget.post.postid.toString(),context);
                 },
                 icon: const Icon(
                   Icons.comment_outlined,
@@ -227,14 +235,16 @@ class ImageScreen extends StatelessWidget {
               tag: 'image',
               child: Expanded(
                   child: InteractiveViewer(
-                     trackpadScrollCausesScale: true,
+                      trackpadScrollCausesScale: true,
                       panEnabled: true,
                       scaleEnabled: true,
                       minScale: 0.1,
                       maxScale: 5,
-                    child: Image.network(image)))),
+                      child: Image.network(image)))),
         ],
       ),
     );
   }
+ 
 }
+  

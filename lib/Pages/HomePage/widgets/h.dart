@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../../components/failure.dart';
 import '../../../components/postsection.dart';
 import '../../../constants/tools.dart';
+import '../../../src/src.dart';
 import '../../Postcreation/View/postcreation.dart';
 import '../bloc/home_bloc.dart';
 
@@ -17,14 +18,16 @@ class PostList extends StatefulWidget {
   State<PostList> createState() => _HomePageState();
 }
 
+final ScrollController _scrollController = ScrollController();
 // final List theme = ['light', 'system', 'dark'];
 
 class _HomePageState extends State<PostList> {
-
   // final List<String> themeoption = theme[0];
+  
   @override
   Widget build(BuildContext context) {
     context.read<HomeBloc>().add(GetNewPosts());
+    context.read<HomeBloc>().add(GetLastestPosts());
     return BlocConsumer<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous != current,
       listener: (context, state) {
@@ -34,18 +37,20 @@ class _HomePageState extends State<PostList> {
         if (state is HomeLoading) {
           const CircularProgressIndicator.adaptive();
         }
+        if (state is LastestPostLoaded) {
+          return debugPrint(
+              "here the lastest post from the appwrite realtime ${state.lastestpost.toString()}");
+        }
       },
       builder: (context, state) {
         return Scaffold(
           /// here the body of the homepage
           body: Stack(
+            fit: StackFit.expand,
             children: [
-              if (state is HomeLoading)
-                const Center(
-                  child: CircularProgressIndicator.adaptive(),
-                )
-              else if (state is HomeLoaded)
+              if (state is HomeLoaded)
                 ListView.separated(
+                    controller: _scrollController,
                     itemBuilder: (context, index) {
                       final post = state.posts[index];
                       final user = state.users[index];
@@ -76,10 +81,13 @@ class _HomePageState extends State<PostList> {
                 left: 290,
                 right: 0,
                 child: GestureDetector(
-                  onTap: () => Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const PostCreationPage())),
+                  onTap: () {
+                    
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const PostCreationPage()));
+                  },
                   child: Container(
                       height: 70,
                       decoration: const BoxDecoration(

@@ -28,4 +28,16 @@ final class ProfileError extends ProfileState {
   List<Object> get props => [message];
 }
 
-// filename: profile_event.dart
+final class ProfileUpdated extends ProfileState {
+  // final UserModel profile;
+  // const ProfileUpdated(this.profile);
+
+  // @override
+  // List<Object> get props => [profile];
+}
+
+final class Userfollowed extends ProfileState {}
+
+final class UserUnfollowed extends ProfileState {}
+
+final class FetchUserFolloewer extends ProfileState {}

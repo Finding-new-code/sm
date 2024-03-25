@@ -15,6 +15,6 @@ static const String storageBucket =  'postimage';
 
 static String imageslinks (String id) => '$endpoint/storage/buckets/$storageBucket/files/$id/view?project=$projectId&mode=admin';
 
-
+static String commentsCollection = '65cdd6d9c9f9bd1c208e' ;
 
 }

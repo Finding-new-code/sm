@@ -1,7 +1,5 @@
-import 'dart:io';
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
 import 'Pages/AuthPage/View/authpage.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
@@ -13,42 +11,31 @@ import 'Pages/ProfilePage/bloc/profile_bloc.dart';
 import 'Pages/SettingsPage/Views/settings_page.dart';
 import 'Pages/WelcomePage/welcome.dart';
 import 'components/termsandconditions.dart';
-import 'constants/appwriteconstants.dart';
 import 'constants/constant.dart';
 import 'constants/tools.dart';
-import 'src/notification.dart';
-import 'src/scr.dart';
+import 'src/src.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  // here the appwrite client is initialized
-  //await Talsec.instance.start(secruity().config());
-  final Client client = Client();
-  client
-    ..setEndpoint(AppwriteConstants.endpoint)
-    ..setProject(AppwriteConstants.projectId)
-    ..setSelfSigned(status: true);
-  log("AppWrite initialised successfully");
-  Hive.initFlutter();
-  log('hive local databases is initialised successfully');
-  // Workmanager().initialize(
-  //   BackgroundTaskManegers().notify(),
-  //   isInDebugMode: true,
-  // );
-  // log('workmanager is initialised successfully');
-  NotficationManeger.init();
-  log('notfication is initialised successfully');
-  NotficationManeger.newNotification("helloworld", "ProjectSM is initialised successfully");
+
+  setupaAndInitDependencies();
+
 
   /// here the all instances are initialized => client, database, storage, account
-  final Teams teams = Teams(client);
-  final Databases databases = Databases(client);
-  final Storage storage = Storage(client);
-  final Account account = Account(client);
-  final Realtime realtime = Realtime(client);
+
+  final Databases databases = Databases(servicelocator());
+  final Storage storage = Storage(servicelocator());
+  final Account account = Account(servicelocator());
+  final Realtime realtime = Realtime(servicelocator());
+
+  NotficationManeger.init();
+  log('notfication is initialised successfully');
+  NotficationManeger.newNotification(
+      "helloworld", "ProjectSM is initialised successfully");
+
   runApp(BetterFeedback(
     child: MyApp(
-      teams: teams,
+      connectivity: servicelocator(),
       storage: storage,
       account: account,
       databases: databases,
@@ -58,29 +45,31 @@ Future<void> main() async {
 }
 
 class MyApp extends StatefulWidget {
-  final Teams teams;
+  final Connectivity connectivity;
   final Databases databases;
   final Account account;
   final Realtime realtime;
   final Storage storage;
-  const MyApp(
-      {super.key,
-      required this.account,
-      required this.databases,
-      required this.realtime,
-      required this.storage,
-      required this.teams});
+  const MyApp({
+    super.key,
+    required this.connectivity,
+    required this.account,
+    required this.databases,
+    required this.realtime,
+    required this.storage,
+  });
 
   @override
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp> {
+class _MyAppState extends State<MyApp>{
   bool isdark = true;
-
+ final Caches caches = Caches();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
+    
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
@@ -98,9 +87,14 @@ class _MyAppState extends State<MyApp> {
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<InternetCubit>(
+            create: (context) =>
+                InternetCubit(connectivity: widget.connectivity),
+          ),
           // here the bloc provider for the auth bloc
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
+              internetCubit: servicelocator(),
                 authRepository: context.read<AuthRepository>(),
                 databasesrepsitory: context.read<DatabasesRepository>()),
           ),
@@ -129,21 +123,19 @@ class _MyAppState extends State<MyApp> {
             title: productName,
 
             /// here the theme is set
-            // showSemanticsDebugger: true,
+            //  showSemanticsDebugger: true,
             // showPerformanceOverlay: true,
             themeAnimationCurve: Curves.easeInOut,
             darkTheme: AppThemeMode().dark,
             theme: AppThemeMode().light,
             themeMode: ThemeMode.dark,
             //debugShowCheckedModeBanner: false,
-            // initialRoute: "/welcome",
+            // initialRoute: caches.get('userId').toString().isEmpty? "/welcome" : '/auth',
             // here you can add more routes with means of the pages address for navigator
             routes: {
               '/welcome': (context) => const WelcomePage(),
               '/h': (context) => const NotificationView(),
-              '/home': (context) => HomePage(
-                    isdark: isdark,
-                  ),
+              '/home': (context) => const HomePage(),
               '/auth': (context) => const AuthPage(),
               'settings': (context) => const SettingsPage(),
               't&c': (context) => const TermsAndConditions(),
@@ -154,22 +146,12 @@ class _MyAppState extends State<MyApp> {
               builder:
                   (BuildContext context, AsyncSnapshot<models.User> snapshot) {
                 if (snapshot.hasData) {
-                  return HomePage(
-                    isdark: isdark,
-                  );
+                  return const HomePage();
                 }
-                // ignore: unrelated_type_equality_checks
-                return isfirstone() == true
-                    ? const WelcomePage()
-                    : const AuthPage();
+                return const AuthPage();
               },
             )),
       ),
     );
-  }
-
-  Future<bool?> isfirstone() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isfirst');
   }
 }

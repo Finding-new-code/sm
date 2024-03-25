@@ -1,21 +1,18 @@
 import 'dart:developer';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import '../../../constants/appwriteconstants.dart';
 import '../../../constants/tools.dart';
-import '../../../src/modals/post.dart';
-import '../../../src/modals/usermodel.dart';
-import '../../../src/repository/databases.dart';
-import '../../../src/repository/storage.dart';
-import '../../../src/themedata.dart';
 import 'package:async/async.dart' show AsyncMemoizer;
 import 'dart:async';
+import '../../../src/src.dart';
 part 'home_event.dart';
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final DatabasesRepository databasesrepository;
   final StorageRepository storagerepository;
-  RealtimeSubscription? _subscription;
+  StreamSubscription? _subscription;
   HomeBloc({required this.databasesrepository, required this.storagerepository})
       : super(HomeInitial()) {
     on<GetNewPosts>(_getNewPosts);
@@ -23,6 +20,8 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<GetLastestPosts>(_getlastestpost);
     on<DeletePost>(_deletePost);
     on<LikeAPost>(_likeAPost);
+    on<UserSearched>(_usersearched);
+    on<CommentPostedByUser>(_commentPostedbyUser);
   }
 
   // var localPostdatabase = Hive.box('PostsDatabase');
@@ -64,16 +63,27 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
-  void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) {
+  ///////
+//////
+  /// here the probleam still i can't figure it out the throught the problem lies in the life cycle
+  /// bad event error
+///////
+  ////////
+
+  void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) async {
     try {
       final lastestPost = databasesrepository.getlastestPosts();
       _subscription = lastestPost.listen((event) {
-        debugPrint(event.toString());
-        return emit(LastestPostLoaded(Post.fromMap(event.payload)));
-      }) as RealtimeSubscription?;
-      // debugPrint('here the lastest post from the realtime $lastestPost');
+        if (event.events.contains(
+            'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create')) {
+          if (emit.isDone) {
+            return emit(LastestPostLoaded(Post.fromMap(event.payload)));
+          }
+        }
+      });
+      //
     } on AppwriteException catch (e) {
-      return emit(HomeError(message: e.message.toString()));
+      emit(HomeError(message: e.message.toString()));
     }
   }
 
@@ -96,6 +106,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       for (String link in post.imageLinks) {
         final id = link.substring(57, 43);
         await storagerepository.deleteFile(id.toString());
+        debugPrint(id.toString());
       }
       //debugPrint('the post id delected from the database and storage');
       return emit(const HomeError(message: 'Post Deleted successfully'));
@@ -105,17 +116,62 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   void _likeAPost(LikeAPost event, Emitter<HomeState> emit) async {
-    final post = event.post;
+    var post = event.post;
+    final List<String> likes = post.likes;
+     final prefs = await SharedPreferences.getInstance();
+      final userid = prefs.getString("userId");
     try {
-      final prefes = await SharedPreferences.getInstance();
-      final userid = prefes.getString('userId');
-      if (post.likes.contains(userid)) {
-        post.likes.remove(post.userid);
+      
+      if (post.likes.contains(userid.toString())) {
+        likes.remove(event.post.userid);
         log('the post unliked');
         return;
+      } else {
+        likes.add(userid.toString());
+        log('the post is liked');
       }
-      await databasesrepository.likePost(post);
-      log('the post liked');
+      post = post.copyWith(likes: post.likes);
+      final res = await databasesrepository.likePost(post);
+      log('the post liked $res');
+    } on AppwriteException catch (e) {
+      return emit(HomeError(message: e.message.toString()));
+    }
+  }
+
+  void _usersearched(UserSearched event, Emitter<HomeState> emit) async {
+    final searchString = event.search;
+    try {
+      final search = await databasesrepository.searchUsersByName(searchString);
+      return emit(UserSearchedSuccessfully(
+          search.map((e) => UserModel.fromMap(e.data)).toList()));
+    } on AppwriteException catch (e) {
+      return emit(HomeError(message: e.message.toString()));
+    }
+  }
+
+  FutureOr<void> _commentPostedbyUser(
+      CommentPostedByUser event, Emitter<HomeState> emit) async {
+    try {
+      final postid = event.postid;
+      final comment = event.comment;
+      String links = linksfromtext(comment);
+      final hashtags = getHastags(comment);
+      final String userid = await Caches().get('userId');
+      if (comment.isEmpty) {
+        return null;
+      }
+      await databasesrepository.postComment(Post(
+          createdAt: DateTime.now(),
+          repliedTo: postid,
+          hashtags: hashtags,
+          links: links,
+          userid: userid ,
+          postid: '',
+          posttext: comment,
+          likes: const [],
+          comments: const [],
+          imageLinks: const []));
+          return emit(CommentedSuccessfully());
     } on AppwriteException catch (e) {
       return emit(HomeError(message: e.message.toString()));
     }
@@ -123,7 +179,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
   @override
   Future<void> close() {
-    _subscription!.close;
+    _subscription!.cancel();
     return super.close();
   }
 

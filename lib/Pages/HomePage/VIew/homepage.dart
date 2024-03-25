@@ -15,10 +15,8 @@ import '../widgets/search_view.dart';
 
 /// This is the homepage of the application
 class HomePage extends StatefulWidget {
-  final bool isdark;
   const HomePage({
     super.key,
-    required this.isdark,
   });
 
   @override
@@ -26,14 +24,15 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(GetUserData());
+    context.read<ProfileBloc>().add(FetchCurrentUserData());
     return BlocConsumer<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous != current,
       listener: (context, state) {
-        // TODO: implement listener
+     ////
         if (state is HomeError) {
           errorbottomsheet(context, state.message);
         }
@@ -43,6 +42,7 @@ class _HomePageState extends State<HomePage> {
       },
       builder: (context, state) {
         return Scaffold(
+
             ///
             /// here the navigation bar which placed in the bottom of the screen
             /// shows you the options
@@ -80,6 +80,7 @@ class _HomePageState extends State<HomePage> {
                     selectedIcon: const Icon(
                       Icons.search_outlined,
                       fill: 1.0,
+                      size: 30,
                       weight: 2.0,
                       opticalSize: 2.0,
                     ),
@@ -87,6 +88,7 @@ class _HomePageState extends State<HomePage> {
                     icon: const Icon(
                       Icons.search_outlined,
                       fill: 1.0,
+                      size: 30,
                       weight: 5.0,
                       opticalSize: 2.0,
                     )),
@@ -102,6 +104,7 @@ class _HomePageState extends State<HomePage> {
                       child: Icon(
                         Icons.notification_add_outlined,
                         fill: 1.0,
+                        size: 30,
                         weight: 5.0,
                         opticalSize: 2.0,
                       ),
@@ -114,11 +117,13 @@ class _HomePageState extends State<HomePage> {
                       Icons.home_filled,
                       fill: 1.0,
                       weight: 5.0,
+                      size: 30,
                       opticalSize: 2.0,
                     ),
                     icon: const Icon(
                       Icons.star_border_purple500_outlined,
                       fill: 1.0,
+                      size: 30,
                       weight: 5.0,
                       opticalSize: 2.0,
                     )),
@@ -128,6 +133,7 @@ class _HomePageState extends State<HomePage> {
             /// here the app bar which placed in the top of the screen
             /// shows you the options
             appBar: AppBar(
+              backgroundColor: Colors.black,
               leading: Padding(
                 padding: const EdgeInsets.all(12.0),
                 child: BlocBuilder<ProfileBloc, ProfileState>(
@@ -155,7 +161,13 @@ class _HomePageState extends State<HomePage> {
               scrolledUnderElevation: 50.0,
               automaticallyImplyLeading: false,
               title: Text(
-                "Explore",
+                _selectedIndex == 0
+                    ? "Explore"
+                    : _selectedIndex == 1
+                        ? "Find"
+                        : _selectedIndex == 2
+                            ? "Notifications"
+                            : "Messaging",
                 style: GoogleFonts.inter(
                     fontSize: 19, fontWeight: FontWeight.bold),
               ),
@@ -297,7 +309,7 @@ class _HomePageState extends State<HomePage> {
                                         groupValue: "",
                                         onChanged: (value) {
                                           setState(() {
-                                            value = widget.isdark;
+                                            // value = widget.isdark;
                                           });
                                         },
                                         title: Text(
@@ -344,15 +356,18 @@ class _HomePageState extends State<HomePage> {
                                 context: context,
                               );
                             },
-                            icon: widget.isdark
-                                ? const Icon(
-                                    Icons.sunny,
-                                    size: 30,
-                                  )
-                                : const Icon(
-                                    Icons.dark_mode,
-                                    size: 35,
-                                  )),
+                            icon:
+                                //  widget.isdark
+                                // ?
+                                const Icon(
+                              Icons.sunny,
+                              size: 30,
+                            )
+                            // : const Icon(
+                            //     Icons.dark_mode,
+                            //     size: 35,
+                            //   )
+                            ),
                       ],
                     )
                   ],

@@ -8,4 +8,5 @@ export 'package:workmanager/workmanager.dart';
 export 'package:flutter/services.dart';
 export 'package:feedback/feedback.dart';
 export 'package:flutter_svg/flutter_svg.dart';
-
+export 'package:get_it/get_it.dart';
+export 'package:connectivity_plus/connectivity_plus.dart';

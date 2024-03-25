@@ -10,22 +10,25 @@ sealed class ThemeState extends Equatable {
 final class ThemeInitial extends ThemeState {}
 
 final class DarkModeActivated extends ThemeState {
-  const DarkModeActivated();
+  final ThemeMode themeMode;
+  const DarkModeActivated({required this.themeMode});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [themeMode];
 }
 
 final class LightModeActivated extends ThemeState {
-  const LightModeActivated();
+  final ThemeMode themeMode;
+  const LightModeActivated({required this.themeMode});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [themeMode];
 }
 
 final class SystemModeActivated extends ThemeState {
-  const SystemModeActivated() : super();
+  final ThemeMode themeMode;
+  const SystemModeActivated({required this.themeMode});
 
   @override
-  List<Object> get props => [];
+  List<Object> get props => [themeMode];
 }

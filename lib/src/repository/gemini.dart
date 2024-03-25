@@ -7,7 +7,12 @@ class GeminiLLm {
   }
 
   Future<String> chatbot() async {
-    // TODO: and aslo for conversional chatbot
+    // // TODO: and aslo for conversional chatbot
+    // final _model = GenerativeModel(
+    //   model: 'gemini-pro',
+    //   apiKey: widget.apiKey,
+    // );
+    // _chat = _model.startChat();
     return 'chatbot';
   }
 }

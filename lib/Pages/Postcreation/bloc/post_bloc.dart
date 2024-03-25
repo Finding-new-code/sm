@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:equatable/equatable.dart';
+import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
 import '../../../constants/tools.dart';
 import '../../../src/extract.dart';
 import '../../../src/modals/post.dart';
@@ -26,8 +27,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     }
     try {
       try {
-        final prefes = await SharedPreferences.getInstance();
-        final userid = prefes.getString('userId');
+        final userid = Caches().get('userId');
         emit(const PostSending(true));
         final imagelinks = await storageRespository.uploadFile(image);
         String links = linksfromtext(text);
@@ -42,6 +42,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             likes: const [],
             comments: const [],
             imageLinks: imagelinks,
+            repliedTo: ''
             );
 
         await databasesRepository.postSendToServer(post);

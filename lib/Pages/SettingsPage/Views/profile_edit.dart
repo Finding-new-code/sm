@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myapp658d7b3746ed317621f8/src/cache.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 import '../../AuthPage/View/authpage.dart';
@@ -69,6 +70,7 @@ class ProfileSettings extends StatelessWidget {
                           const EdgeInsets.symmetric(horizontal: 30),
                       onTap: () {
                         context.read<AuthBloc>().add(Logout());
+                        Caches().clear('userId');
                       },
                       title: Text(
                         "Logout",

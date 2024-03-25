@@ -87,10 +87,7 @@ class _AuthDesktopView extends State<AuthdesktopView>
           //here navigator for next page => HomePage
           Navigator.pushAndRemoveUntil(
               context,
-              MaterialPageRoute(
-                  builder: (context) => const HomePage(
-                        isdark: false,
-                      )),
+              MaterialPageRoute(builder: (context) => const HomePage()),
               (route) => false);
         }
 

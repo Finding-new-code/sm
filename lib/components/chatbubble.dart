@@ -1,16 +1,18 @@
-// ignore: file_names
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+
+import '../constants/constant.dart';
 
 //// message widgets
 class Message extends StatelessWidget {
   final bool isReceiver;
   final String text;
+  final String receiverimg;
 
   const Message({
     super.key,
     required this.isReceiver,
-    required this.text,
+    required this.text, required this.receiverimg,
   });
 
   @override
@@ -23,35 +25,41 @@ class Message extends StatelessWidget {
         child: Row(
           mainAxisAlignment:
               isReceiver ? MainAxisAlignment.start : MainAxisAlignment.end,
-              crossAxisAlignment: isReceiver ? CrossAxisAlignment.start : CrossAxisAlignment.end,
+          crossAxisAlignment:
+              isReceiver ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
             if (isReceiver == true)
-              const CircleAvatar(
-                child: Icon(Icons.person_3_rounded),
+               CircleAvatar(
+                child: Image.network(receiverimg),
               ),
 
             /// message container as shown
             Container(
-              width: MediaQuery.of(context).textScaleFactor + 200,
+              constraints: BoxConstraints(
+                maxWidth: MediaQuery.sizeOf(context).width * 0.6,
+              ),
               margin: const EdgeInsets.all(5),
+              padding: const EdgeInsets.only(top: 10, bottom: 10),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(20),
-                color: isReceiver ? Colors.black45.withOpacity(0.5) : Colors.deepPurple.shade900.withOpacity(0.7),
+                color: isReceiver
+                    ? Colors.black45.withOpacity(0.5)
+                    : Colors.deepPurple.shade900.withOpacity(0.7),
               ),
               child:
 
                   /// message content can be pass through this text widget
                   Row(
+                mainAxisSize: MainAxisSize.min,
                 children: [
-                  Expanded(
-                    child: Text(
-                      text,
-                      style: const TextStyle(color: Colors.white, fontSize: 19),
-                      textAlign: TextAlign.center,
-                      softWrap: true,
-                      maxLines: 10,
-                    ),
+                  s25,
+                  Text(
+                    text,
+                    style: const TextStyle(color: Colors.white, fontSize: 19),
+                    textAlign: TextAlign.center,
+                    softWrap: true,
                   ),
+                  s25,
                 ],
               ),
             ),
