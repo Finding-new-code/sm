@@ -4,7 +4,7 @@ import 'package:myapp658d7b3746ed317621f8/Pages/AuthPage/View/authmobile.dart';
 import 'package:myapp658d7b3746ed317621f8/components/responsive.dart';
 
 class AuthPage extends StatelessWidget {
-  const AuthPage({Key? key}) : super(key: key);
+  const AuthPage({super.key});
 
   @override
   Widget build(BuildContext context) {

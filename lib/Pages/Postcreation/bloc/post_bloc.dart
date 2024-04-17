@@ -27,7 +27,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
     }
     try {
       try {
-        final userid = Caches().get('userId');
+        final String userid = await Caches().get('userId');
         emit(const PostSending(true));
         final imagelinks = await storageRespository.uploadFile(image);
         String links = linksfromtext(text);
@@ -36,7 +36,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             createdAt: DateTime.now(),
             hashtags: hashtags,
             links: links,
-            userid: userid.toString(),
+            userid: userid,
             postid: '',
             posttext: text,
             likes: const [],

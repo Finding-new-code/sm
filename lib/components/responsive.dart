@@ -5,11 +5,10 @@ class ResponsiveLayout extends StatelessWidget {
   final Widget tablettype;
   final Widget mobiletype;
   const ResponsiveLayout(
-      {Key? key,
+      {super.key,
       required this.desktoptype,
       required this.tablettype,
-      required this.mobiletype})
-      : super(key: key);
+      required this.mobiletype});
 
   @override
   Widget build(BuildContext context) {

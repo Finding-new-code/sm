@@ -11,8 +11,8 @@ import '../bloc/auth_bloc.dart';
 class AuthdesktopView extends StatefulWidget {
   // final Account account;
   const AuthdesktopView({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AuthdesktopView> createState() => _AuthDesktopView();

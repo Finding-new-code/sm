@@ -13,7 +13,7 @@ final appRoutes = GoRouter(routes: <RouteBase>[
     builder: (context, state) => const AuthPage(),
   ),
   GoRoute(
-    path: '/home',
+    path: '/',
     builder: (context, state) => const HomePage(),
   ),
   // GoRoute(
@@ -21,26 +21,27 @@ final appRoutes = GoRouter(routes: <RouteBase>[
   //     builder: (context, state) => const ProfilePage(user: user, post: post),
   // ),
   GoRoute(
-      path: '/notification',
-      builder: (context, state) => const NotificationView(),
+    path: '/notification',
+    builder: (context, state) => const NotificationView(),
   ),
-   GoRoute(
-      path: '/welcome',
-      builder: (context, state) => const WelcomePage(),
+  GoRoute(
+    path: '/welcome',
+    builder: (context, state) => const WelcomePage(),
   ),
-   GoRoute(
-      path: '/settings',
-      builder: (context, state) => const SettingsPage(),
-  ), GoRoute(
-      path: '/Premium',
-      builder: (context, state) => const PremiumPage(),
+  GoRoute(
+    path: '/settings',
+    builder: (context, state) => const SettingsPage(),
+  ),
+  GoRoute(
+    path: '/Premium',
+    builder: (context, state) => const PremiumPage(),
   ),
   //  GoRoute(
   //     path: '/post',
   //     builder: (context, state) => const PostContainer(post: post, user: user),
   // ),
-   GoRoute(
-      path: '/create',
-      builder: (context, state) => const PostCreationPage(),
+  GoRoute(
+    path: '/create',
+    builder: (context, state) => const PostCreationPage(),
   ),
-]);
+], initialLocation:  '/');

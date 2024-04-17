@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import '../constants/constant.dart';
 
@@ -53,12 +54,7 @@ class Message extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   s25,
-                  Text(
-                    text,
-                    style: const TextStyle(color: Colors.white, fontSize: 19),
-                    textAlign: TextAlign.center,
-                    softWrap: true,
-                  ),
+                  Markdown(data: text),
                   s25,
                 ],
               ),

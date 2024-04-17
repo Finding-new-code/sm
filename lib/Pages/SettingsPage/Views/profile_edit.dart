@@ -6,7 +6,7 @@ import '../../AuthPage/View/authpage.dart';
 import '../../AuthPage/bloc/auth_bloc.dart';
 
 class ProfileSettings extends StatelessWidget {
-  const ProfileSettings({Key? key}) : super(key: key);
+  const ProfileSettings({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -94,7 +94,7 @@ class ProfileSettings extends StatelessWidget {
 }
 
 class ProfileEdit extends StatelessWidget {
-  ProfileEdit({Key? key}) : super(key: key);
+  ProfileEdit({super.key});
   final TextEditingController _namecontroller = TextEditingController();
   final TextEditingController _biocontroller = TextEditingController();
   final TextEditingController _emailcontroller = TextEditingController();

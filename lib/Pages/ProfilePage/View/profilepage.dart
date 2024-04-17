@@ -12,8 +12,7 @@ import '../bloc/profile_bloc.dart';
 class ProfilePage extends StatefulWidget {
   final UserModel user;
   final List<Post> post;
-  const ProfilePage({Key? key, required this.user, required this.post})
-      : super(key: key);
+  const ProfilePage({super.key, required this.user, required this.post});
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();

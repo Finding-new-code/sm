@@ -5,11 +5,11 @@ part 'internet_state.dart';
 
 class InternetCubit extends Cubit<InternetState> {
   final Connectivity connectivity;
-  StreamSubscription? connectivityStreamSubscription;
+  StreamSubscription<List<ConnectivityResult>>? connectivityStreamSubscription;
 
   InternetCubit({required this.connectivity}) : super(InternetInitial()) {
     connectivityStreamSubscription =
-        connectivity.onConnectivityChanged.listen((result) {
+        connectivity.onConnectivityChanged.listen((List<ConnectivityResult>result) {
       if (result == ConnectivityResult.none) {
         emit(InternetDisconnected());
       } else {

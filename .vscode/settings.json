@@ -2,5 +2,6 @@
     "IDX.aI.enableInlineCompletion": true,
     "editor.tokenColorCustomizations": {
         "comments": "#139628"
-    }
+    },
+    "IDX.aI.enableCodebaseIndexing": true
 }

@@ -13,12 +13,12 @@ class ChatTile extends StatelessWidget {
   final String image;
   // final bool isActive;
   ChatTile({
-    Key? key,
+    super.key,
     required this.name,
     this.lastmessage,
     this.time,
     required this.image,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -31,21 +31,32 @@ class ChatTile extends StatelessWidget {
         children: [
           Text(
             name,
-            style: GoogleFonts.inter(fontSize: 15,fontWeight: FontWeight.bold),
+            style: GoogleFonts.inter(fontSize: 15, fontWeight: FontWeight.bold),
           ),
-         const Spacer(),
+          const Spacer(),
           Text(
             time.toString(),
-            style: GoogleFonts.inter(fontSize: 10,),
+            style: GoogleFonts.inter(
+              fontSize: 10,
+            ),
           )
         ],
       ),
       onTap: () => Navigator.push(
-          context, MaterialPageRoute(builder: (context) =>  ChatView(name: name,image: image,))),
-          subtitle: Text(
-              lastmessage.toString(),
-              style: GoogleFonts.inter(fontSize: 13,color: Colors.grey.shade500,fontWeight: FontWeight.w400),
-            ),
+          context,
+          MaterialPageRoute(
+              builder: (context) => SuzumeChat(
+                    name: name,
+                    image: image,
+                    api: 'AIzaSyB6o4N2y3mrhltQkq5Aa2rO2914fnobfTk',
+                  ))),
+      subtitle: Text(
+        lastmessage.toString(),
+        style: GoogleFonts.inter(
+            fontSize: 13,
+            color: Colors.grey.shade500,
+            fontWeight: FontWeight.w400),
+      ),
     );
   }
 }

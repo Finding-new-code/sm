@@ -1,3 +1,4 @@
+import 'package:google_generative_ai/google_generative_ai.dart';
 class GeminiLLm {
   // ...
   final String apikey = 'AIzaSyB6o4N2y3mrhltQkq5Aa2rO2914fnobfTk';
@@ -6,13 +7,11 @@ class GeminiLLm {
     return 'contentfiltering';
   }
 
-  Future<String> chatbot() async {
-    // // TODO: and aslo for conversional chatbot
-    // final _model = GenerativeModel(
-    //   model: 'gemini-pro',
-    //   apiKey: widget.apiKey,
-    // );
-    // _chat = _model.startChat();
-    return 'chatbot';
+  Future<ChatSession> chatbot() async {
+    final _model = GenerativeModel(
+      model: 'gemini-pro',
+      apiKey: apikey,
+    );
+    return _model.startChat();
   }
 }

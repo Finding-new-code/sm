@@ -41,7 +41,8 @@ class DatabasesRepository {
     final document = await _databases.listDocuments(
         databaseId: AppwriteConstants.projectdatabases,
         collectionId: AppwriteConstants.postCollection,
-        queries: [Query.orderDesc('createdAt')]);
+        //queries: [Query.orderAsc('createdAt')]
+        );
     return document.documents.toList();
   }
 
@@ -83,7 +84,8 @@ class DatabasesRepository {
       databaseId: AppwriteConstants.projectdatabases,
       collectionId: AppwriteConstants.postCollection,
       queries: [
-        Query.equal('userid', uid),
+        Query.equal('userid', [uid]),
+        Query.orderDesc('createdAt'),
       ],
     );
     return documents.documents;

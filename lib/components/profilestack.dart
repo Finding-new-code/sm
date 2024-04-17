@@ -4,8 +4,7 @@ class ProfileStackImage extends StatelessWidget {
   final String profileimage;
   final String bannerimage;
   const ProfileStackImage(
-      {Key? key, required this.profileimage, required this.bannerimage})
-      : super(key: key);
+      {super.key, required this.profileimage, required this.bannerimage});
 
   @override
   Widget build(BuildContext context) {

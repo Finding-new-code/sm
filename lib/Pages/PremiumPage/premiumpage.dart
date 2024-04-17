@@ -4,7 +4,7 @@ import '../../constants/constant.dart';
 import '../../constants/tools.dart';
 
 class PremiumPage extends StatelessWidget {
-  const PremiumPage({Key? key}) : super(key: key);
+  const PremiumPage({super.key});
 
   @override
   Widget build(BuildContext context) {

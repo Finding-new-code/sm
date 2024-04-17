@@ -7,7 +7,7 @@ import '../../../src/imagepicker.dart';
 import '../bloc/post_bloc.dart';
 
 class PostCreationPage extends StatefulWidget {
-  const PostCreationPage({Key? key}) : super(key: key);
+  const PostCreationPage({super.key});
 
   @override
   State<PostCreationPage> createState() => _PostCreationPageState();

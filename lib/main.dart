@@ -4,7 +4,6 @@ import 'Pages/AuthPage/View/authpage.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
 import 'Pages/HomePage/VIew/homepage.dart';
-import 'package:appwrite/models.dart' as models;
 import 'Pages/HomePage/widgets/notfication_view.dart';
 import 'Pages/Postcreation/bloc/post_bloc.dart';
 import 'Pages/ProfilePage/bloc/profile_bloc.dart';
@@ -19,7 +18,6 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
   setupaAndInitDependencies();
-
 
   /// here the all instances are initialized => client, database, storage, account
 
@@ -63,13 +61,12 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-class _MyAppState extends State<MyApp>{
+class _MyAppState extends State<MyApp> {
   bool isdark = true;
- final Caches caches = Caches();
+  final Caches caches = Caches();
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
@@ -94,7 +91,7 @@ class _MyAppState extends State<MyApp>{
           // here the bloc provider for the auth bloc
           BlocProvider<AuthBloc>(
             create: (context) => AuthBloc(
-              internetCubit: servicelocator(),
+                internetCubit: servicelocator(),
                 authRepository: context.read<AuthRepository>(),
                 databasesrepsitory: context.read<DatabasesRepository>()),
           ),
@@ -114,44 +111,50 @@ class _MyAppState extends State<MyApp>{
 
           /// here the bloc provider for the profile bloc
           BlocProvider<ProfileBloc>(
-              lazy: false,
+            lazy: false,
               create: (context) => ProfileBloc(
                     databasesrepository: context.read<DatabasesRepository>(),
                   )),
         ],
         child: MaterialApp(
-            title: productName,
+          title: productName,
 
-            /// here the theme is set
-            //  showSemanticsDebugger: true,
-            // showPerformanceOverlay: true,
-            themeAnimationCurve: Curves.easeInOut,
-            darkTheme: AppThemeMode().dark,
-            theme: AppThemeMode().light,
-            themeMode: ThemeMode.dark,
-            //debugShowCheckedModeBanner: false,
-            // initialRoute: caches.get('userId').toString().isEmpty? "/welcome" : '/auth',
-            // here you can add more routes with means of the pages address for navigator
-            routes: {
-              '/welcome': (context) => const WelcomePage(),
-              '/h': (context) => const NotificationView(),
-              '/home': (context) => const HomePage(),
-              '/auth': (context) => const AuthPage(),
-              'settings': (context) => const SettingsPage(),
-              't&c': (context) => const TermsAndConditions(),
-            },
-            // here the home page is set
-            home: StreamBuilder(
-              stream: widget.account.get().asStream(),
-              builder:
-                  (BuildContext context, AsyncSnapshot<models.User> snapshot) {
-                if (snapshot.hasData) {
-                  return const HomePage();
-                }
+          /// here the theme is set
+          //  showSemanticsDebugger: true,
+          // showPerformanceOverlay: true,
+          themeAnimationCurve: Curves.easeInOut,
+          darkTheme: AppThemeMode().dark,
+          theme: AppThemeMode().light,
+          themeMode: ThemeMode.dark,
+          //debugShowCheckedModeBanner: false,
+          // initialRoute: caches.get('userId').toString().isEmpty? "/welcome" : '/auth',
+          // here you can add more routes with means of the pages address for navigator
+          routes: {
+            '/welcome': (context) => const WelcomePage(),
+            '/h': (context) => const NotificationView(),
+            '/home': (context) => const HomePage(),
+            '/auth': (context) => const AuthPage(),
+            'settings': (context) => const SettingsPage(),
+            't&c': (context) => const TermsAndConditions(),
+          },
+          // here the home page is set
+          home: StreamBuilder(
+            stream: widget.account.getSession(sessionId: 'current').asStream(),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                return const HomePage();
+              } else {
                 return const AuthPage();
-              },
-            )),
+              }
+            },
+          ),
+        ),
       ),
     );
+  }
+
+  Future<bool?> isfirstone() async {
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getBool('isfirst');
   }
 }

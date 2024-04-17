@@ -9,8 +9,8 @@ import '../bloc/auth_bloc.dart';
 
 class AuthMobile extends StatefulWidget {
   const AuthMobile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<AuthMobile> createState() => _AuthMobileState();

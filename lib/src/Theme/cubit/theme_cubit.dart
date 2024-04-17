@@ -8,8 +8,8 @@ part 'theme_state.dart';
 class ThemeCubit extends Cubit<ThemeMode> {
   ThemeCubit() : super(ThemeMode.dark);
  
- void DarkMode() {emit(const DarkModeActivated(themeMode: ThemeMode.dark) as ThemeMode);} 
- void LightMode() => emit(ThemeMode.light);
+ void darkMode() {emit(const DarkModeActivated(themeMode: ThemeMode.dark) as ThemeMode);} 
+ void lightMode() => emit(ThemeMode.light);
  void systemMode() => emit(ThemeMode.system);
 }
 

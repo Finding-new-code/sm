@@ -4,7 +4,7 @@ import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
 
 class RecoveryPassword extends StatelessWidget {
-  RecoveryPassword({Key? key}) : super(key: key);
+  RecoveryPassword({super.key});
   final TextEditingController _password = TextEditingController();
   final TextEditingController _confirmPassword = TextEditingController();
 
@@ -78,7 +78,7 @@ class RecoveryPassword extends StatelessWidget {
             onChanged: (value) => _confirmPassword,
           ),
           s25,
-          ElevatedButton(onPressed: () {}, child: Text('Proceed'))
+          ElevatedButton(onPressed: () {}, child: const Text('Proceed'))
         ],
       ),
     );

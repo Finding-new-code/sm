@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import '../../../components/failure.dart';
 import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
@@ -24,15 +25,14 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  
   int _selectedIndex = 0;
   @override
   Widget build(BuildContext context) {
-    context.read<ProfileBloc>().add(FetchCurrentUserData());
+    context.read<ProfileBloc>().add(GetUserData());
     return BlocConsumer<HomeBloc, HomeState>(
       buildWhen: (previous, current) => previous != current,
       listener: (context, state) {
-     ////
+        ////
         if (state is HomeError) {
           errorbottomsheet(context, state.message);
         }
@@ -135,29 +135,34 @@ class _HomePageState extends State<HomePage> {
             appBar: AppBar(
               backgroundColor: Colors.black,
               leading: Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: BlocBuilder<ProfileBloc, ProfileState>(
-                  buildWhen: (previous, current) => previous != current,
-                  builder: (context, state) {
-                    if (state is ProfileLoaded) {
-                      return GestureDetector(
-                        onTap: () {
-                          Scaffold.of(context).openDrawer();
-                        },
-                        child: CircleAvatar(
-                          backgroundImage: state
-                                  .profile.profilePicture.isNotEmpty
-                              ? NetworkImage(state.profile.profilePicture)
-                              : const NetworkImage("https:picsum.photos/200"),
-                          backgroundColor: Colors.grey.shade500,
-                          radius: 1,
-                        ),
-                      );
-                    }
-                    return const SizedBox();
-                  },
-                ),
-              ),
+                  padding: const EdgeInsets.all(12.0),
+                  child: Builder(builder: (context) {
+                    final state =
+                        context.watch<ProfileBloc>().state as ProfileLoaded;
+                    return BlocBuilder<ProfileBloc, ProfileState>(
+                      buildWhen: (previous, current) => previous != current,
+                      builder: (context, state) {
+                        if (state is ProfileLoaded) {
+                          return GestureDetector(
+                          onTap: () {
+                            Scaffold.of(context).openDrawer();
+                          },
+                          child: CircleAvatar(
+                            backgroundImage: NetworkImage(
+                                state.profile.profilePicture.toString()),
+                            radius: 1,
+                          ),
+                        );
+                        }
+                        return state is ProfileLoading
+                            ? const CircularProgressIndicator.adaptive()
+                            : const SizedBox();
+                        
+                      },
+              
+                    );
+                  })),
+              elevation: 0,
               scrolledUnderElevation: 50.0,
               automaticallyImplyLeading: false,
               title: Text(
@@ -231,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage(
-                                    post: state.posts,
+                                    post: [],
                                     user: state.profile,
                                   ))),
                     ),

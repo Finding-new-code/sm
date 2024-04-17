@@ -30,19 +30,28 @@ Future<void> setupaAndInitDependencies() async {
   //   isInDebugMode: true,
   // );
   // log('workmanager is initialised successfully');
-   servicelocator.registerLazySingleton(() => InternetCubit(connectivity: servicelocator()));
-  //
-  // servicelocator.registerFactory<>(() => DatabasesRepository(
+  servicelocator.registerLazySingleton(
+      () => InternetCubit(connectivity: servicelocator()));
+  servicelocator
+      .registerLazySingleton<Client>(() => appwrite(client));
+  // servicelocator.registerFactory<da>(() => DatabasesRepository(
   //     databases: servicelocator(), realtime: servicelocator()));
   // servicelocator.registerFactory<AuthRepository>(
   //     () => AuthRepository(account: servicelocator()));
   // servicelocator.registerFactory<StorageRepository>(
   //     () => StorageRepository(storage: servicelocator()));
 
-      /// here the hive storage is intialize =>
+  /// here the hive storage is intialize =>
   final path = await getApplicationCacheDirectory();
   Hive.defaultDirectory = path.path;
   log('hive local databases is initialised successfully');
 
   servicelocator.registerSingleton(() => Hive.box(name: 'local_databases'));
+}
+
+appwrite(Client client) {
+  final Databases databases = Databases(client);
+  final Storage storage = Storage(client);
+  final Account account = Account(client);
+  return [databases, storage, account];
 }

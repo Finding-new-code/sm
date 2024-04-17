@@ -6,7 +6,7 @@ import '../../constants/tools.dart';
 import '../AuthPage/View/authpage.dart';
 
 class WelcomePage extends StatefulWidget {
-  const WelcomePage({Key? key}) : super(key: key);
+  const WelcomePage({super.key});
 
   @override
   State<WelcomePage> createState() => _WelcomePageState();

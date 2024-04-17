@@ -62,7 +62,7 @@ class SearchBarNew extends StatelessWidget {
                                   onTap: () {
                                    // context.read<ProfileBloc>().add();
                                     Navigator.push(context, 
-                                  MaterialPageRoute(builder: (context) => ProfilePage(user: usersearched,post: [],),));} , 
+                                  MaterialPageRoute(builder: (context) => ProfilePage(user: usersearched,post: const [],),));} , 
                                   child: ListTile(
                                       leading: CircleAvatar(
                                           backgroundColor: Colors.black,

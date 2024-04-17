@@ -1,10 +1,13 @@
-///  here the comments bottom sheet is created
-///  which we shows the list of commments and textfield to add new comment
 
 import 'package:flutter/material.dart';
 import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/bloc/home_bloc.dart';
 import '../../../constants/constant.dart';
 import '../../../constants/tools.dart';
+
+
+
+///  here the comments bottom sheet is created
+///  which we shows the list of commments and textfield to add new comment
 
 commentbottomsheet(
  final String postid,

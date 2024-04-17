@@ -13,11 +13,11 @@ final class ProfileLoading extends ProfileState {}
 
 final class ProfileLoaded extends ProfileState {
   final UserModel profile;
-  final List<Post> posts;
-  const ProfileLoaded(this.profile,this.posts);
+  //final List<Post> posts;
+  const ProfileLoaded(this.profile);
 
   @override
-  List<Object> get props => [profile,posts];
+  List<Object> get props => [profile];
 }
 
 final class ProfileError extends ProfileState {
@@ -28,13 +28,13 @@ final class ProfileError extends ProfileState {
   List<Object> get props => [message];
 }
 
-final class ProfileUpdated extends ProfileState {
-  // final UserModel profile;
-  // const ProfileUpdated(this.profile);
+// final class ProfileUpdated extends ProfileState {
+//   final UserModel profile;
+//   const ProfileUpdated(this.profile);
 
-  // @override
-  // List<Object> get props => [profile];
-}
+//   @override
+//   List<Object> get props => [profile];
+// }
 
 final class Userfollowed extends ProfileState {}
 

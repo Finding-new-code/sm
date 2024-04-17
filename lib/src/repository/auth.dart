@@ -9,21 +9,21 @@ class AuthRepository {
   AuthRepository({required Account account}) : _account = account;
 
   /// here the current user code implementation takes place, get the info currents device details =>
-  Future<models.User?> currentUser() async {
-    final user = await Caches().get("User");
+  Future<bool> currentUser() async {
+    final user = await Caches().get("Userid");
     final usersession = await Caches().get("UserSession");
     if (user.isEmpty && usersession.isEmpty) {
-      return await _account.get();
+       await _account.getSession(sessionId: 'current');
+       return  true;
     } else {
-      return null;
+      return false;
     }
   }
 
  /// here the login account code implementation takes place =>
   Future<models.Session> loginAccount(String email, String password) async {
     final session =
-        await _account.createEmailSession(email: email, password: password);
-        // Caches().set("UserSession", session);
+        await _account.createEmailPasswordSession(email: email, password: password);
     debugPrint(
         "{${session.$id}, ${session.deviceName}, ${session.ip}, ${session.countryName}, ${session.$createdAt}, ${session.deviceBrand}}");
         return session;
