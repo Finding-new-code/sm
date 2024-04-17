@@ -236,7 +236,7 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage(
-                                    post: [],
+                                    post: const [],
                                     user: state.profile,
                                   ))),
                     ),

@@ -98,7 +98,7 @@ class _MyAppState extends State<MyApp> {
 
           /// here the bloc provider for the home bloc
           BlocProvider<HomeBloc>(
-              lazy: false,
+             // lazy: false,
               create: (context) => HomeBloc(
                   storagerepository: context.read<StorageRepository>(),
                   databasesrepository: context.read<DatabasesRepository>())),

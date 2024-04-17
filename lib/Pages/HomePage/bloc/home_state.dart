@@ -27,7 +27,7 @@ final class HomeError extends HomeState {
 }
 
 final class LastestPostLoaded extends HomeState {
-   final Post lastestpost;
+  final Post lastestpost;
   const LastestPostLoaded(this.lastestpost);
   @override
   List<Object> get props => [lastestpost];

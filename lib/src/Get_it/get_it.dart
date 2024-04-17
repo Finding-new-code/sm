@@ -2,6 +2,7 @@
 
 import 'dart:developer';
 import 'package:hive/hive.dart';
+import 'package:myapp658d7b3746ed317621f8/Pages/HomePage/bloc/home_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import '../../constants/appwriteconstants.dart';
 import '../../constants/tools.dart';
@@ -30,16 +31,28 @@ Future<void> setupaAndInitDependencies() async {
   //   isInDebugMode: true,
   // );
   // log('workmanager is initialised successfully');
+
+  /// here the cubits are initialized =>
   servicelocator.registerLazySingleton(
       () => InternetCubit(connectivity: servicelocator()));
-  servicelocator
-      .registerLazySingleton<Client>(() => appwrite(client));
-  // servicelocator.registerFactory<da>(() => DatabasesRepository(
-  //     databases: servicelocator(), realtime: servicelocator()));
-  // servicelocator.registerFactory<AuthRepository>(
-  //     () => AuthRepository(account: servicelocator()));
-  // servicelocator.registerFactory<StorageRepository>(
-  //     () => StorageRepository(storage: servicelocator()));
+
+  servicelocator.registerFactory<Realtime>(() => Realtime(client));
+  servicelocator.registerFactory<Databases>(() => Databases(client));
+  servicelocator.registerFactory<Storage>(() => Storage(client));
+  servicelocator.registerFactory<Account>(() => Account(client));
+
+  /// here the repositories are initialized =>
+
+  servicelocator.registerFactory<DatabasesRepository>(() => DatabasesRepository(
+      databases: servicelocator(), realtime: servicelocator()));
+  servicelocator.registerFactory<AuthRepository>(
+      () => AuthRepository(account: servicelocator()));
+  servicelocator.registerFactory<StorageRepository>(
+      () => StorageRepository(storage: servicelocator()));
+
+  servicelocator.registerFactory<HomeBloc>(() => HomeBloc(
+      databasesrepository: servicelocator(),
+      storagerepository: servicelocator()));
 
   /// here the hive storage is intialize =>
   final path = await getApplicationCacheDirectory();
@@ -47,11 +60,4 @@ Future<void> setupaAndInitDependencies() async {
   log('hive local databases is initialised successfully');
 
   servicelocator.registerSingleton(() => Hive.box(name: 'local_databases'));
-}
-
-appwrite(Client client) {
-  final Databases databases = Databases(client);
-  final Storage storage = Storage(client);
-  final Account account = Account(client);
-  return [databases, storage, account];
 }

@@ -1,7 +1,7 @@
 import 'package:google_generative_ai/google_generative_ai.dart';
 class GeminiLLm {
   // ...
-  final String apikey = 'AIzaSyB6o4N2y3mrhltQkq5Aa2rO2914fnobfTk';
+  final String apikey = 'AIzaSyAkWsQ7VtGTlevdDT3TqNwkufcPe7HfV3Q';
   Future<String> contentfiltering() async {
     // TODO: gemini ai will be used for the content moderation and content filtering
     return 'contentfiltering';

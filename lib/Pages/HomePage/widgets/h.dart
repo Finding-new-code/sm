@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../../components/failure.dart';
 import '../../../components/postsection.dart';
+import '../../../constants/appwriteconstants.dart';
 import '../../../constants/tools.dart';
 import '../../../src/src.dart';
 import '../../Postcreation/View/postcreation.dart';
@@ -23,12 +24,11 @@ final ScrollController _scrollController = ScrollController();
 
 class _HomePageState extends State<PostList> {
   // final List<String> themeoption = theme[0];
-  
+
   @override
   Widget build(BuildContext context) {
-    context.read<HomeBloc>().add(GetNewPosts());
-    context.read<HomeBloc>().add(GetLastestPosts());
     return BlocConsumer<HomeBloc, HomeState>(
+      bloc: servicelocator.get<HomeBloc>()..add(GetNewPosts()),
       buildWhen: (previous, current) => previous != current,
       listener: (context, state) {
         if (state is HomeError) {
@@ -49,31 +49,44 @@ class _HomePageState extends State<PostList> {
             fit: StackFit.expand,
             children: [
               if (state is HomeLoaded)
-                ListView.separated(
-                    controller: _scrollController,
-                    itemBuilder: (context, index) {
-                      final post = state.posts[index];
-                      final user = state.users[index];
-                      // here the post are fetched from databases then shown to the homepage =>
-                      return Animate(
-                        effects: const [
-                          SlideEffect(
-                              delay: Duration(milliseconds: 500),
-                              duration: Duration(seconds: 1),
-                              curve: Curves.easeInOut)
-                        ],
-                        child: PostContainer(
-                          user: user,
-                          post: post,
-                        ),
-                      );
+                StreamBuilder(
+                    stream: servicelocator.get<Realtime>().subscribe([
+                      'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents'
+                    ]).stream,
+                    builder:(context, snapshot) {
+                      if (snapshot.hasData) {
+                        if (snapshot.data!.events.contains(
+                            'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create')) {
+                          state.posts
+                              .insert(0, Post.fromMap(snapshot.data!.payload));
+                        }
+                      }
+                      return ListView.separated(
+                          controller: _scrollController,
+                          itemBuilder: (context, index) {
+                            final post = state.posts[index];
+                            final user = state.users[index];
+                            // here the post are fetched from databases then shown to the homepage =>
+                            return Animate(
+                              effects: const [
+                                SlideEffect(
+                                    delay: Duration(milliseconds: 500),
+                                    duration: Duration(seconds: 1),
+                                    curve: Curves.easeInOut)
+                              ],
+                              child: PostContainer(
+                                user: user,
+                                post: post,
+                              ),
+                            );
 
-                      /// here the post are fetched from databases then shown to the homepage =>
-                    },
-                    separatorBuilder: (context, index) =>
-                        const SizedBox.shrink(),
-                    shrinkWrap: true,
-                    itemCount: state.posts.length),
+                            /// here the post are fetched from databases then shown to the homepage =>
+                          },
+                          separatorBuilder: (context, index) =>
+                              const SizedBox.shrink(),
+                          shrinkWrap: true,
+                          itemCount: state.posts.length);
+                    }),
 
               //// here i change the button
               Positioned(
@@ -82,7 +95,6 @@ class _HomePageState extends State<PostList> {
                 right: 0,
                 child: GestureDetector(
                   onTap: () {
-                    
                     Navigator.push(
                         context,
                         MaterialPageRoute(

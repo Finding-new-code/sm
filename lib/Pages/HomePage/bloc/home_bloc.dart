@@ -73,11 +73,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) async {
     try {
       final lastestPost = databasesrepository.getlastestPosts();
-      _subscription = lastestPost.listen((event) {
+      _subscription = lastestPost.listen((event) async{
         if (event.events.contains(
             'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create')) {
           if (emit.isDone) {
-            return emit(LastestPostLoaded(Post.fromMap(event.payload)));
+            return emit(await LastestPostLoaded(Post.fromMap(event.payload)));
           }
         }
       });
