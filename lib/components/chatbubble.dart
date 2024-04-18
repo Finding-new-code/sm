@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-
 import '../constants/constant.dart';
 
 //// message widgets
@@ -13,7 +12,8 @@ class Message extends StatelessWidget {
   const Message({
     super.key,
     required this.isReceiver,
-    required this.text, required this.receiverimg,
+    required this.text,
+    required this.receiverimg,
   });
 
   @override
@@ -21,8 +21,7 @@ class Message extends StatelessWidget {
     /// animation of message popup
     return Animate(
       effects: const [FadeEffect()],
-      child: Padding(
-        padding: const EdgeInsets.only(left: 10, bottom: 5, right: 10, top: 5),
+      child: Flexible(
         child: Row(
           mainAxisAlignment:
               isReceiver ? MainAxisAlignment.start : MainAxisAlignment.end,
@@ -30,8 +29,9 @@ class Message extends StatelessWidget {
               isReceiver ? CrossAxisAlignment.start : CrossAxisAlignment.end,
           children: [
             if (isReceiver == true)
-               CircleAvatar(
-                child: Image.network(receiverimg),
+              CircleAvatar(
+                radius: 15,
+                backgroundImage: NetworkImage(receiverimg),
               ),
 
             /// message container as shown
@@ -48,16 +48,8 @@ class Message extends StatelessWidget {
                     : Colors.deepPurple.shade900.withOpacity(0.7),
               ),
               child:
-
                   /// message content can be pass through this text widget
-                  Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  s25,
                   Markdown(data: text),
-                  s25,
-                ],
-              ),
             ),
           ],
         ),
