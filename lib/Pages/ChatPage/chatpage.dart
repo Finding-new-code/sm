@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:myapp658d7b3746ed317621f8/components/dialog.dart';
-import '../../components/chatbubble.dart';
 import '../../components/chattile.dart';
 import '../../components/failure.dart';
 import '../../constants/constant.dart';

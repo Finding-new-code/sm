@@ -1,60 +1,31 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
-import 'Pages/AuthPage/View/authpage.dart';
+import 'package:myapp658d7b3746ed317621f8/src/Theme/cubit/theme_cubit.dart';
 import 'Pages/AuthPage/bloc/auth_bloc.dart';
 import 'Pages/HomePage/bloc/home_bloc.dart';
-import 'Pages/HomePage/VIew/homepage.dart';
-import 'Pages/HomePage/widgets/notfication_view.dart';
 import 'Pages/Postcreation/bloc/post_bloc.dart';
 import 'Pages/ProfilePage/bloc/profile_bloc.dart';
-import 'Pages/SettingsPage/Views/settings_page.dart';
-import 'Pages/WelcomePage/welcome.dart';
-import 'components/termsandconditions.dart';
 import 'constants/constant.dart';
 import 'constants/tools.dart';
 import 'src/src.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  setupaAndInitDependencies();
-
-  /// here the all instances are initialized => client, database, storage, account
-
-  final Databases databases = Databases(servicelocator());
-  final Storage storage = Storage(servicelocator());
-  final Account account = Account(servicelocator());
-  final Realtime realtime = Realtime(servicelocator());
+  setupAndInitDependencies();
 
   NotficationManeger.init();
   log('notfication is initialised successfully');
   NotficationManeger.newNotification(
       "helloworld", "ProjectSM is initialised successfully");
 
-  runApp(BetterFeedback(
-    child: MyApp(
-      connectivity: servicelocator(),
-      storage: storage,
-      account: account,
-      databases: databases,
-      realtime: realtime,
-    ),
+  runApp(const BetterFeedback(
+    child: MyApp(),
   ));
 }
 
 class MyApp extends StatefulWidget {
-  final Connectivity connectivity;
-  final Databases databases;
-  final Account account;
-  final Realtime realtime;
-  final Storage storage;
   const MyApp({
     super.key,
-    required this.connectivity,
-    required this.account,
-    required this.databases,
-    required this.realtime,
-    required this.storage,
   });
 
   @override
@@ -70,23 +41,27 @@ class _MyAppState extends State<MyApp> {
     return MultiRepositoryProvider(
       providers: [
         RepositoryProvider(
-          create: (context) => AuthRepository(account: widget.account),
+          create: (context) =>
+              AuthRepository(account: servicelocator.get<Account>()),
         ),
         RepositoryProvider(
           create: (context) => DatabasesRepository(
-              databases: widget.databases, realtime: widget.realtime),
+              databases: servicelocator.get<Databases>(),
+              realtime: servicelocator.get<Realtime>()),
         ),
         RepositoryProvider<Account>(
           create: (context) => Account(Client()),
         ),
         RepositoryProvider(
-            create: (context) => StorageRepository(storage: widget.storage))
+            create: (context) =>
+                StorageRepository(storage: servicelocator.get<Storage>()))
       ],
       child: MultiBlocProvider(
         providers: [
+          BlocProvider<ThemeCubit>(create: (context) => ThemeCubit()),
           BlocProvider<InternetCubit>(
             create: (context) =>
-                InternetCubit(connectivity: widget.connectivity),
+                InternetCubit(connectivity: servicelocator.get<Connectivity>()),
           ),
           // here the bloc provider for the auth bloc
           BlocProvider<AuthBloc>(
@@ -98,7 +73,7 @@ class _MyAppState extends State<MyApp> {
 
           /// here the bloc provider for the home bloc
           BlocProvider<HomeBloc>(
-             // lazy: false,
+              lazy: false,
               create: (context) => HomeBloc(
                   storagerepository: context.read<StorageRepository>(),
                   databasesrepository: context.read<DatabasesRepository>())),
@@ -111,12 +86,11 @@ class _MyAppState extends State<MyApp> {
 
           /// here the bloc provider for the profile bloc
           BlocProvider<ProfileBloc>(
-            lazy: false,
               create: (context) => ProfileBloc(
                     databasesrepository: context.read<DatabasesRepository>(),
                   )),
         ],
-        child: MaterialApp(
+        child: MaterialApp.router(
           title: productName,
 
           /// here the theme is set
@@ -127,34 +101,13 @@ class _MyAppState extends State<MyApp> {
           theme: AppThemeMode().light,
           themeMode: ThemeMode.dark,
           //debugShowCheckedModeBanner: false,
-          // initialRoute: caches.get('userId').toString().isEmpty? "/welcome" : '/auth',
           // here you can add more routes with means of the pages address for navigator
-          routes: {
-            '/welcome': (context) => const WelcomePage(),
-            '/h': (context) => const NotificationView(),
-            '/home': (context) => const HomePage(),
-            '/auth': (context) => const AuthPage(),
-            'settings': (context) => const SettingsPage(),
-            't&c': (context) => const TermsAndConditions(),
-          },
           // here the home page is set
-          home: StreamBuilder(
-            stream: widget.account.getSession(sessionId: 'current').asStream(),
-            builder: (context, snapshot) {
-              if (snapshot.hasData) {
-                return const HomePage();
-              } else {
-                return const AuthPage();
-              }
-            },
-          ),
+          routerConfig: appRoutes,
+          
         ),
       ),
     );
   }
 
-  Future<bool?> isfirstone() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getBool('isfirst');
-  }
 }

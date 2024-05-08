@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
-import '../constants/constant.dart';
 
 //// message widgets
 class Message extends StatelessWidget {

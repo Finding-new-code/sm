@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import '../../../components/failure.dart';
 import '../../../components/profilestack.dart';
 import '../../../constants/constant.dart';
@@ -26,6 +25,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   int _selectedIndex = 0;
+  String themeSelected = "light";
   @override
   Widget build(BuildContext context) {
     context.read<ProfileBloc>().add(GetUserData());
@@ -136,14 +136,11 @@ class _HomePageState extends State<HomePage> {
               backgroundColor: Colors.black,
               leading: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Builder(builder: (context) {
-                    final state =
-                        context.watch<ProfileBloc>().state as ProfileLoaded;
-                    return BlocBuilder<ProfileBloc, ProfileState>(
-                      buildWhen: (previous, current) => previous != current,
-                      builder: (context, state) {
-                        if (state is ProfileLoaded) {
-                          return GestureDetector(
+                  child: BlocBuilder<ProfileBloc, ProfileState>(
+                    buildWhen: (previous, current) => previous != current,
+                    builder: (context, state) {
+                      if (state is ProfileLoaded) {
+                        return GestureDetector(
                           onTap: () {
                             Scaffold.of(context).openDrawer();
                           },
@@ -153,15 +150,12 @@ class _HomePageState extends State<HomePage> {
                             radius: 1,
                           ),
                         );
-                        }
-                        return state is ProfileLoading
-                            ? const CircularProgressIndicator.adaptive()
-                            : const SizedBox();
-                        
-                      },
-              
-                    );
-                  })),
+                      }
+                      return state is ProfileLoading
+                          ? const CircularProgressIndicator.adaptive()
+                          : const SizedBox();
+                    },
+                  )),
               elevation: 0,
               scrolledUnderElevation: 50.0,
               automaticallyImplyLeading: false,
@@ -236,7 +230,6 @@ class _HomePageState extends State<HomePage> {
                           context,
                           MaterialPageRoute(
                               builder: (context) => ProfilePage(
-                                    post: const [],
                                     user: state.profile,
                                   ))),
                     ),
@@ -311,14 +304,14 @@ class _HomePageState extends State<HomePage> {
                                       s10,
                                       RadioListTile.adaptive(
                                         value: 1,
-                                        groupValue: "",
+                                        groupValue: themeSelected,
                                         onChanged: (value) {
                                           setState(() {
-                                            // value = widget.isdark;
+                                            themeSelected = value.toString();
                                           });
                                         },
                                         title: Text(
-                                          "light",
+                                          "Light",
                                           style: GoogleFonts.inter(),
                                         ),
                                         subtitle: Text(
@@ -329,8 +322,12 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       RadioListTile.adaptive(
                                         value: 1,
-                                        groupValue: "",
-                                        onChanged: (value) {},
+                                        groupValue: themeSelected,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            themeSelected = value.toString();
+                                          });
+                                        },
                                         title: Text(
                                           "Use System settings",
                                           style: GoogleFonts.inter(),
@@ -343,8 +340,12 @@ class _HomePageState extends State<HomePage> {
                                       ),
                                       RadioListTile.adaptive(
                                         value: 1,
-                                        groupValue: "",
-                                        onChanged: (value) {},
+                                        groupValue: themeSelected,
+                                        onChanged: (value) {
+                                          setState(() {
+                                            themeSelected = value.toString();
+                                          });
+                                        },
                                         title: Text(
                                           "Dark",
                                           style: GoogleFonts.inter(),
@@ -381,17 +382,31 @@ class _HomePageState extends State<HomePage> {
             ),
 
             /// here the body of the homepage
-            body: IndexedStack(
-              index: _selectedIndex,
-              children: bottomnav,
-            ));
+            body: LayoutBuilder(
+                builder: (BuildContext context, BoxConstraints constraints) {
+              if (constraints.maxWidth > 1200) {
+                return Row(
+                  children: [
+                    IndexedStack(
+                      index: _selectedIndex,
+                      children: bottomnav,
+                    ),
+                  ],
+                );
+              } else {
+                return IndexedStack(
+                  index: _selectedIndex,
+                  children: bottomnav,
+                );
+              }
+            }));
       },
     );
   }
 
   // this is the bottom navigation bar =>
   static List<Widget> bottomnav = [
-    PostList(),
+    const PostList(),
     const SearchView(),
     const NotificationView(),
     const ChatListScreen(),

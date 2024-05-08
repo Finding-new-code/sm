@@ -9,10 +9,8 @@ import '../bloc/home_bloc.dart';
 
 // ignore: must_be_immutable
 class PostList extends StatefulWidget {
-  Realtime? realtime;
-  PostList({
+  const PostList({
     super.key,
-    this.realtime,
   });
 
   @override
@@ -53,7 +51,7 @@ class _HomePageState extends State<PostList> {
                     stream: servicelocator.get<Realtime>().subscribe([
                       'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents'
                     ]).stream,
-                    builder:(context, snapshot) {
+                    builder: (context, snapshot) {
                       if (snapshot.hasData) {
                         if (snapshot.data!.events.contains(
                             'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create')) {

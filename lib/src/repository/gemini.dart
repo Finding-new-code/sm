@@ -8,10 +8,10 @@ class GeminiLLm {
   }
 
   Future<ChatSession> chatbot() async {
-    final _model = GenerativeModel(
+    final model = GenerativeModel(
       model: 'gemini-pro',
       apiKey: apikey,
     );
-    return _model.startChat();
+    return model.startChat();
   }
 }

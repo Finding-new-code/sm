@@ -357,8 +357,8 @@ class _AuthDesktopView extends State<AuthdesktopView>
                     ElevatedButton(
                         style: ButtonStyle(
                           backgroundColor:
-                              MaterialStateProperty.all(Colors.white),
-                          minimumSize: MaterialStateProperty.all(
+                              WidgetStateProperty.all(Colors.white),
+                          minimumSize: WidgetStateProperty.all(
                             const Size(100, 60),
                           ),
                         ),

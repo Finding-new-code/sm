@@ -1,15 +1,20 @@
-# myapp
+# ProjectSM
 
-A new Flutter project.
+A social media app or i say microblogging app build with Flutter 💙.
+it's comes with all the the features tha you need to use it.
 
+## ScreenShots📱
 ## Getting Started
 
-This project is a starting point for a Flutter application.
+1. git clone 
 
-there are some thing you need to change =>
+2. flutter pub get
 
-sh""""
+3. flutter run
+
+
+'''dart
 android {
   ndkVersion "25.1.8937393"
 }
-""""
+dart'''

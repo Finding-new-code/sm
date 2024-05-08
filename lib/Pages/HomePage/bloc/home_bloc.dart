@@ -24,23 +24,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<CommentPostedByUser>(_commentPostedbyUser);
   }
 
-  // var localPostdatabase = Hive.box('PostsDatabase');
-
   void _getNewPosts(GetNewPosts event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
+
     try {
       // ignore: no_leading_underscores_for_local_identifiers
       final _fetch = AsyncMemoizer<List<Post>>();
-
       Future<List<Post>> getPosts() async {
         final fetch = _fetch.runOnce(() async {
           final post = await databasesrepository.getPosts();
+
           return post.map((e) => Post.fromMap(e.data)).toList();
         });
+
         return fetch;
       }
 
       List<Post> p = await getPosts();
+      // LocalDatabase().uploadPostsTolocaldb(p);
 
       Future<List<UserModel>> getuseraspost() async {
         List<UserModel> userinfo = [];
@@ -55,6 +56,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
 
       debugPrint('here the data of user from the post id ${p.toList()}');
       List<UserModel> u = await getuseraspost();
+      // LocalDatabase().uploadPostsUserTolocaldb(u);
       log(p.toString());
 
       return emit(HomeLoaded(posts: p, users: u));
@@ -73,11 +75,11 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _getlastestpost(GetLastestPosts event, Emitter<HomeState> emit) async {
     try {
       final lastestPost = databasesrepository.getlastestPosts();
-      _subscription = lastestPost.listen((event) async{
+      _subscription = lastestPost.listen((event) async {
         if (event.events.contains(
             'databases.${AppwriteConstants.projectdatabases}.collections.${AppwriteConstants.postCollection}.documents.*.create')) {
           if (emit.isDone) {
-            return emit(await LastestPostLoaded(Post.fromMap(event.payload)));
+            return emit(LastestPostLoaded(Post.fromMap(event.payload)));
           }
         }
       });
@@ -108,7 +110,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         await storagerepository.deleteFile(id.toString());
         debugPrint(id.toString());
       }
-      //debugPrint('the post id delected from the database and storage');
+      debugPrint('the post id detected from the database and storage');
       return emit(const HomeError(message: 'Post Deleted successfully'));
     } on AppwriteException catch (e) {
       return emit(HomeError(message: e.message.toString()));
@@ -118,10 +120,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   void _likeAPost(LikeAPost event, Emitter<HomeState> emit) async {
     var post = event.post;
     final List<String> likes = post.likes;
-     final prefs = await SharedPreferences.getInstance();
-      final userid = prefs.getString("userId");
+    final prefs = await SharedPreferences.getInstance();
+    final userid = prefs.getString("userId");
     try {
-      
       if (post.likes.contains(userid.toString())) {
         likes.remove(event.post.userid);
         log('the post unliked');
@@ -165,13 +166,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           repliedTo: postid,
           hashtags: hashtags,
           links: links,
-          userid: userid ,
+          userid: userid,
           postid: '',
           posttext: comment,
           likes: const [],
           comments: const [],
           imageLinks: const []));
-          return emit(CommentedSuccessfully());
+      return emit(CommentedSuccessfully());
     } on AppwriteException catch (e) {
       return emit(HomeError(message: e.message.toString()));
     }

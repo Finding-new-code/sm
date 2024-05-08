@@ -12,27 +12,32 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final InternetCubit internetCubit;
   StreamSubscription? internetSubscription;
   final DatabasesRepository databasesrepsitory;
-  AuthBloc({required this.internetCubit,required this.authRepository, required this.databasesrepsitory})
+  AuthBloc(
+      {required this.internetCubit,
+      required this.authRepository,
+      required this.databasesrepsitory})
       : super(AuthInitial()) {
     /// here you can place you event haldlers =>
     on<AsAuthRequest>(_asauthrequest);
     on<RecoveryPassword>(_recoveryPassword);
     on<Logout>(_accountLogout);
-    on<AccountVerification> (_accountverification);
+    on<AccountVerification>(_accountverification);
   }
 
   /// here the event handlers function body for better code readibility =>
   void _asauthrequest(AsAuthRequest event, Emitter<AuthState> emit) async {
     emit(AuthLoading());
-    internetSubscription = internetCubit.stream.listen((internetState) { 
-        if (internetState is InternetDisconnected) {
-          if (Caches().get('userId').toString().isNotEmpty) {
-            return emit (AuthSuccess(Caches().get('userId').toString()));
-          }
+    internetSubscription = internetCubit.stream.listen((internetState) {
+      if (internetState is InternetDisconnected) {
+        debugPrint('No Internet Connection');
+        // if (Caches().get('userId').toString().isNotEmpty) {
+        //   return emit(AuthSuccess(Caches().get('userId').toString()));
+        } else {
+          return emit(AuthFailure("No Internet Connection"));
         }
-      });
-    try {
       
+    });
+    try {
       final String name = event.name;
       final String password = event.password;
       final String email = event.email;
@@ -56,14 +61,14 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       if (!email.contains("@")) {
         return emit(AuthFailure("Email is not valid"));
       }
-      
+
       final prefs = await SharedPreferences.getInstance();
 
       /// here the start of create account code implementation
       if (isnew == true) {
         final response =
             await authRepository.createAccount(email, password, name);
-       final session = await authRepository.loginAccount(email, password);
+        final session = await authRepository.loginAccount(email, password);
         await databasesrepsitory.sendUserData(
             UserModel(
                 name: response.name,
@@ -83,6 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
         prefs.setString("userId", response.$id);
         prefs.setString("SessionId", session.$id);
+
         /// this is just for testing purpose
         final id = prefs.getString("userId");
         debugPrint("here the userid get cached: $id");
@@ -123,22 +129,23 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
 
   void _accountLogout(Logout event, Emitter<AuthState> emit) async {
     try {
-  final prefs = await SharedPreferences.getInstance();
-  final sessionid = prefs.getString("SessionId");
-  await authRepository.signOut(sessionid!);
-  emit(AuthLogoutSuccess());
-} on AppwriteException catch (e) {
-   return emit(AuthFailure(e.message.toString()));
-}
+      final prefs = await SharedPreferences.getInstance();
+      final sessionid = prefs.getString("SessionId");
+      await authRepository.signOut(sessionid!);
+      emit(AuthLogoutSuccess());
+    } on AppwriteException catch (e) {
+      return emit(AuthFailure(e.message.toString()));
+    }
   }
 
-  void _accountverification (AccountVerification event, Emitter<AuthState> emit) async{
-   try {
-  final token = await authRepository.verifyAccount();
-  debugPrint(token.toString());
-   return emit(AccountVerificationSuccess());
-} on AppwriteException catch (e) {
-  return emit(AuthFailure(e.message.toString()));
-}
+  void _accountverification(
+      AccountVerification event, Emitter<AuthState> emit) async {
+    try {
+      final token = await authRepository.verifyAccount();
+      debugPrint(token.toString());
+      return emit(AccountVerificationSuccess());
+    } on AppwriteException catch (e) {
+      return emit(AuthFailure(e.message.toString()));
+    }
   }
 }

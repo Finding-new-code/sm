@@ -1,4 +1,7 @@
+import 'package:appwrite/appwrite.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:myapp658d7b3746ed317621f8/src/src.dart';
 import '../../Pages/AuthPage/View/authpage.dart';
 import '../../Pages/HomePage/VIew/homepage.dart';
 import '../../Pages/HomePage/widgets/notfication_view.dart';
@@ -10,7 +13,19 @@ import '../../Pages/WelcomePage/welcome.dart';
 final appRoutes = GoRouter(routes: <RouteBase>[
   GoRoute(
     path: '/auth',
-    builder: (context, state) => const AuthPage(),
+    builder: (context, state) => StreamBuilder(
+      stream: servicelocator
+          .get<Account>()
+          .getSession(sessionId: 'current')
+          .asStream(),
+      builder: (context, snapshot) {
+        if (snapshot.hasData) {
+          return const HomePage();
+        } else {
+          return const AuthPage();
+        }
+      },
+    ),
   ),
   GoRoute(
     path: '/',
@@ -44,4 +59,4 @@ final appRoutes = GoRouter(routes: <RouteBase>[
     path: '/create',
     builder: (context, state) => const PostCreationPage(),
   ),
-], initialLocation:  '/');
+], initialLocation: '/auth');

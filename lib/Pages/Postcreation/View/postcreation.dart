@@ -55,7 +55,7 @@ class _PostCreationPageState extends State<PostCreationPage> {
             actions: [
               ElevatedButton(
                   style: ButtonStyle(
-                      backgroundColor: MaterialStateProperty.all(
+                      backgroundColor: WidgetStateProperty.all(
                           Colors.deepPurpleAccent.shade400.withOpacity(0.4))),
                   onPressed: () async {
                     context.read<PostBloc>().add(PostSendRequested(

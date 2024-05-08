@@ -11,8 +11,10 @@ import '../bloc/profile_bloc.dart';
 
 class ProfilePage extends StatefulWidget {
   final UserModel user;
-  final List<Post> post;
-  const ProfilePage({super.key, required this.user, required this.post});
+  const ProfilePage({
+    super.key,
+    required this.user,
+  });
 
   @override
   State<ProfilePage> createState() => _ProfilePageState();
@@ -25,7 +27,7 @@ class _ProfilePageState extends State<ProfilePage> {
       listener: (context, state) {
         if (state is ProfileError) {
           showErrorDialog("something went erong", context);
-      }
+        }
       },
       builder: (context, state) {
         return Scaffold(
@@ -36,13 +38,15 @@ class _ProfilePageState extends State<ProfilePage> {
                   top: 140,
                   left: 260,
                   child: Offstage(
-                    offstage:
-                        widget.user.userid.contains(Caches().get('userId').toString())
-                            ? false
-                            : true,
+                    offstage: widget.user.userid
+                            .contains(Caches().get('userId').toString())
+                        ? false
+                        : true,
                     child: ElevatedButton(
                         onPressed: () {
-                          context.read<ProfileBloc>().add(FollowUser(widget.user));
+                          context
+                              .read<ProfileBloc>()
+                              .add(FollowUser(widget.user));
                         },
                         child: Text(
                           'follow',
@@ -68,7 +72,9 @@ class _ProfilePageState extends State<ProfilePage> {
                       padding: const EdgeInsets.symmetric(
                           vertical: 15, horizontal: 13),
                       child: Text(
-                        widget.user.name.isNotEmpty ? widget.user.name : "lonewolf",
+                        widget.user.name.isNotEmpty
+                            ? widget.user.name
+                            : "lonewolf",
                         style: GoogleFonts.inter(
                             fontSize: 22, fontWeight: FontWeight.w600),
                       ),
@@ -98,30 +104,22 @@ class _ProfilePageState extends State<ProfilePage> {
                         location: widget.user.location.isNotEmpty
                             ? widget.user.location
                             : "location",
-                        descrpition: widget.user.bio.isNotEmpty ? widget.user.bio : "bio",
+                        descrpition: widget.user.bio.isNotEmpty
+                            ? widget.user.bio
+                            : "bio",
                       ),
                     ),
                     s10,
-                    Offstage(
-                      offstage: widget.post.isEmpty ? true : false,
-                      child: ListView.builder(
+                    if (state is UserPosts)
+                      ListView.builder(
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           cacheExtent: 5,
                           itemBuilder: (BuildContext context, int index) {
-                            if (widget.post.isNotEmpty) {
-                              return PostContainer(
-                                  post: widget.post[index], user: widget.user);
-                            } else {
-                              return Text(
-                                'No posts yet',
-                                style: GoogleFonts.inter(
-                                    fontSize: 15, fontWeight: FontWeight.w500),
-                              );
-                            }
+                            return PostContainer(
+                                post: state.posts[index], user: widget.user);
                           },
-                          itemCount: widget.post.length),
-                    )
+                          itemCount: state.posts.length)
                   ],
                 ),
               ),
@@ -129,10 +127,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   top: 30,
                   left: 10,
                   child: IconButton.filled(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.black38),
-                        shape: MaterialStateProperty.all(const CircleBorder()),
+                      style: const ButtonStyle(
+                        backgroundColor: WidgetStatePropertyAll(Colors.black38),
+                        shape: WidgetStatePropertyAll(CircleBorder()),
                       ),
                       visualDensity: VisualDensity.comfortable,
                       onPressed: () => Navigator.pop(context),

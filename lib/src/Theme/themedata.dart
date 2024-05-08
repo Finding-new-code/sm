@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 
 class AppThemeMode {
@@ -24,7 +26,7 @@ class AppThemeMode {
       scaffoldBackgroundColor: Colors.black,
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStatePropertyAll(Colors.white))),
+              foregroundColor: WidgetStatePropertyAll(Colors.white))),
       navigationBarTheme: const NavigationBarThemeData(
           surfaceTintColor: Colors.black,
           indicatorColor: Colors.white,
@@ -62,7 +64,7 @@ class AppThemeMode {
       useMaterial3: true,
       iconButtonTheme: const IconButtonThemeData(
           style: ButtonStyle(
-              foregroundColor: MaterialStatePropertyAll(Colors.black))),
+              foregroundColor: WidgetStatePropertyAll(Colors.black))),
       scaffoldBackgroundColor: Colors.white,
       cardTheme: const CardTheme(
         color: Colors.white,
@@ -72,20 +74,8 @@ class AppThemeMode {
 
 
 
-// Enum Apptheme{
-//   const Text('dark');
-//   const Text('light');
-//   const Text('system');
-
-//   switch (this) {
-//     case Apptheme.dark:
-//     return AppThemeMode().dark;
-//     case Apptheme.light:
-//     return AppThemeMode().light;
-//     case Apptheme.system:
-//     return AppThemeMode().system;
-//     default:
-//     return AppThemeMode().dark;
-//   }
-
-// }
+enum ThemeButton {
+  light,
+  dark,
+  system,
+}

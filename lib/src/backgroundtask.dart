@@ -5,18 +5,7 @@ class BackgroundTaskManegers {
   final Workmanager workmanager = Workmanager();
 
   @pragma('vm:entry-point')
-  callbackDispatcher(
-    String task,
-  ) {
-    // switch (task) {
-    //   case 'task1':
-    //     // TODO: do task 1
-    //     break;
-    //   case 'task2':
-    //     // TODO: do task 2
-    //     break;
-    // }
-
+  callbackDispatcher() {
     @pragma('vm:entry-point')
     void callbackDispatcher() {
       Workmanager().executeTask((task, inputData) async {
