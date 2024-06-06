@@ -1,7 +1,7 @@
 # ProjectSM
 
-A social media app or i say microblogging app build with Flutter 💙.
-it's comes with all the the features tha you need to use it.
+A social media app or I say microblogging app built with Flutter 💙.
+it comes with all the features that you need to use it.
 
 ## ScreenShots📱
 ## Getting Started
@@ -13,8 +13,8 @@ it's comes with all the the features tha you need to use it.
 3. flutter run
 
 
-'''dart
+```dart
 android {
   ndkVersion "25.1.8937393"
 }
-dart'''
+```
