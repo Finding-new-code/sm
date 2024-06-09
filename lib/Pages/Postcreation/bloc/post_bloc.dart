@@ -40,7 +40,7 @@ class PostBloc extends Bloc<PostEvent, PostState> {
             postid: '',
             posttext: text,
             likes: const [],
-            comments: const [],
+            // comments: const [],
             imageLinks: imagelinks,
             repliedTo: ''
             );
