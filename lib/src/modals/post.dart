@@ -10,7 +10,7 @@ class Post {
   final String postid;
   final String posttext;
   final List<String> likes;
-  final List<Post> comments;
+  // final List<Post> comments;
   final List<String> imageLinks;
   final String repliedTo;
 
@@ -23,7 +23,7 @@ class Post {
       required this.postid,
       required this.posttext,
       required this.likes,
-      required this.comments,
+      // required this.comments,
       required this.imageLinks});
 
   Post copyWith({
@@ -46,7 +46,7 @@ class Post {
         userid: userid ?? this.userid,
         posttext: posttext ?? this.posttext,
         likes: likes ?? this.likes,
-        comments: comments ?? this.comments,
+        // comments: comments ?? this.comments,
         imageLinks: imageLinks ?? this.imageLinks,
         postid: postid ?? this.postid);
   }
@@ -56,7 +56,7 @@ class Post {
     result.addAll({"repliedTo": repliedTo});
     result.addAll({"userid": userid});
     result.addAll({"likes": likes});
-    result.addAll({"comments": comments});
+    // result.addAll({"comments": comments});
     result.addAll({"imageLinks": imageLinks});
     result.addAll({"createdAt": createdAt.millisecondsSinceEpoch});
     result.addAll({"hashtags": hashtags});
@@ -76,13 +76,13 @@ class Post {
       postid: map['\$id'] ?? "",
       posttext: map['posttext'] ?? "",
       likes: List<String>.from(map["likes"]),
-      comments: List<Post>.from(map['comments']),
+      // comments: List<Post>.from(map['comments']),
       imageLinks: List<String>.from(map['imageLinks']),
     );
   }
 
   @override
   String toString() {
-    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, comments: $comments, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links,) ";
+    return " Post(userid: $userid, postid: $postid, posttext: $posttext, likes: $likes, imageLinks: $imageLinks, createdAt: $createdAt, hashtags: $hashtags, links: $links,) ";
   }
 }

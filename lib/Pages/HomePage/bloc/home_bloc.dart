@@ -170,7 +170,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           postid: '',
           posttext: comment,
           likes: const [],
-          comments: const [],
+          // comments: const [],
           imageLinks: const []));
       return emit(CommentedSuccessfully());
     } on AppwriteException catch (e) {
