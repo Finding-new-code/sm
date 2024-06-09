@@ -12,7 +12,7 @@ it comes with all the features that you need to use it.
 * **Likes and Comments:** Interact with posts by liking and commenting.
 * **User Profiles:** View user profiles with their post history.
 * **Search:** Find users and posts using keywords.
-* **More features are coming**
+* **More features are coming ...**
 
 ## ScreenShots📱
 
