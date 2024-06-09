@@ -16,8 +16,6 @@ it comes with all the features that you need to use it.
 
 ## ScreenShots📱
 
-<img width="300" src="https://github.com/Roaa94/flutter_airbnb_ui/assets/50345358/4847cfc5-657e-4649-8829-2d5b473c9950"/>
-
 ![Login Screen](screenshots/login_screen_win.png)
 ![Home Page](screenshots/home_screen_win.png)
 ![login Page](screenshots/login_screen_win2.png)
@@ -33,7 +31,7 @@ it comes with all the features that you need to use it.
 
 **Installation:**
 
-1. Clone the repository: `git clone https://github.com/your-username/project-sm.git`
+1. Clone the repository: `git clone https://github.com/Finding-new-code/project-sm.git`
 2. Navigate to the project directory: `cd project-sm`
 3. update dependencies using `flutter pub get`
 4. Run the app:  `flutter run `
@@ -50,8 +48,8 @@ Contributions are welcome! If you'd like to contribute to Project SM, please fol
 
 ## License
 
-This project is licensed under the [**mention the license, e.g., MIT License**].
+This project is licensed under the [**Apache MIT License**].
 
-## Contact
+[**Apache MIT License**]: https://www.apache.org/licenses/LICENSE-2.0
 
-For any questions or feedback, feel free to reach out to [**your contact information**].
+
