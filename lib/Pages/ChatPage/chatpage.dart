@@ -308,7 +308,7 @@ class _ChatScreenState extends State<SuzumeChat> {
   void initState() {
     super.initState();
     _model = GenerativeModel(
-      model: 'gemini-pro',
+      model: 'gemini-1.5-flash',
       apiKey: widget.api,
     );
     _visionModel = GenerativeModel(
@@ -365,7 +365,7 @@ class _ChatScreenState extends State<SuzumeChat> {
     }
   }
 
-  Future<void> _sendImagePrompt(String message) async {
+  Future<void> sendImagePrompt(String message) async {
     setState(() {
       isloading = true;
     });
