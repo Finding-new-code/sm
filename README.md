@@ -1,6 +1,6 @@
 # Project SM - A Microblogging Platform
 
-**Project SM** is a social media app or I say microblogging app built with Flutter 💙. It allows users to share short posts, follow other users, and engage in conversations.
+**Project SM** is a social media application or microblogging app built with Flutter 💙. It allows users to share short posts, follow other users, and engage in conversations.
 
 
 it comes with all the features that you need to use it.
